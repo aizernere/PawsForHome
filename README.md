@@ -1,3 +1,4 @@
+
 <h1>
   Paws For Home
   <br>
@@ -97,10 +98,15 @@
 </ol>
 
 <h3>GANTT CHART LINK:</h3>
+
+
+
 https://docs.google.com/spreadsheets/d/1gRGmxFMl1pS2G51pPzbQqzxKOrvT18WvrklqljtGxWU/edit?gid=0#gid=0
 
 <h3>ERD LINK:</h3>
 https://lucid.app/lucidchart/736a433f-c17e-409f-83d7-165e8045fda5/edit?invitationId=inv_52ab61ab-6170-4805-a233-11ad681b2b51&classId=96c2d93f-9bb7-4815-b5a1-208533d4ad6a&assignmentId=7214ddab-7a8f-4c7a-a029-1012bdff284e&submissionId=12e1ce8b-647c-80cf-b62e-8f7bfc8d263d&page=0_0#
 
+
 <h3>UI/UX LINK:</h3>
+
 https://www.figma.com/design/XPtqNEdlJjBEea2BvZkVqZ/Paws-For-Home-(UI%2FUX)?node-id=0-1&node-type=canvas&t=cbr21Q9VlTLRUmYJ-0
