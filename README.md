@@ -1,63 +1,89 @@
 <h1>Paws For Home</h1>
-<h2>(Pet Adoption System)</h2>
+(Pet Adoption System)
+
+<h3>COLLABORATORS:</h3>
+<ul>
+  <li>Evangelista, Kaye Aizerner</li>
+  <li>Catubig, Niña Margarette B.</li>
+  <li>Vasquez, Kyle T.</li>
+</ul>
 
 <h3>FUNCTIONAL REQUIREMENTS (Product Capabilities & Behaviour)</h3>
 
-<ul>
-  <li>USER REGISTRATION AND AUTHENTICATION</li>
+<ol>
+  <li><b>USER REGISTRATION AND AUTHENTICATION</b></li>
   The system shall allow users to register by providing essential information such as first name, last name, birthday, email, password, and location. Registered users can log in using their credentials.
+  <br>
   <i>Priority: </i>High
+  <br>
   <i>Acceptance Criteria:</i> Users can successfully create an account and log in to
   access the system's features.
   
-  <li>PET LISTING AND SEARCH</li>
+  <li><b>PET LISTING AND SEARCH</b></li>
   The system shall allow users to browse and search for pets available for adoption. Search filters shall include pet type (dog, cat, etc.), age and location.
+  <br>
   <i>Priority:</i> High
+  <br>
   <i>Acceptance Criteria:</i> Users can search for pets using filters and view detailed
   information about each pet.
   
-  <li>PET PROFILE MANAGEMENT</li>
+  <li><b>PET PROFILE MANAGEMENT</b></li>
   The system shall allow shelters or pet owners to create and manage detailed profiles for each pet. Profiles shall include images, descriptions, age, breed, health status, and adoption fees.
+  <br>
   <i>Priority:</i> High
+  <br>
   <i>Acceptance Criteria:</i> Shelter/Owners can create, edit, and update pet
   profiles with all required details.
   
-  <li>ADOPTION APPLICATION</li>
+  <li><b>ADOPTION APPLICATION</b></li>
   The system shall allow potential adopters to submit an adoption application for a specific pet. The application shall include questions about the adopter’s home environment, experience with pets, and other relevant information.
+  <br>
   <i>Priority:</i> High
+  <br>
   <i>Acceptance Criteria:</i> Users can complete and submit an adoption
   application, and the system shall notify the relevant shelter or pet owner.
   
-  <li>SHELTER/OWNER DASHBOARD</li>
+  <li><b>SHELTER/OWNER DASHBOARD</b></li>
   The system shall provide a dashboard for shelters and pet owners to manage their listed pets, review adoption applications, and communicate with potential adopters.
+  <br>
   <i>Priority:</i> High
+  <br>
   <i>Acceptance Criteria:</i> Shelters or pet owners can access a dashboard to
   manage their pet listings and view incoming adoption applications.
   
-  <li>COMMUNICATION AND MESSAGING</li>
+  <li><b>COMMUNICATION AND MESSAGING</b></li>
   The system shall provide a messaging feature that allows potential adopters to communicate with shelters or pet owners to ask questions and receive updates about a pet.
+  <br>
   <i>Priority:</i> Medium
+  <br>
   <i>Acceptance Criteria:</i> Users can send and receive messages within the system.
   
-  <li>ADOPTION STATUS TRACKING</li>
+  <li><b>ADOPTION STATUS TRACKING</b></li>
   The system shall allow shelters and pet owners to update the status of each pet’s adoption process (e.g., "Available," "Pending Adoption," "Adopted"). Users shall be notified of status changes for pets they have shown interest in.
+  <br>
   <i>Priority:</i> Medium
+  <br>
   <i>Acceptance Criteria:</i> Users can track the adoption status of pets they are
   interested in, and the system shall send notifications of status updates.
   
-  <li>USER PROFILE MANAGEMENT</li>
+  <li><b>USER PROFILE MANAGEMENT</b></li>
   The system shall allow users to create and manage their profiles, including updating personal information, tracking their submitted adoption applications, and saving favorite pets.
+  <br>
   <i>Priority:</i> Medium
+  <br>
   <i>Acceptance Criteria:</i> Users can update their profile information, view their
   adoption history, and save pets to a favorites list.
   
-  <li>FEEDBACK AND REVIEWS</li>
+  <li><b>FEEDBACK AND REVIEWS</b></li>
   The system shall allow users who have successfully adopted pets to leave feedback and reviews for the shelter or previous pet owner. This feature will help other users make informed decisions.
+  <br>
   <i>Priority:</i> Low
+  <br>
   <i>Acceptance Criteria:</i> Users can submit feedback and reviews for shelters or
   pet owners, and these reviews will be visible to other users.
 
 </ol>
+
 <h3>GANTT CHART LINK:</h3>
 https://docs.google.com/spreadsheets/d/1gRGmxFMl1pS2G51pPzbQqzxKOrvT18WvrklqljtGxWU/edit?gid=0#gid=0
 
