@@ -1,7 +1,7 @@
 <h1>
   Paws For Home
   <br>
-  <small>(Pet Adoption System)</small>
+  <p style="font-size:12px">(Pet Adoption System)</p>
 </h1>
 
 
