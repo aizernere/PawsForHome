@@ -95,7 +95,7 @@
   pet owners, and these reviews will be visible to other users.
 
 </ol>
-[GANTT CHART](https://docs.google.com/spreadsheets/d/1gRGmxFMl1pS2G51pPzbQqzxKOrvT18WvrklqljtGxWU/edit?gid=0#gid=0)
+<h3>GANTT CHART:</h3>
 https://docs.google.com/spreadsheets/d/1gRGmxFMl1pS2G51pPzbQqzxKOrvT18WvrklqljtGxWU/edit?gid=0#gid=0
 
 <h3>ERD LINK:</h3>
