@@ -1,5 +1,9 @@
-<h1>Paws For Home</h1>
-(Pet Adoption System)
+<h1>
+  Paws For Home
+  <br>
+  <small>(Pet Adoption System)</small>
+</h1>
+
 
 <h3>COLLABORATORS:</h3>
 <ul>
@@ -18,7 +22,8 @@
   <br>
   <i>Acceptance Criteria:</i> Users can successfully create an account and log in to
   access the system's features.
-  
+
+  <br>
   <li><b>PET LISTING AND SEARCH</b></li>
   The system shall allow users to browse and search for pets available for adoption. Search filters shall include pet type (dog, cat, etc.), age and location.
   <br>
@@ -26,7 +31,8 @@
   <br>
   <i>Acceptance Criteria:</i> Users can search for pets using filters and view detailed
   information about each pet.
-  
+
+  <br>
   <li><b>PET PROFILE MANAGEMENT</b></li>
   The system shall allow shelters or pet owners to create and manage detailed profiles for each pet. Profiles shall include images, descriptions, age, breed, health status, and adoption fees.
   <br>
@@ -34,7 +40,8 @@
   <br>
   <i>Acceptance Criteria:</i> Shelter/Owners can create, edit, and update pet
   profiles with all required details.
-  
+
+  <br>
   <li><b>ADOPTION APPLICATION</b></li>
   The system shall allow potential adopters to submit an adoption application for a specific pet. The application shall include questions about the adopter’s home environment, experience with pets, and other relevant information.
   <br>
@@ -42,7 +49,8 @@
   <br>
   <i>Acceptance Criteria:</i> Users can complete and submit an adoption
   application, and the system shall notify the relevant shelter or pet owner.
-  
+
+  <br>
   <li><b>SHELTER/OWNER DASHBOARD</b></li>
   The system shall provide a dashboard for shelters and pet owners to manage their listed pets, review adoption applications, and communicate with potential adopters.
   <br>
@@ -50,14 +58,16 @@
   <br>
   <i>Acceptance Criteria:</i> Shelters or pet owners can access a dashboard to
   manage their pet listings and view incoming adoption applications.
-  
+
+  <br>
   <li><b>COMMUNICATION AND MESSAGING</b></li>
   The system shall provide a messaging feature that allows potential adopters to communicate with shelters or pet owners to ask questions and receive updates about a pet.
   <br>
   <i>Priority:</i> Medium
   <br>
   <i>Acceptance Criteria:</i> Users can send and receive messages within the system.
-  
+
+  <br>
   <li><b>ADOPTION STATUS TRACKING</b></li>
   The system shall allow shelters and pet owners to update the status of each pet’s adoption process (e.g., "Available," "Pending Adoption," "Adopted"). Users shall be notified of status changes for pets they have shown interest in.
   <br>
@@ -65,7 +75,8 @@
   <br>
   <i>Acceptance Criteria:</i> Users can track the adoption status of pets they are
   interested in, and the system shall send notifications of status updates.
-  
+
+  <br>
   <li><b>USER PROFILE MANAGEMENT</b></li>
   The system shall allow users to create and manage their profiles, including updating personal information, tracking their submitted adoption applications, and saving favorite pets.
   <br>
@@ -73,7 +84,8 @@
   <br>
   <i>Acceptance Criteria:</i> Users can update their profile information, view their
   adoption history, and save pets to a favorites list.
-  
+
+  <br>
   <li><b>FEEDBACK AND REVIEWS</b></li>
   The system shall allow users who have successfully adopted pets to leave feedback and reviews for the shelter or previous pet owner. This feature will help other users make informed decisions.
   <br>
