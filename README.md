@@ -1,5 +1,10 @@
 DOCUMENTATION FOR: Paws For Home (Pet Adoption System)
 
+COLLABORATORS:
+Evangelista, Kaye Aizerner
+Catubig, Niña Margarette B.
+Vasquez, Kyle T.
+
 FUNCTIONAL REQUIREMENTS (Product Capabilities & Behaviour)
 
 1. USER REGISTRATION AND AUTHENTICATION
