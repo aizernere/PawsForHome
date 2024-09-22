@@ -1,3 +1,5 @@
+DOCUMENTATION FOR: Paws For Home (Pet Adoption System)
+
 FUNCTIONAL REQUIREMENTS (Product Capabilities & Behaviour)
 
 1. USER REGISTRATION AND AUTHENTICATION
