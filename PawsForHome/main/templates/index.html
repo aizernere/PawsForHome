@@ -13,16 +13,16 @@
     <nav>
         <ul>
             <li>
-                <a href="browse">Browse</a>
+                <a href="{% url "main:browse" %}">Browse</a>
             </li>
             <li>
-                <a href="notification">Notification</a>
+                <a href="{% url "main:notifications" %}">Notification</a>
             </li>
             <li>
-                <a href="message">Messages</a>
+                <a href="{% url "main:message" %}">Messages</a>
             </li>
             <li>
-                <a href="profile">Profile</a>
+                <a href="{% url "main:profile" %}">Profile</a>
             </li>
             <li>Logout</li>
         </ul>
@@ -30,6 +30,6 @@
 
     {% block contents %}
     {% endblock contents %}
-    
+
 </body>
 </html>
