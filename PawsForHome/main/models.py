@@ -11,6 +11,8 @@ class Account(models.Model):
     email = models.EmailField(max_length=100)
     password = models.TextField()
 
+    last_login = models.DateTimeField(blank=True, null=True)
+
     def check_password(self, raw_password):
         return check_password(raw_password, self.password)
     def __str__(self):
