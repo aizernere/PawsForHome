@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from .models import Account
 from .forms import Create_Account, Login_Account
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 
@@ -63,22 +63,26 @@ def login_account(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            # user = authenticate(request, username=email, password=password)
-            if Account.objects.filter(email=email).exists():
-                login_account = Account.objects.get(email=email)
-                if login_account.check_password(password):  
-                    login(request, login_account)  
-                    return redirect('main:home')  
-                else:
-                    error_message = "Invalid password."
-            else:
-                error_message = "Account with this email does not exist."
-        #     if user:
-        #         login(request, user)
-        #         return redirect('home')
-        # error_message = "Invalid email or password."
+            user = authenticate(request, email=email, password=password)
+            # if Account.objects.filter(email=email).exists():
+            #     login_account = Account.objects.get(email=email)
+            #     if login_account.check_password(password):  
+            #         login(request, login_account)  
+            #         return redirect('main:home')  
+            #     else:
+            #         error_message = "Invalid password."
+            # else:
+            #     error_message = "Account with this email does not exist."
+            if user:
+                login(request, user)
+                return redirect('main:home')
+        error_message = "Invalid email or password."
         return render(request, 'login_signup/login.html', {'form': form, 'error_message': error_message})
 
     else:  
         form = Login_Account()
         return render(request, 'login_signup/login.html', {'form': form})
+    
+def logout_account(request):
+    logout(request)
+    return redirect('main:landing_page')

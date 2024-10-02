@@ -24,7 +24,16 @@
             <li>
                 <a href="{% url "main:profile" %}">Profile</a>
             </li>
-            <li>Logout</li>
+            <li>
+                {% if request.user.is_authenticated %}
+                    <p>Welcome, {{ request.user.email }}!</p>
+                    <a href="{% url 'main:logout_account' %}">Log Out</a>
+                {% else %}
+                    <p>Welcome, Guest!</p>
+                    <a href="{% url 'main:login_account' %}">Log In</a>
+                {% endif %}
+
+            </li>
         </ul>
     </nav>
 
