@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Paws For Home </title>
+</head>
+<body>
+    {% comment %} 
+        dire ang silbeg main page wherein it has the nav bar, header, footer, and logout
+        other html files (profile, message, dashboard, etc.) kay i extends sa ani na html file
+    {% endcomment %}
+    <nav>
+        <ul>
+            <li>
+                <a href="browse">Browse</a>
+            </li>
+            <li>
+                <a href="notification">Notification</a>
+            </li>
+            <li>
+                <a href="message">Messages</a>
+            </li>
+            <li>
+                <a href="profile">Profile</a>
+            </li>
+            <li>Logout</li>
+        </ul>
+    </nav>
+
+    {% block contents %}
+    {% endblock contents %}
+    
+</body>
+</html>

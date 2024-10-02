@@ -9,4 +9,6 @@ class Account(models.Model):
     phone_number = models.IntegerField(blank=True, null=True)
     email = models.EmailField(max_length=100)
     password = models.TextField()
-    
+
+    def __str__(self):
+        return self.email 
