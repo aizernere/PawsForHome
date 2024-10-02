@@ -1,5 +1,13 @@
 <form method="post">
     {% csrf_token %}
     {{form}}
+    {% if messages %}
+        {% for m in messages %}
+
+            {{m}}
+
+        {% endfor %}
+    {% endif %}
+    <br>
     <button type='submit'>Sign Up</button>
 </form>
