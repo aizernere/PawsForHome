@@ -67,7 +67,7 @@ def login_account(request):
             if Account.objects.filter(email=email).exists():
                 login_account = Account.objects.get(email=email)
                 if login_account.check_password(password):  
-                    # login(request, login_account)  
+                    login(request, login_account)  
                     return redirect('main:home')  
                 else:
                     error_message = "Invalid password."
