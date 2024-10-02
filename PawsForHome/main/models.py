@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import check_password
 
 # Create your models here.
 class Account(models.Model):
@@ -10,5 +11,7 @@ class Account(models.Model):
     email = models.EmailField(max_length=100)
     password = models.TextField()
 
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
     def __str__(self):
         return self.email 

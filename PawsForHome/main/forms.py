@@ -52,3 +52,7 @@ class Create_Account(forms.Form):
             account.save()
         return account
 # end (gso)
+
+class Login_Account(forms.Form):
+    email = forms.CharField(label='Email Address')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
