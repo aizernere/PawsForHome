@@ -8,9 +8,6 @@ from .forms import Create_Account
 def index(request):
     return render(request, 'index.html', {})
 
-def browse(request):
-    return render(request, 'navbar/browse.html', {})
-
 def notifications(request):
     return render(request, 'navbar/notifications.html', {})
 

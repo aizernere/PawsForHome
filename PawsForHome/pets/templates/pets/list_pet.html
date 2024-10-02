@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Available Pets</title>
-</head>
-<body>
+{% extends "index.html" %}
+
+{% block contents %}
+    <h1>
+        Browse Pets
+    </h1>
     <h2>Available Pets for Adoption</h2>
     <ul>
         {% for pet in pets %}
@@ -14,5 +14,4 @@
             <li>No pets available.</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock contents %}
