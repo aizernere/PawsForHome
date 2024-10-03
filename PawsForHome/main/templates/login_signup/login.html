@@ -1,5 +1,77 @@
-<form method="post">
-    {% csrf_token %}
-    {{form}}
-    <button type='submit'>Login</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="flex items-center justify-center min-h-screen bg-pink-50">
+    <div class="bg-white w-full max-w-4xl mx-auto rounded-lg shadow-lg flex">
+      <!-- Left Side (Login Form) -->
+      <div class="w-1/2 p-8 bg-pink-100 rounded-l-lg">
+        <div class="text-center mb-8">
+          <div class="flex justify-center mb-4">
+            <div class="bg-pink-300 p-4 rounded-full">
+              <span class="text-6xl">🐾</span>
+            </div>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-700 mb-4">Login</h2>
+        </div>
+
+        <!-- Django form integration -->
+        <form method="post" class="space-y-6">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          
+          <div>
+            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email address</label>
+            {{ form.email }}
+          </div>
+          <div>
+            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+            {{ form.password }}
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="flex items-center text-sm">
+              {{ form.remember_me }} <!-- If your form has a "remember me" checkbox -->
+              <span class="ml-2">Remember for 30 days</span>
+            </label>
+            <a href="#" class="text-sm text-pink-500 hover:underline">Forgot Password?</a>
+          </div>
+
+          <div>
+            <button type="submit" class="w-full p-3 bg-pink-500 text-white font-bold rounded-md hover:bg-pink-600">Sign In</button>
+          </div>
+
+          <div class="text-center text-gray-600 text-sm mt-4">OR</div>
+
+          <div class="flex justify-center space-x-4 mt-4">
+            <button class="p-3 bg-white border border-gray-300 rounded-lg w-full flex items-center justify-center text-gray-600 hover:border-pink-500">
+              <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-5 h-5 mr-2" alt="Google logo">
+              Sign in with Google
+            </button>
+            <button class="p-3 bg-white border border-gray-300 rounded-lg w-full flex items-center justify-center text-gray-600 hover:border-pink-500">
+              <img src="https://www.svgrepo.com/show/354409/apple.svg" class="w-5 h-5 mr-2" alt="Apple logo">
+              Sign in with Apple
+            </button>
+          </div>
+
+          <p class="text-center text-gray-600 text-sm mt-6">Don't have an account? <a href="#" class="text-pink-500 font-bold">Signup</a></p>
+        </form>
+      </div>
+
+      <!-- Right Side (Hammy Image and Text) -->
+      <div class="w-1/2 p-8 bg-pink-50 rounded-r-lg flex flex-col items-center justify-center">
+        <div class="text-center">
+          <img src="https://example.com/hammy.png" alt="Hammy" class="w-40 h-40 mx-auto mb-4"> <!-- Replace with actual image URL -->
+          <h2 class="text-3xl font-bold text-pink-600 mb-2">Hammy is looking for a home!</h2>
+          <p class="text-gray-700">Give this cute little hamster a forever home today.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

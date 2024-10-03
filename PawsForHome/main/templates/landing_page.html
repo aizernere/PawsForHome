@@ -3,42 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        .container {
-            text-align: center;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .signup-btn {
-            background-color: #28a745;
-            color: white;
-        }
-        .login-btn {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
+    <title>Paws4Home</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to PawsForHome</h1>
-        <p>Please sign up or log in to continue</p>
-        <a href="{% url 'main:create_account' %}">Sign Up</a>
-    <a href="{% url 'main:login_account' %}">Login</a>
-    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <div class="logo flex items-center space-x-2">
+                <img src="{% static 'images/pawsforhomelogo.png' %}" alt="Paws4Home Logo" class="w-20">
+                <h1 class="font-bold text-xl">Paws4Home</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="text-gray-800 hover:text-orange-500 font-semibold">Home</a></li>
+                    <li><a href="#" class="text-gray-800 hover:text-orange-500 font-semibold">Features</a></li>
+                    <li><a href="#" class="text-gray-800 hover:text-orange-500 font-semibold">Contact Us</a></li>
+                    <li><a href="{% url 'main:login_account' %}" class="text-gray-800 hover:text-orange-500 font-semibold">Login</a></li>
+                    <li><a href="{% url 'main:create_account' %}" class="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600">Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class = "pt-16">
+        <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center px-6">
+            <div class="hero-image lg:mr-10">
+                <img src="{% static 'images/GirlWithPetImage.png' %}" alt="Girl with cat" class="w-70">
+            </div>
+            <div class="hero-content text-center lg:text-left mt-10 lg:mt-0">
+                <h1 class="text-5xl font-bold text-gray-800 mb-4">Click. <span class="text-pink-600">Adopt.</span> Love.</h1>
+                <p class="text-xl text-gray-700 mb-6">Ready to find the <span class="text-pink-600">one?</span></p>
+                <a href="#" class="bg-pink-600 text-white px-8 py-3 rounded-full hover:bg-pink-700 transition">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-12">
+        <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center space-y-8 lg:space-y-0 lg:space-x-8 px-6">
+            <!-- Feature 1 -->
+            <div class="feature-box text-center bg-white shadow-md rounded-lg p-8">
+                <img src="{% static 'images/convenientapplicationpic.png' %}" alt="Online Application" class="w-16 mx-auto mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Convenient Online Application</h3>
+            </div>
+            <!-- Feature 2 -->
+            <div class="feature-box text-center bg-white shadow-md rounded-lg p-8">
+                <img src="{% static 'images/searchbyagepic.png' %}"alt="Search Options" class="w-16 mx-auto mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Search by Type, Age, Disposition, and More!</h3>
+            </div>
+            <!-- Feature 3 -->
+            <div class="feature-box text-center bg-white shadow-md rounded-lg p-8">
+                <img src="{% static 'images/getinstantnotifpics.png' %}" alt="Notifications" class="w-16 mx-auto mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Get Instant Notifications</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-8">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-600 mb-4">info@paws4home.com</p>
+            <div class="social-icons flex justify-center space-x-4 mb-4">
+                <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
+                <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
+                <a href="#"><img src="{% static 'images/g.png' %}" alt="GitHub" class="w-6"></a>
+            </div>
+            <p><a href="#" class="text-gray-600 hover:text-gray-800">Terms & Conditions</a> | <a href="#" class="text-gray-600 hover:text-gray-800">Privacy Policy</a></p>
+        </div>
+    </footer>
+
 </body>
 </html>
