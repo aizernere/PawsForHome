@@ -54,5 +54,12 @@ class Create_Account(forms.Form):
 # end (gso)
 
 class Login_Account(forms.Form):
-    email = forms.CharField(label='Email Address')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    email = forms.CharField(label='Email Address', widget=forms.TextInput(attrs={
+        'class': 'w-full p-3 border rounded-md focus:outline-none focus:border-pink-500', 
+        'placeholder': 'Enter your email'
+    }))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={
+        'class': 'w-full p-3 border rounded-md focus:outline-none focus:border-pink-500',
+        'placeholder': 'Enter your password'
+    }))
+    
