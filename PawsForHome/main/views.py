@@ -11,7 +11,8 @@ def landing_page(request):
      return render(request, 'landing_page.html', {})
 def index(request):
     return render(request, 'index.html', {})
-
+def adoptionform(request):
+    return render(request, 'adoptionform.html', {})
 def notifications(request):
     return render(request, 'navbar/notifications.html', {})
 
