@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shelter Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% load static %}
+</head>
+<body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="w-full bg-[#FFDDD2] py-6">
+    <nav class="flex justify-between items-center max-w-7xl mx-auto px-6">
+      <!-- Left Section (Logo) -->
+      <div class="flex items-center space-x-4">
+        <img src="{% static 'images/paws4homelogo.png' %}" alt="Logo" class="h-14">
+      </div>
+
+      <!-- Center Section (Browse, Notifications, Messages, Profile) -->
+      <ul class="flex space-x-10 text-lg">
+        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Browse</a></li>
+        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Notifications</a></li>
+        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Messages</a></li>
+        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Profile</a></li>
+      </ul>
+
+      <!-- Right Section (Logout) -->
+      <div class="flex items-center space-x-4">
+        <a href="{% url 'main:logout_account' %}" class="text-gray-600 hover:text-orange-500 font-semibold text-lg">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="flex flex-grow">
+    <!-- Sidebar -->
+    <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col fixed h-screen">
+      <div class="flex items-center justify-center">
+        <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
+      </div>
+      <h1 class="text-2xl font-bold text-center mt-4">Puppy House</h1>
+
+      <!-- Sidebar Navigation -->
+      <nav class="mt-10">
+        <ul class="space-y-4">
+          <li><a href="#" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Overview</a></li>
+          <li><a href="#" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pet Listings</a></li>
+          <li><a href="#" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pending Requests</a></li>
+          <li><a href="#" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pets Adopted</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Dashboard Content -->
+    <main class="flex-grow bg-white ml-72 p-10 rounded-tl-3xl shadow-lg max-w-5xl mx-auto">
+      <!-- Overview Stats Section -->
+      <section class="mb-12">
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-[#FFE5D9] p-6 rounded-lg text-center shadow">
+            <img src="{% static 'images/guineapigLogin.png' %}" alt="Available Pets" class="h-40 mx-auto">
+            <h3 class="text-2xl font-bold mt-4">Available Pets</h3>
+            <p class="text-5xl font-extrabold mt-4">98</p>
+          </div>
+          <div class="bg-[#FFE5D9] p-6 rounded-lg text-center shadow">
+            <img src="{% static 'images/catshelterboardpic.png' %}" alt="Pending Requests" class="h-40 mx-auto">
+            <h3 class="text-2xl font-bold mt-4">Pending Requests</h3>
+            <p class="text-5xl font-extrabold mt-4">198</p>
+          </div>
+          <div class="bg-[#FFE5D9] p-6 rounded-lg text-center shadow">
+            <img src="{% static 'images/shelterboardpic3.png' %}" alt="Pets Adopted" class="h-40 mx-auto">
+            <h3 class="text-2xl font-bold mt-4">Pets Adopted</h3>
+            <p class="text-5xl font-extrabold mt-4">23</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Popular Pets Section -->
+      <section class="mb-12">
+        <h3 class="text-2xl font-bold mb-6">Most Popular Pets:</h3>
+        <div class="grid grid-cols-6 gap-6">
+          <!-- Repeat this block for each pet -->
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <img src="{% static 'images/dog1.jpg' %}" alt="Gary" class="h-24 w-full object-cover rounded-lg">
+            <div class="mt-4">
+              <h4 class="text-xl font-bold">Gary</h4>
+              <p class="text-gray-600">3 years, Yorkshire Terrier</p>
+            </div>
+          </div>
+          <!-- Repeat ends -->
+        </div>
+      </section>
+
+      <!-- Pet Listings Section -->
+      <section>
+        <h3 class="text-2xl font-bold mb-6">Pet Listings:</h3>
+        <div class="grid grid-cols-5 gap-6">
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <img src="{% static 'images/dog4.jpg' %}" alt="Spike" class="h-24 w-full object-cover rounded-lg">
+            <div class="mt-4">
+              <h4 class="text-xl font-bold">Spike</h4>
+              <p class="text-gray-600">Maine Coon</p>
+            </div>
+          </div>
+          <!-- More listings -->
+          <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center">
+            <span class="text-gray-500">View More</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white w-full py-6">
+    <div class="max-w-6xl mx-auto flex justify-between px-4">
+      <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
+      <div class="flex space-x-4">
+        <p class="text-gray-600">info@pawsathome.com</p>
+        <div class="space-x-2">
+          <a href="#" class="text-gray-600">Facebook</a>
+          <a href="#" class="text-gray-600">Instagram</a>
+          <a href="#" class="text-gray-600">Twitter</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

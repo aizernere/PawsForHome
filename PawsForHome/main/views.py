@@ -13,6 +13,8 @@ def index(request):
     return render(request, 'index.html', {})
 def adoptionform(request):
     return render(request, 'adoptionform.html', {})
+def shelterdashboard(request):
+    return render(request, 'shelterdashboard.html', {})
 def notifications(request):
     return render(request, 'navbar/notifications.html', {})
 
