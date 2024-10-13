@@ -15,6 +15,12 @@ def adoptionform(request):
     return render(request, 'adoptionform.html', {})
 def shelterdashboard(request):
     return render(request, 'shelterdashboard.html', {})
+def pet_listings(request):
+    return render(request, 'shelterdashboard/pet_listings.html',{})
+def adoptform(request):
+    return render(request, 'shelterdashboard/adoptform.html',{})
+def pending_requests(request):
+    return render(request, 'shelterdashboard/pending_requests.html',{})
 def notifications(request):
     return render(request, 'navbar/notifications.html', {})
 
