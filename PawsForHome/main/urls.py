@@ -13,4 +13,7 @@ urlpatterns = [
     path('home/',views.home, name='home'),    
     path('adoptionform/',views.adoptionform, name='adoptionform'),
     path('shelterdashboard/',views.shelterdashboard, name='shelterdashboard'),
+    path('pet_listings/', views.pet_listings, name='pet_listings'),
+    path('pending_requests/', views.pending_requests, name='pending_requests'),
+    path('adoptform/', views.adoptform, name='adoptform'),
 ]

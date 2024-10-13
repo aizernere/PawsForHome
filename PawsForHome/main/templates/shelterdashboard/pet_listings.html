@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shelter Dashboard</title>
+  <title>Pet Listings</title>
   <script src="https://cdn.tailwindcss.com"></script>
   {% load static %}
 </head>
 <body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
 
-  <!-- Header -->
+  <!-- Header-->
   <header class="w-full bg-[#FFDDD2] py-6">
     <nav class="flex justify-between items-center max-w-7xl mx-auto px-6">
       <!-- Left Section (Logo) -->
@@ -33,7 +33,7 @@
   </header>
 
   <div class="flex flex-grow">
-    <!-- Sidebar -->
+    
     <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col fixed h-screen">
       <div class="flex items-center justify-center">
         <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
@@ -46,52 +46,14 @@
           <li><a href="{% url 'main:shelterdashboard' %}" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Overview</a></li>
           <li><a href="{% url 'main:pet_listings' %}" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pet Listings</a></li>
           <li><a href="{% url 'main:pending_requests' %}" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pending Requests</a></li>
-          <li><a href="#" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pets Adopted</a></li>
+          <li><a href="" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pets Adopted</a></li>
         </ul>
       </nav>
     </aside>
 
-    <!-- Main Dashboard Content -->
+    <!-- Main Content -->
     <main class="flex-grow bg-white ml-72 p-10 rounded-tl-3xl shadow-lg max-w-5xl mx-auto">
-      <!-- Overview Stats Section -->
       <section class="mb-12">
-        <div class="grid grid-cols-3 gap-6">
-          <div class="bg-[#FFE5D9] p-6 rounded-lg text-center shadow">
-            <img src="{% static 'images/guineapigLogin.png' %}" alt="Available Pets" class="h-40 mx-auto">
-            <h3 class="text-2xl font-bold mt-4">Available Pets</h3>
-            <p class="text-5xl font-extrabold mt-4">98</p>
-          </div>
-          <div class="bg-[#FFE5D9] p-6 rounded-lg text-center shadow">
-            <img src="{% static 'images/catshelterboardpic.png' %}" alt="Pending Requests" class="h-40 mx-auto">
-            <h3 class="text-2xl font-bold mt-4">Pending Requests</h3>
-            <p class="text-5xl font-extrabold mt-4">198</p>
-          </div>
-          <div class="bg-[#FFE5D9] p-6 rounded-lg text-center shadow">
-            <img src="{% static 'images/shelterboardpic3.png' %}" alt="Pets Adopted" class="h-40 mx-auto">
-            <h3 class="text-2xl font-bold mt-4">Pets Adopted</h3>
-            <p class="text-5xl font-extrabold mt-4">23</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Popular Pets Section -->
-      <section class="mb-12">
-        <h3 class="text-2xl font-bold mb-6">Most Popular Pets:</h3>
-        <div class="grid grid-cols-6 gap-6">
-          <!-- Repeat this block for each pet -->
-          <div class="bg-white p-4 rounded-lg shadow-md">
-            <img src="{% static 'images/dog1.jpg' %}" alt="Gary" class="h-24 w-full object-cover rounded-lg">
-            <div class="mt-4">
-              <h4 class="text-xl font-bold">Gary</h4>
-              <p class="text-gray-600">3 years, Yorkshire Terrier</p>
-            </div>
-          </div>
-          <!-- Repeat ends -->
-        </div>
-      </section>
-
-      <!-- Pet Listings Section -->
-      <section>
         <h3 class="text-2xl font-bold mb-6">Pet Listings:</h3>
         <div class="grid grid-cols-5 gap-6">
           <div class="bg-white p-4 rounded-lg shadow-md">
