@@ -1,0 +1,36 @@
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 55px;
+    /* border: 1px solid black; */
+}
+
+.nav-bar div{
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    /* border: 1px solid black; */
+}
+
+
+.nav-bar div .nav-items{
+    padding: 10px;
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Open Sans';
+    font-size: 20px;
+    font-weight: bold;
+    /* border: 1px solid black; */
+}
+
+.nav-items a{
+    color: #714949;
+    text-decoration: none;
+}
+
+.nav-bar div img{
+    width: 150px;
+}

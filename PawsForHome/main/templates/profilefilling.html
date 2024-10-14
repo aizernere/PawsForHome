@@ -1,0 +1,21 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile-filling.css' %}">
+</head>
+<body>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+
+        {% if messages %}
+            <br>
+            {% for m in messages %}
+    
+                {{m}}
+    
+            {% endfor %}
+        {% endif %}
+        <button type="submit">Done</button>
+        <a href="{% url "main:login_account" %}">Skip for now</a>
+    </form>
+</body>

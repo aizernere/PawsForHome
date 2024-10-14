@@ -1,13 +1,85 @@
-<form method="post">
-    {% csrf_token %}
-    {{form}}
-    {% if messages %}
-        {% for m in messages %}
+<head>
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/sign-up.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+</head>
+<div class="outer">
 
-            {{m}}
+    {% comment %} left side: design part sa create account, katu naay image {% endcomment %}
+    <div class="left-side">
+        {% comment %} Bold, 75, Open Sans {% endcomment %}
+        {% comment %} first two lines, font color #FF7578 {% endcomment %}
+        <img src="{% static 'images/paws4homelogo.png' %}" alt="logo" class="logo">
+        <p class="bold-texts">
+            <span id="color-pink">
+                Join the  
+                Pack,<br>
+            </span>
+            <span id="color-brown">
+                {% comment %} font color #3E2828 {% endcomment %}
+                Paw Friend!
+            </span>
+            {% comment %} insert image here {% endcomment %}
+        </p>
+    </div>
 
-        {% endfor %}
-    {% endif %}
-    <br>
-    <button type='submit'>Sign Up</button>
-</form>
+    {% comment %} right side: form of create account {% endcomment %}
+    <div class="right-side">
+
+        <div class="inner">
+            <center>
+                <img src="{% static 'images/PawImageForSignUp.png' %}" alt="Custom Paw"> 
+                <h2>Create Account</h2>
+            </center>
+
+            <form method="post">
+                {% csrf_token %}
+                {{form.non_field_errors}}
+                <div class="label-input">
+                    <label for="email" class="lbl">Email Address</label>
+                    <br>
+                    <center>
+                        {{ form.email }}
+                    </center>
+                </div>
+                <div class="label-input">
+                    <label for="password" class="lbl">Password</label>
+                    <br>
+                    <center>
+                        {{ form.password }}
+                    </center>
+                </div>
+                <div class="label-input">
+                    <label for="confirm_password" class="lbl">Confirm Password</label>
+                    <br>
+                    <center>
+                        {{ form.confirm_password }}
+                    </center>
+                </div>
+                <div class="label-input">
+                    <label for="account_type" class="lbl">Account Type</label>
+                    <br>
+                    {{ form.account_type }}
+                </div>
+                <br>
+                <center>
+                    <button type='submit' class="signup-btn">Sign Up</button>
+                    {% if messages %}
+                        <br>
+                        {% for m in messages %}
+                
+                            {{m}}
+                
+                        {% endfor %}
+                    {% endif %}
+                    {% comment %} <p id="or"> - OR - </p> {% endcomment %}
+                    <p>Already have an account? <a href="{% url "main:login_account" %}" id="login">Login</a> </p>
+                </center>
+            </form>
+
+        </div>
+
+    </div>
+</div>

@@ -5,22 +5,36 @@ from django.core.exceptions import ValidationError
  
 class Create_Account(forms.Form):
     types = [
-        ('shelter','Shelter'),
-        ('user', 'User'),
+        ('shelter','I want to offer pets for adoption'),
+        ('user', 'I want to adopt pets'),
     ]
-    email = forms.EmailField(label='Enter email address')
+    email = forms.EmailField(
+        label='Enter email address',
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'Enter email address',
+                'class': 'input-field',
+            }))
     password = forms.CharField(
         label='Enter password',
-        widget=forms.PasswordInput
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Enter password',
+                'class': 'input-field',
+            })
         )
     confirm_password = forms.CharField(
-        label='Confirm Password',
-        widget=forms.PasswordInput
+        label='Confirm your password',
+        widget=forms.PasswordInput(
+            attrs={
+            'placeholder': 'Re-enter your password',
+            'class': 'input-field',
+        })
         )
     account_type = forms.ChoiceField(
         label='Account Type',
+        choices=types,
         widget=forms.RadioSelect,
-        choices=types
         )
     class Meta:
         model = Account
@@ -63,3 +77,16 @@ class Login_Account(forms.Form):
         'placeholder': 'Enter your password'
     }))
     
+class Profile_Fillling(forms.Form):
+    first_name = forms.CharField(
+        label='First Name'
+    )
+    last_name = forms.CharField(
+        label='Last Name'
+    )
+    birthdate = forms.DateField(
+        label='Birthdate'
+    )
+    phone_number = forms.IntegerField(
+        label='Phone Number',
+    )
