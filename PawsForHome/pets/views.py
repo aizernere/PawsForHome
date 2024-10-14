@@ -7,11 +7,11 @@ def add_pet(request):
         form = PetForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('list_pet')
+            return redirect('pets:list_pet')
     else:
         form = PetForm()
     return render(request, 'pets/add_pet.html', {'form': form})
 
 def list_pet(request):
     pets = Pet.objects.all()
-    return render(request, 'pets/list_pet.html', {'pets': pets})
+    return render(request, 'pets/list_pet.html', {'pets': pets}) 
