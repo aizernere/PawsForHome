@@ -4,38 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Paws For Home </title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/landing_page.css" %}">
+    <link rel="stylesheet" href="{% static "css/main-page.css" %}">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    
 </head>
 <body>
     {% comment %} 
         dire ang silbeg main page wherein it has the nav bar, header, footer, and logout
         other html files (profile, message, dashboard, etc.) kay i extends sa ani na html file
     {% endcomment %}
-    <nav>
-        <ul>
-            <li>
+    <div class="nav-bar">
+        <div>
+            {% comment %} logo dire {% endcomment %}
+            <img src="{% static "images/paws4homelogo.png" %}" alt="logo">
+        </div>
+        <div>
+            <div class="nav-items">
+                <a href="{% url "main:user_dashboard" %}">Dashboard</a>
+            </div>
+            <div class="nav-items">
                 <a href="{% url "pets:list_pet" %}">Browse</a>
-            </li>
-            <li>
+            </div>
+            <div class="nav-items">
                 <a href="{% url "main:notifications" %}">Notification</a>
-            </li>
-            <li>
+            </div>
+            <div class="nav-items">
                 <a href="{% url "main:message" %}">Messages</a>
-            </li>
-            <li>
+            </div>
+            <div class="nav-items">
                 <a href="{% url "main:profile" %}">Profile</a>
-            </li>
-            <li>
+            </div>
+        </div>
+        <div>
                 {% if request.user.is_authenticated %}
-                    <p>Welcome, {{ request.user.email }}!</p>
-                    <a href="{% url 'main:logout_account' %}">Log Out</a>
+                    <div class="nav-items">Welcome, {{ request.user.email }}!</div>
+                    <div class="nav-items">
+                        <a href="{% url 'main:logout_account' %}">Log Out</a>
+                    </div>
                 {% else %}
-                    <p>Welcome, Guest!</p>
-                    <a href="{% url 'main:login_account' %}">Log In</a>
+                    <div class="nav-items">Welcome, Guest!</div>
+                    <div class="nav-items">
+                        <a href="{% url 'main:login_account' %}">Log In</a>
+                    </div>
                 {% endif %}
-
-            </li>
-        </ul>
-    </nav>
+    
+        </div>
+    </div>
 
     {% block contents %}
     {% endblock contents %}

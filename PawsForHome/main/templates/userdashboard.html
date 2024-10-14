@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+
+
+{% block contents %}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/user-dashboard.css" %}">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    
+    
+    <div class="main">
+        <div class="side-bar">
+            {% comment %} ang silbeg profile nimo {% endcomment %}
+            <center>
+                <div>
+                    <img src="{% static "images/shelterlogo.png" %}" alt="test">
+                    <h2>Mako</h2>
+                </div>
+            </center>
+
+            <div class="side-items">
+                <div class="item">Overview</div>
+                <div class="item">Requests</div>
+                <div class="item">Favorites</div>
+                <div class="item">Adoption History</div>
+            </div>
+
+        </div>
+        <div class="side-bar-contents">
+            <div class="content">
+                beybeh
+            </div>
+        </div>
+    </div>
+{% endblock contents %}

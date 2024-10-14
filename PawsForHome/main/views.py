@@ -15,6 +15,8 @@ def adoptionform(request):
     return render(request, 'adoptionform.html', {})
 def shelterdashboard(request):
     return render(request, 'shelterdashboard.html', {})
+def user_dashboard(request):
+    return render(request, 'userdashboard.html', {})
 def pet_listings(request):
     return render(request, 'shelterdashboard/pet_listings.html',{})
 def adoptform(request):
