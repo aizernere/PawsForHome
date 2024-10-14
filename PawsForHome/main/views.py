@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from .models import Account
-from .forms import Create_Account, Login_Account
+from .forms import Create_Account, Login_Account, Profile_Fillling
 from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
@@ -33,6 +33,39 @@ def profile(request):
 def home(request):
     return render(request, 'home.html', {})
 
+def profile_filling_page(request):
+    # accounts = Account.objects.all()
+    curr_account = Account.objects.last()
+
+    if request.method == 'POST':
+        form = Profile_Fillling(request.POST)
+
+        if form.is_valid():
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            birthdate = form.cleaned_data.get('birthdate')
+            phone_num = form.cleaned_data.get('phone_number')
+
+            if phone_num and first_name and last_name and birthdate:
+                phone_len = len(str(phone_num))
+                if phone_len != 10:
+                    messages.warning(request, 'Input 11 digit number')
+                else: 
+                    curr_account.first_name = first_name
+                    curr_account.last_name = last_name
+                    curr_account.birth_date = birthdate
+                    curr_account.phone_number = phone_num
+
+                    curr_account.save()
+
+                    return redirect('main:login_account')
+        else:
+            messages.warning(request, 'All fields are required')
+
+    else:
+        form = Profile_Fillling()
+    return render(request, 'profilefilling.html', {'form':form})
+
 def create_account(request):
     accounts = Account.objects.all()
 
@@ -52,7 +85,8 @@ def create_account(request):
                 create_account = Account(account_type=account_type, email=email, password=hash_password)
                 create_account.save()
                 # return render(request,'index.html', {})
-                return redirect('main:login_account')
+                # return redirect('main:login_account')
+                return redirect('main:profile_filling') # redirect to profile filling or profile_filling_page
                 
             elif confirm_password!=password: 
                 # print("password is not the same")

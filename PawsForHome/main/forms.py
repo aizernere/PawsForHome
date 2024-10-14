@@ -77,3 +77,16 @@ class Login_Account(forms.Form):
         'placeholder': 'Enter your password'
     }))
     
+class Profile_Fillling(forms.Form):
+    first_name = forms.CharField(
+        label='First Name'
+    )
+    last_name = forms.CharField(
+        label='Last Name'
+    )
+    birthdate = forms.DateField(
+        label='Birthdate'
+    )
+    phone_number = forms.IntegerField(
+        label='Phone Number',
+    )

@@ -16,4 +16,5 @@ urlpatterns = [
     path('pet_listings/', views.pet_listings, name='pet_listings'),
     path('pending_requests/', views.pending_requests, name='pending_requests'),
     path('adoptform/', views.adoptform, name='adoptform'),
+    path('profile_filling/', views.profile_filling_page, name='profile_filling'),
 ]
