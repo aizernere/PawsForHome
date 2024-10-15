@@ -58,28 +58,28 @@
       <!-- Requests Grid -->
       <div class="grid grid-cols-1 gap-6">
         <!-- Single Request Card -->
-        <div class="bg-[#FFE5D9] p-6 rounded-lg shadow-lg flex items-center">
-          <img src="{% static 'images/dog4.jpg' %}" alt="Spike" class="h-24 w-24 object-cover rounded-lg">
+        <div class="bg-[#F2968F] p-6 rounded-lg shadow-lg flex items-center">
+          <img src="{% static 'images/testdogimage.png' %}" alt="Spike" class="h-24 w-24 object-cover rounded-lg">
           <div class="ml-6">
             <h4 class="text-xl font-bold">Request #1 - Spike</h4>
             <p class="text-gray-600 mt-1">Adopter: John Doe</p>
             <p class="text-gray-600">Requested on: 2024-10-05</p>
           </div>
           <div class="ml-auto">
-            <a href="{% url 'main:adoptform'%}" class="text-white bg-orange-500 px-4 py-2 rounded-lg hover:bg-orange-600">View Details</a>
+            <a href="{% url 'main:adoptform'%}" class="text-black bg-white px-4 py-2 rounded-lg hover:bg-orange-600"><b>Review</b></a>
           </div>
         </div>
 
         <!-- Repeat for more requests -->
-        <div class="bg-[#FFE5D9] p-6 rounded-lg shadow-lg flex items-center">
-          <img src="{% static 'images/cat.jpg' %}" alt="Lucy" class="h-24 w-24 object-cover rounded-lg">
+        <div class="bg-[#F2968F] p-6 rounded-lg shadow-lg flex items-center">
+          <img src="{% static 'images/testdogimage.png' %}" alt="Lucy" class="h-24 w-24 object-cover rounded-lg">
           <div class="ml-6">
             <h4 class="text-xl font-bold">Request #2 - Lucy</h4>
             <p class="text-gray-600 mt-1">Adopter: Jane Smith</p>
             <p class="text-gray-600">Requested on: 2024-10-06</p>
           </div>
           <div class="ml-auto">
-            <a href="{% url 'main:adoptform'%}" class="text-white bg-orange-500 px-4 py-2 rounded-lg hover:bg-orange-600">View Details</a>
+            <a href="{% url 'main:adoptform'%}" class="text-black bg-white px-4 py-2 rounded-lg hover:bg-orange-600"><b>Review</b></a>
           </div>
         </div>
 
