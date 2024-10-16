@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from pets.views import my_pets, dashpets
+from pmessages.views import send_message, view_conversation, conversations_list
 
 urlpatterns = [
     path('',views.landing_page,name='landing_page'),
@@ -8,7 +9,7 @@ urlpatterns = [
     path('contactus/',views.contactus,name='contactus'),
     path('index/', views.index, name='index'),
     path('notifications/', views.notifications, name='notifications'),
-    path('message/', views.message, name='message'),
+    path('message/', conversations_list, name='conversations_list'),
     path('profile/', views.profile, name='profile'),
     path('signup/', views.create_account, name='create_account'),
     path('login/',views.login_account, name='login_account'),

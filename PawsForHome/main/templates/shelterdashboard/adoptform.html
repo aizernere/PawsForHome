@@ -9,28 +9,28 @@
 <main class="flex-grow flex items-center justify-center">
     <section class="w-full max-w-4xl bg-white p-12 rounded-xl shadow-lg">
         <div class="flex items-center space-x-6 mb-8">
-            <img src="{{ request.pet.image.url }}" alt="{{ request.pet.name }}" class="h-24 w-24 rounded-full object-cover">
+            <img src="{{ adoption_request.pet.image.url }}" alt="{{ adoption_request.pet.name }}" class="h-24 w-24 rounded-full object-cover">
             <div>
-                <h2 class="text-3xl font-semibold">Adopt {{ request.pet.name }}</h2>
-                <p class="text-lg text-gray-500">{{ request.pet.breed }}</p>
+                <h2 class="text-3xl font-semibold">Adopt {{ adoption_request.pet.name }}</h2>
+                <p class="text-lg text-gray-500">{{ adoption_request.pet.breed }}</p>
             </div>
         </div>
 
         <h3 class="text-3xl font-bold mb-6">Contact Information</h3>
         <div class="space-y-4">
-            <p><strong>First Name:</strong> {{ request.first_name }}</p>
-            <p><strong>Last Name:</strong> {{ request.last_name }}</p>
-            <p><strong>Email:</strong> {{ request.email }}</p>
-            <p><strong>Phone Number:</strong> {{ request.phone_number }}</p>
-            <p><strong>Address:</strong> {{ request.address }}</p>
-            <p><strong>Housing Type:</strong> {{ request.housing_type }}</p>
-            <p><strong>Household Description:</strong> {{ request.household_description }}</p>
+            <p><strong>First Name:</strong> {{ adoption_request.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ adoption_request.last_name }}</p>
+            <p><strong>Email:</strong> {{ adoption_request.email }}</p>
+            <p><strong>Phone Number:</strong> {{ adoption_request.phone_number }}</p>
+            <p><strong>Address:</strong> {{ adoption_request.address }}</p>
+            <p><strong>Housing Type:</strong> {{ adoption_request.housing_type }}</p>
+            <p><strong>Household Description:</strong> {{ adoption_request.household_description }}</p>
         </div>
 
         <h3 class="text-3xl font-bold mt-10">General Information</h3>
         <div class="space-y-4 mt-6">
-            <p><strong>Why do you want to adopt this pet?</strong> {{ request.general_info }}</p>
-            <p><strong>Other Info:</strong> {{ request.other_general_info }}</p>
+            <p><strong>Why do you want to adopt this pet?</strong> {{ adoption_request.general_info }}</p>
+            <p><strong>Other Info:</strong> {{ adoption_request.other_general_info }}</p>
         </div>
 
         <div class="mt-10 text-sm text-[#C1A3A3]">
@@ -39,6 +39,13 @@
             <p>If they can no longer care for the pet, they will surrender it to the Rescue Center.</p>
             <p>All information provided is true and accurate.</p>
         </div>
+        <div class="mt-8">
+          <button 
+          onclick="redirectToAdoptionForm({{ adoption_request.account.id }})"
+              class="w-full py-4 bg-[#FFDDD2] text-black font-bold text-lg rounded-md hover:bg-red-400">
+              Message User
+          </button>
+      </div>
     </section>
 </main>
 
@@ -56,5 +63,9 @@
         </div>
     </div>
 </footer>
-
+<script>
+  function redirectToAdoptionForm(accountId) {
+      window.location.href = `/pmessages/send/${accountId}`;
+  }
+</script>
 {% endblock contents %}

@@ -25,7 +25,7 @@ urlpatterns = [
     path('', include(('main.urls', 'main'), 'main')),
     path('pets/', include(('pets.urls', 'pets'),'pets')),
     path('', include('django.contrib.auth.urls')),
-    path('messages/', include('pmessages.urls')),
+    path('pmessages/', include('pmessages.urls')),
 ]
 
 if settings.DEBUG:

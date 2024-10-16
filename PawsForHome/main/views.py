@@ -55,8 +55,8 @@ def adoptform(request):
 def notifications(request):
     return render(request, 'navbar/notifications.html', {})
 
-def message(request):
-    return render(request, 'navbar/message.html', {})
+# def message(request):
+#     return render(request, 'navbar/message.html', {})
 
 def profile(request):
     return render(request, 'navbar/profile.html', {})
@@ -207,4 +207,4 @@ def pending_requests(request):
 @login_required
 def adoption_request_detail(request, request_id):
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
-    return render(request, 'shelterdashboard/adoptform.html', {'request': adoption_request})
+    return render(request, 'shelterdashboard/adoptform.html', {'adoption_request': adoption_request, 'request': request})

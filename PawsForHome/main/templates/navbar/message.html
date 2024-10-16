@@ -1,4 +1,23 @@
 {% extends "index.html" %}
+
 {% block contents %}
-    Message
+<script src="https://cdn.tailwindcss.com"></script>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+<h2 class="text-lg font-bold mb-4 text-center">Conversations</h2>
+
+<ul class="space-y-2 max-w-md mx-auto">
+    {% for partner in conversation_partners %}
+    <li onclick="window.location.href='{% url 'view_conversation' partner.id %}'" class="flex justify-between items-center p-4 bg-[#F2968F] shadow-md rounded-full cursor-pointer">
+        <div class="flex items-center space-x-2">
+            <div>
+                <h3 class="text-md text-white font-semibold">{{ partner.first_name }} {{ partner.last_name }}</h3>
+            </div>
+        </div>
+    </li>
+    {% empty %}
+    <li class="text-center text-gray-500">No conversations found.</li>
+    {% endfor %}
+</ul>
+
 {% endblock contents %}
