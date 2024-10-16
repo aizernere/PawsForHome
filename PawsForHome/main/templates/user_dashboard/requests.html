@@ -1,0 +1,24 @@
+{% extends "userdashboard.html" %}
+
+{% block u_dash_content %}
+{% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+
+{% comment %} <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6"> {% endcomment %}
+    {% if request_pets %}
+        {% for rp in request_pets %}
+
+                <div class="pet">
+                    <img src="{{ rp.image.url }}" alt="{{ rp.name }}" class="pet-image">
+                    <div class="pet-info">
+                        <h3 class="pet-name">{{ rp.name }}</h3>
+                        <p class="pet-age">{{ rp.age }} years old</p>
+                        <span class="pet-type">{{ rp.type }}</span>
+                    </div>
+                </div> 
+                
+        {% endfor %}
+    {% endif %}
+{% comment %} </div> {% endcomment %}
+{% endblock u_dash_content %}

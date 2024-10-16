@@ -23,4 +23,7 @@ urlpatterns = [
     path('adoptform/', views.adoptform, name='adoptform'),
     path('profile_filling/', views.profile_filling, name='profile_filling'),
     path('userdashboard/',views.user_dashboard, name='user_dashboard'),
+    path('requests/',views.ud_requests, name='ud_requests'),
+    path('favorites/',views.ud_favorites, name='ud_favorites'),
+    path('adoptionhistory/',views.ud_adoptionhistory, name='ud_adoptionhistory'),
 ]

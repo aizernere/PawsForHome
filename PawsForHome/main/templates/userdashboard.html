@@ -14,21 +14,39 @@
             <center>
                 <div>
                     <img src="{% static "images/shelterlogo.png" %}" alt="test">
-                    <h2>Mako</h2>
+                    <h2>{{ curr_fn }}</h2>
                 </div>
             </center>
 
             <div class="side-items">
-                <div class="item">Overview</div>
-                <div class="item">Requests</div>
-                <div class="item">Favorites</div>
-                <div class="item">Adoption History</div>
+                <div class="item">
+                    <a href="{% url "main:user_dashboard" %}">
+                        Overview
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="{% url "main:ud_requests" %}">
+                        Requests
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="{% url "main:ud_favorites" %}">
+                        Favorites
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="{% url "main:ud_adoptionhistory" %}">
+                        Adoption History
+                    </a>
+                </div>
             </div>
 
         </div>
         <div class="side-bar-contents">
             <div class="content">
-                beybeh
+                {% block u_dash_content %}
+                    hello 1
+                {% endblock u_dash_content %}
             </div>
         </div>
     </div>
