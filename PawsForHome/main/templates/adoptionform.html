@@ -1,185 +1,117 @@
 {% extends "index.html" %}
 
-
 {% block contents %}
 
 <script src="https://cdn.tailwindcss.com"></script>
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
 
-  
-  <!-- <main class="flex-grow flex items-center justify-center">
+<!-- Main adoption form -->
+<main class="flex-grow flex items-center justify-center">
     <section class="w-full max-w-4xl bg-white p-12 rounded-xl shadow-lg">
-      <div class="flex items-center space-x-6 mb-8">
-        <img src="dog.jpg" alt="Dog Image" class="h-24 w-24 rounded-full object-cover">
-        <div>
-          <h2 class="text-3xl font-semibold">Gary</h2>
-          <p class="text-lg text-gray-500">Yorkshire Terrier</p>
-        </div>
-      </div>
-
-      <h3 class="text-3xl font-bold mb-6">Contact Information</h3>
-
-      <form action="#" method="POST" class="space-y-8">
-        <div class="grid grid-cols-2 gap-8">
-          <div>
-            <label for="name" class="block text-lg font-bold">Name:</label>
-            <input type="text" id="name" name="name" value="" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" placeholder="Enter Name" >
-          </div>
-          <div class="relative">
-            <label for="address" class="block text-lg font-bold">Address:</label>
-            <input type="text" id="address" name="address" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" placeholder="Enter Address">
-          </div>
+        <div class="flex items-center space-x-6 mb-8">
+            <img src="{{ pet.image.url }}"  alt="{{ pet.name }}" class="h-24 w-24 rounded-full object-cover">
+            <div>
+                <h2 class="text-3xl font-semibold">Adopt {{ pet.name }}</h2>
+                <p class="text-lg text-gray-500">{{ pet.breed }}</p>
+            </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-8">
-          <div>
-            <label for="city" class="block text-lg font-bold">City/State:</label>
-            <input type="text" id="city" name="city" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" placeholder="City/State">
-          </div>
-          <div>
-            <label for="zip" class="block text-lg font-bold">Zip Code:</label>
-            <input type="text" id="zip" name="zip" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" placeholder="Zip Code">
-          </div>
-        </div>
+        {% if user.is_authenticated %}
+        <h3 class="text-3xl font-bold mb-6">Contact Information</h3>
 
-        <div>
-          <label for="phone" class="block text-lg font-bold">Phone Number:</label>
-          <input type="text" id="phone" name="phone" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" placeholder="Phone Number">
-        </div>
+        <form method="post" class="space-y-8">
+            {% csrf_token %}
 
-        <h3 class="text-3xl font-bold mt-10">Your Home</h3>
-        <div class="space-y-4 mt-6">
-          <label class="block text-lg font-bold">What type of housing do you live in?</label>
-          <div class="space-y-4">
-            <label><input type="radio" name="housing" value="apartment" class="mr-2"> Apartment</label><br>
-            <label><input type="radio" name="housing" value="house" class="mr-2"> House</label><br>
-            <label><input type="radio" name="housing" value="condo" class="mr-2"> Condominium</label><br>
-            <label><input type="radio" name="housing" value="other" class="mr-2"> Other:</label>
-            <input type="text" class="inline-block ml-2 w-1/2 px-4 py-2 border rounded-md border-gray-300">
-          </div>
-        </div>
+            <!-- First and Last Name -->
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <label for="first_name" class="block text-lg font-bold">First Name:</label>
+                    {{ form.first_name }}
+                </div>
+                <div>
+                    <label for="last_name" class="block text-lg font-bold">Last Name:</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
 
-        <div>
-          <label class="block text-lg font-bold">Describe your household:</label>
-          <div class="flex flex-wrap gap-6 mt-4">
-            <label><input type="checkbox" class="mr-2"> Active</label>
-            <label><input type="checkbox" class="mr-2"> Calm</label>
-            <label><input type="checkbox" class="mr-2"> Noisy</label>
-            <label><input type="checkbox" class="mr-2"> Quiet</label>
-          </div>
-        </div>
+            <!-- Email and Phone Number -->
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <label for="email" class="block text-lg font-bold">Email:</label>
+                    {{ form.email }}
+                </div>
+                <div>
+                    <label for="phone_number" class="block text-lg font-bold">Phone Number:</label>
+                    {{ form.phone_number }}
+                </div>
+            </div>
 
-        <h3 class="text-3xl font-bold mt-10">General Information</h3>
-        <div class="space-y-6 mt-6">
-          <label class="block text-lg font-bold">Why do you want to adopt this pet?</label>
-          <div class="space-y-4">
-            <label><input type="checkbox" class="mr-2"> Companion for child</label><br>
-            <label><input type="checkbox" class="mr-2"> Companion for other pet</label><br>
-            <label><input type="checkbox" class="mr-2"> Security</label><br>
-            <label><input type="checkbox" class="mr-2"> Service animal</label><br>
-            <label><input type="checkbox" class="mr-2"> House pet</label><br>
-            <label><input type="checkbox" class="mr-2"> Breeding</label><br>
-            <label><input type="checkbox" class="mr-2"> Other:</label>
-            <input type="text" class="inline-block ml-2 w-1/2 px-4 py-2 border rounded-md border-gray-300">
-          </div>
-        </div>
+            <!-- Address -->
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <label for="address" class="block text-lg font-bold">Address:</label>
+                    {{ form.address }}
+                </div>
+                <!-- <div>
+                    <label for="city" class="block text-lg font-bold">City/State:</label>
+                    <input type="text" id="city" name="city" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" placeholder="City/State">
+                </div> -->
+            </div>
 
-        
-        <div class="mt-10 space-y-6 text-sm text-[#C1A3A3]">
-          <p>By clicking the submit button, I agree to go through adoption processes, undergo a home check, and interview.</p>
-          <p>By clicking the submit button, I understand my references will be checked, including veterinary and personal.</p>
-          <p>By clicking the submit button, I understand that if I no longer want my pet, or can no longer care for my adopted pet, I will be directed to surrender my pet to the Rescue Center and provide transport to where Rescue Center deems appropriate.</p>
-          <p>By clicking the submit button, I verify all of the above information is true and accurate.</p>
-        </div>
+            <!-- Housing Type -->
+            <div>
+                <label class="block text-lg font-bold">What type of housing do you live in?</label>
+                {{ form.housing_type }}
+                {{ form.other_housing_description }}
+            </div>
 
-        <div class="mt-8">
-          <button type="submit" class="w-full py-4 bg-[#F2968F] text-white font-bold text-lg rounded-md hover:bg-red-400">Submit</button>
-        </div>
-      </form>
+            <!-- Household Description -->
+            <div class="mt-4">
+                <label class="block text-lg font-bold">Describe your household:</label>
+                {{ form.household_description }}
+            </div>
+
+            <!-- General Info -->
+            <h3 class="text-3xl font-bold mt-10">General Information</h3>
+            <div class="space-y-6 mt-6">
+                <label class="block text-lg font-bold">Why do you want to adopt this pet?</label>
+                {{ form.general_info }}
+                {{ form.other_general_info }}
+            </div>
+
+            <!-- Consent and Submit Button -->
+            <div class="mt-10 space-y-6 text-sm text-[#C1A3A3]">
+                <p>By clicking the submit button, I agree to undergo adoption processes, home checks, and interviews.</p>
+                <p>I understand my references will be checked, including veterinary and personal references.</p>
+                <p>If I can no longer care for the pet, I will surrender it to the Rescue Center.</p>
+                <p>I verify all of the above information is true and accurate.</p>
+            </div>
+
+            <div class="mt-8">
+                <button type="submit" class="w-full py-4 bg-[#F2968F] text-white font-bold text-lg rounded-md hover:bg-red-400">Submit Adoption Request</button>
+            </div>
+        </form>
+
+        {% else %}
+        <p>You need to <a href="{% url 'login' %}" class="text-blue-500">log in</a> to submit an adoption request.</p>
+        {% endif %}
     </section>
-  </main> -->
-  
-  <section class="container mx-auto mt-8 px-8">
-      <h2 class="text-3xl font-bold text-gray-700 py-12">Adopt {{ pet.name }}</h2>
-  
-      {% if user.is_authenticated %}
-      <form method="post" class="bg-white p-6 rounded-lg shadow-md">
-          {% csrf_token %}
-          
-          <!-- First Name -->
-          <div class="mt-4">
-              <label for="first_name" class="block text-gray-700">First Name</label>
-              {{ form.first_name }}
-          </div>
-  
-          <!-- Last Name -->
-          <div class="mt-4">
-              <label for="last_name" class="block text-gray-700">Last Name</label>
-              {{ form.last_name }}
-          </div>
-  
-          <!-- Email -->
-          <div class="mt-4">
-              <label for="email" class="block text-gray-700">Email</label>
-              {{ form.email }}
-          </div>
-  
-          <!-- Phone Number -->
-          <div class="mt-4">
-              <label for="phone_number" class="block text-gray-700">Phone Number</label>
-              {{ form.phone_number }}
-          </div>
-  
-          <!-- Address -->
-          <div class="mt-4">
-              <label for="address" class="block text-gray-700">Address</label>
-              {{ form.address }}
-          </div>
-  
-          <!-- Housing Type -->
-          <div class="mt-4">
-              <label for="housing_type" class="block text-gray-700">What type of housing do you live in?</label>
-              {{ form.housing_type }}
-              {{ form.other_housing_description }}
-          </div>
-  
-          <!-- Household Description -->
-          <div class="mt-4">
-              <label for="household_description" class="block text-gray-700">Describe your household:</label>
-              {{ form.household_description }}
-          </div>
-  
-          <!-- General Info -->
-          <div class="mt-4">
-              <label for="general_info" class="block text-gray-700">Why do you want to adopt this pet?</label>
-              {{ form.general_info }}
-              {{ form.other_general_info }}
-          </div>
-  
-          <!-- Submit Button -->
-          <div class="mt-4">
-              <button type="submit" class="bg-[#F2968F] text-white px-4 py-2 rounded">Submit Adoption Request</button>
-          </div>
-      </form>
-      {% else %}
-      <p>You need to <a href="{% url 'login' %}" class="text-blue-500">log in</a> to submit an adoption request.</p>
-      {% endif %}
-  </section>
-  
-  <!-- Footer -->
-  <footer class="bg-white w-full py-6">
-      <div class="max-w-6xl mx-auto flex justify-between px-4">
-          <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
-          <div class="flex space-x-4">
-              <p class="text-gray-600">info@pawsathome.com</p>
-              <div class="space-x-2">
-                  <a href="#" class="text-gray-600">Facebook</a>
-                  <a href="#" class="text-gray-600">Instagram</a>
-                  <a href="#" class="text-gray-600">Twitter</a>
-              </div>
-          </div>
-      </div>
-  </footer>
-  
-  {% endblock contents %}
+</main>
+
+<!-- Footer -->
+<footer class="bg-white w-full py-6">
+    <div class="max-w-6xl mx-auto flex justify-between px-4">
+        <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
+        <div class="flex space-x-4">
+            <p class="text-gray-600">info@pawsathome.com</p>
+            <div class="space-x-2">
+                <a href="#" class="text-gray-600">Facebook</a>
+                <a href="#" class="text-gray-600">Instagram</a>
+                <a href="#" class="text-gray-600">Twitter</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock contents %}
