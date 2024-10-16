@@ -1,5 +1,5 @@
 .main {
-    width: 96vw;
+    /* width: 96vw; */
     /* height: 97vh; */
     padding: 20px;
     display: flex;
@@ -50,7 +50,7 @@
     background-color: #FFF1EE;
     border-radius: 20px;
     padding: 20px;
-    height: 70vh;
+    min-height: 70vh;
     width: 1050px;
     display: flex; 
     flex-direction: row; 
