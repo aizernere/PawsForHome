@@ -22,11 +22,17 @@
         </div>
         <div>
             <div class="nav-items">
-                <a href="{% url "main:user_dashboard" %}">Dashboard</a>
+                {% if request.user.account_type == 'user' %}
+                    <a href="{% url "main:user_dashboard" %}">Dashboard</a>
+                {% else %}
+                    <a href="{% url "main:shelterdashboard" %}">Dashboard</a>
+                {% endif %}
             </div>
-            <div class="nav-items">
-                <a href="{% url "pets:list_pet" %}">Browse</a>
-            </div>
+                {% if request.user.account_type == 'user' %}
+                <div class="nav-items">
+                    <a href="{% url "pets:list_pet" %}">Browse</a>
+                </div>
+                {% endif %}
             <div class="nav-items">
                 <a href="{% url "main:notifications" %}">Notification</a>
             </div>

@@ -1,0 +1,11 @@
+<h2>Conversation with {{ receiver.fname }} {{ receiver.lname }}</h2>
+<div class="conversation">
+    {% for message in messages %}
+        <p><strong>{{ message.sender.fname }}:</strong> {{ message.content }} <small>{{ message.timestamp }}</small></p>
+    {% endfor %}
+</div>
+<form method="POST" action="{% url 'send_message' receiver.id %}">
+    {% csrf_token %}
+    <textarea name="content" placeholder="Write your message here..." required></textarea>
+    <button type="submit">Send</button>
+</form>

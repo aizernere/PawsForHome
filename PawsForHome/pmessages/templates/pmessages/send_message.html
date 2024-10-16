@@ -1,0 +1,6 @@
+<h2>Send a message to {{ receiver.fname }} {{ receiver.lname }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    <textarea name="content" placeholder="Write your message here..." required></textarea>
+    <button type="submit">Send</button>
+</form>

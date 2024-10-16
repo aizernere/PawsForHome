@@ -1,14 +1,119 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add a New Pet</title>
-</head>
-<body>
-    <h1>Add a New Pet</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Pet</button>
-    </form>
+
+{% extends "index.html" %}
+
+
+{% block contents %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+<body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
+
+  <div class="flex flex-grow">
+    
+    <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col fixed h-screen">
+      <div class="flex items-center justify-center">
+        <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
+      </div>
+      <h1 class="text-2xl font-bold text-center mt-4">Puppy House</h1>
+
+      <!-- Sidebar Navigation -->
+      <nav class="mt-10">
+        <ul class="space-y-4">
+          <li><a href="{% url 'main:shelterdashboard' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Overview</a></li>
+          <li><span class="block text-lg text-black font-bold">Pet Listings</span></li>
+          <li><a href="{% url 'main:pending_requests' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pending Requests</a></li>
+          <li><a href="" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pets Adopted</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <!-- <main class="flex-grow bg-white ml-72 p-10 rounded-tl-3xl shadow-lg max-w-5xl mx-auto"> -->
+      <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
+        <section class="bg-[#FFDDD2] p-12 rounded-lg shadow-md mb-12 border-2 border-gray-300 max-w-3xl mx-auto">
+            <div class="border-b border-gray-300 pb-4 mb-6">
+                <h3 class="text-3xl font-bold text-gray-700">Pet Resume: Add New Pet</h3>
+            </div>
+            
+            <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                
+                <!-- Pet Name -->
+                <div class="flex justify-between items-center">
+                    <label class="block text-gray-700 font-semibold text-lg">Name:</label>
+                    <div class="w-2/3">
+                        {{ form.name }}
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <label class="block text-gray-700 font-semibold text-lg">Age:</label>
+                    <div class="w-2/3">
+                        {{ form.age }}
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <label class="block text-gray-700 font-semibold text-lg">Type:</label>
+                    <div class="w-2/3">
+                        {{ form.type }}
+                    </div>
+                </div>
+                
+                
+                
+                <!-- Pet Adoption Fee -->
+                <div class="flex justify-between items-center">
+                    <label class="block text-gray-700 font-semibold text-lg">Adoption Fee:</label>
+                    <div class="w-2/3">
+                        {{ form.adoption_fee }}
+                    </div>
+                </div>
+        
+                <!-- Pet Description -->
+                <div class="flex justify-between items-center">
+                    <label class="block text-gray-700 font-semibold text-lg">Description:</label>
+                    <div class="w-2/3">
+                        {{ form.description }}
+                    </div>
+                </div>
+        
+                <!-- Pet Image -->
+                <div class="flex justify-between items-center">
+                    <label class="block text-gray-700 font-semibold text-lg">Upload Image:</label>
+                    <div class="w-2/3">
+                        {{ form.image }}
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="flex justify-end mt-8">
+                    <button type="submit" class="bg-gray-700 text-white px-6 py-2 rounded-full shadow-md hover:bg-gray-800 focus:outline-none">
+                        Submit Pet Resume
+                    </button>
+                </div>
+            </form>
+        </section>
+        
+        
+        
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white w-full py-6">
+    <div class="max-w-6xl mx-auto flex justify-between px-4">
+      <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
+      <div class="flex space-x-4">
+        <p class="text-gray-600">info@pawsathome.com</p>
+        <div class="space-x-2">
+          <a href="#" class="text-gray-600">Facebook</a>
+          <a href="#" class="text-gray-600">Instagram</a>
+          <a href="#" class="text-gray-600">Twitter</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
-</html>
+{% endblock contents %}

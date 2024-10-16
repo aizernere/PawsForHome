@@ -1,0 +1,9 @@
+<h2>Select an Account to Send a Message</h2>
+<ul>
+    {% for account in accounts %}
+        <li>
+            {{ account.fname }} {{ account.lname }} 
+            <a href="{% url 'send_message' account.id %}">Send Message</a>
+        </li>
+    {% endfor %}
+</ul>
