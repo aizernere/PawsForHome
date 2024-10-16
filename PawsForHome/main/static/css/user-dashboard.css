@@ -51,9 +51,10 @@
     border-radius: 20px;
     padding: 20px;
     height: 70vh;
-    display: flex; 
+    width: 1050px;
+    /* display: flex; 
     flex-direction: row; 
     gap: 10px; 
     align-items: center; 
-    justify-content: space-between;
+    justify-content: space-between; */
 }
