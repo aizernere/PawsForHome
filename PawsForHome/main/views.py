@@ -16,6 +16,15 @@ def landing_page(request):
     return render(request, 'landing_page.html', {})
 def index(request):
     return render(request, 'index.html', {})
+def ud_requests(request):
+    return render(request, 'user_dashboard/requests.html')
+
+def ud_favorites(request):
+    return render(request, 'user_dashboard/favorites.html')
+
+def ud_adoptionhistory(request):
+    return render(request, 'user_dashboard/adoption_history.html')
+    
 # def adoptionform(request):
 #     return render(request, 'adoptionform.html', {})
 def shelterdashboard(request):

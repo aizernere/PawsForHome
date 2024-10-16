@@ -36,6 +36,11 @@
     /* border: 1px solid black; */
 }
 
+.item a{
+    text-decoration: none;
+    color: black;
+}
+
 .main .side-bar-contents{
     width: 75%;
     /* border: 1px solid black; */
