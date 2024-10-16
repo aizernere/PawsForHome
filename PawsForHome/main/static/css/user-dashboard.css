@@ -55,8 +55,13 @@
     display: flex; 
     flex-direction: row; 
     gap: 10px; 
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex-wrap: wrap;
+    gap:0;
+}
+
+.side-bar-contents .content > div {
+    margin: 5px;
 }
 
 .content .pet{
