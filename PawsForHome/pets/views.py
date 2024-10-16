@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Pet
+from .models import Pet, AdoptionRequest
 from .forms import PetForm
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -36,5 +36,8 @@ def dashpets(request):
     pets = Pet.objects.filter(owner=request.user) 
     pet_count = pets.count()
     #to do pending request
-
-    return render(request, 'shelterdashboard.html', {'pets': pets, 'pet_count': pet_count})
+    shelter = request.user 
+    pets_request = Pet.objects.filter(owner=shelter)
+    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets_request)
+    pending_count = adoption_requests.count()
+    return render(request, 'shelterdashboard.html', {'pets': pets, 'pet_count': pet_count, 'pending_count': pending_count})
