@@ -16,6 +16,10 @@ def landing_page(request):
     return render(request, 'landing_page.html', {})
 def index(request):
     return render(request, 'index.html', {})
+def features(request):
+    return render(request, 'features.html', {})
+def contactus(request):
+    return render(request, 'contactus.html', {})
 # def adoptionform(request):
 #     return render(request, 'adoptionform.html', {})
 def shelterdashboard(request):
