@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+</head>
+<!-- Header -->
+<header>
+    <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
+        <div class="flex items-center">
+            <img src="{% static 'images/paws4homelogo.png' %}" alt="PawsForHome" class="h-20">
+        </div>
+        
+        <div class="flex items-center space-x-6">
+            <a href="{% url 'main:landing_page' %}"  class=" text-xl text-gray-600 font-semibold hover:text-orange-500 font-semibold">Home</a>
+            <a href="{% url 'main:features' %}" class="text-xl text-gray-600 font-medium hover:text-orange-500 font-semibold">Features</a>
+            <a href="{% url 'main:contactus' %}" class="text-xl text-orange-500 font-medium hover:text-orange-500 font-medium">Contact Us</a>
+        </div>
+            
+        <div class="flex items-center space-x-4">
+            <a href="{% url 'main:login_account' %}" class="text-xl text-gray-800 hover:text-orange-500 font-semibold">Login</a>
+            <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full hover:bg-red-400">Sign Up</a>
+        </div>
+    </nav>
+</header>
+
+<body class="bg-[#FFDDD2]">
+  <div class="container mx-auto py-16 px-6">
+    <h1 class="text-4xl font-bold text-center text-red-600 mb-12">Contact Us</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+        <img src="{% static 'images/admin2_icon.png' %}" alt="Person 1" class="w-24 h-24 rounded-full mx-auto mb-4">
+        <h2 class="text-xl font-semibold mb-2">Niña Margarette B. Catubig</h2>
+        <p class="text-gray-600 mb-2">Admin</p>
+        <p class="text-gray-600">niñacat@paws4home.com</p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+        <img src="{% static 'images/admin1_icon.png' %}" alt="Person 2" class="w-24 h-24 rounded-full mx-auto mb-4">
+        <h2 class="text-xl font-semibold mb-2">Kaye Aizerner Evangelista</h2>
+        <p class="text-gray-600 mb-2">Admin</p>
+        <p class="text-gray-600">kayeeva@paws4home.com</p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+        <img src="{% static 'images/admin3_icon.png' %}" alt="Person 3" class="w-24 h-24 rounded-full mx-auto mb-4">
+        <h2 class="text-xl font-semibold mb-2">Kyle Vasquez</h2>
+        <p class="text-gray-600 mb-2">Admin</p>
+        <p class="text-gray-600">kylevas@paws4home.com</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+<!-- Footer -->
+<footer class="bg-white py-8">
+  <div class="container mx-auto text-center">
+    <p class="text-gray-600 mb-4">info@paws4home.com</p>
+    <div class="social-icons flex justify-center space-x-4 mb-4">
+      <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
+      <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
+      <a href="#"><img src="{% static 'images/githubpic.png' %}" alt="GitHub" class="w-6"></a>
+    </div>
+    <p><a href="#" class="text-gray-600 hover:text-gray-800">Terms & Conditions</a> | <a href="#" class="text-gray-600 hover:text-gray-800">Privacy Policy</a></p>
+  </div>
+</footer>
+</html>

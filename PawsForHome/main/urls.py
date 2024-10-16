@@ -4,6 +4,8 @@ from pets.views import my_pets, dashpets
 
 urlpatterns = [
     path('',views.landing_page,name='landing_page'),
+    path('features/',views.features,name='features'),
+    path('contactus/',views.contactus,name='contactus'),
     path('index/', views.index, name='index'),
     path('notifications/', views.notifications, name='notifications'),
     path('message/', views.message, name='message'),

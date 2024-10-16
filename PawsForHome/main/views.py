@@ -16,26 +16,32 @@ def landing_page(request):
     return render(request, 'landing_page.html', {})
 def index(request):
     return render(request, 'index.html', {})
+def features(request):
+    return render(request, 'features.html', {})
+def contactus(request):
+    return render(request, 'contactus.html', {})
 
 def ud_requests(request):
     user_request = AdoptionRequest.objects.filter(account_id=request.user.id)
     # print(user_request)
     pet_ids = user_request.values_list('pet_id', flat=True)
     request_pets = Pet.objects.filter(id__in=pet_ids)
-    print(request_pets)
-    return render(request, 'user_dashboard/requests.html', {'request_pets':request_pets})
+    # print(request_pets)
+    curr_fn = request.user.first_name
+    return render(request, 'user_dashboard/requests.html', {'request_pets':request_pets, 'curr_fn':curr_fn})
 
 def ud_favorites(request):
-    return render(request, 'user_dashboard/favorites.html')
+    curr_fn = request.user.first_name
+    return render(request, 'user_dashboard/favorites.html', {'curr_fn': curr_fn})
 
 def ud_adoptionhistory(request):
-    return render(request, 'user_dashboard/adoption_history.html')
+    curr_fn = request.user.first_name
+    return render(request, 'user_dashboard/adoption_history.html', {'curr_fn':curr_fn})
     
 # def adoptionform(request):
 #     return render(request, 'adoptionform.html', {})
 def shelterdashboard(request):
     return render(request, 'shelterdashboard.html', {})
-
 def user_dashboard(request):
     curr_fn = request.user.first_name
     return render(request, 'userdashboard.html', {'curr_fn':curr_fn})

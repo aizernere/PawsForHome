@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+    {% load static %}
+  <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+ 
+</head>
+<!-- Header -->
+<header>
+    <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
+        <div class="flex items-center">
+            <img src="{% static 'images/paws4homelogo.png' %}" alt="PawsForHome" class="h-20">
+        </div>
+        
+        <div class="flex items-center space-x-6">
+            <a href="{% url 'main:landing_page' %}" class=" text-xl text-gray-600 font-semibold hover:text-orange-500 font-semibold">Home</a>
+            <a href="{% url 'main:features' %}" class="text-xl text-orange-500 font-medium hover:text-orange-500 font-medium">Features</a>
+            <a href="{% url 'main:contactus' %}" class="text-xl text-gray-600 font-medium hover:text-orange-500 font-semibold">Contact Us</a>
+        </div>
+            
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'main:login_account' %}" class="text-xl text-gray-800 hover:text-orange-500 font-semibold">Login</a>
+                <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full hover:bg-red-400">Sign Up</a>
+            </div>
+
+    </nav>
+</header>
+<body class="bg-[#FFDDD2]">
+  <div class="container mx-auto py-16 px-6">
+    <h1 class="text-4xl font-bold text-center text-red-600 mb-12">Our Features</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- USER REGISTRATION AND AUTHENTICATION -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <img src="{% static 'images/userauth_icon.png' %}" alt="Registration Icon" class="w-20 h-20 mb-4">
+        <h2 class="text-xl font-semibold mb-2">User Registration and Authentication</h2>
+        <p class="text-gray-600">Allow users to register with personal details and log in using their credentials.</p>
+      </div>
+
+      <!-- PET LISTING AND SEARCH -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <img src="{% static 'images/petsearch_icon.png' %}" alt="Search Icon" class="w-20 h-20 mb-4">
+        <h2 class="text-xl font-semibold mb-2">Pet Listing and Search</h2>
+        <p class="text-gray-600">Browse and search for pets using filters like type, age, and location.</p>
+      </div>
+
+      <!-- PET PROFILE MANAGEMENT -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <img src="{% static 'images/petmanagement_icon.png' %}" alt="Profile Management Icon" class="w-20 h-20 mb-4">
+        <h2 class="text-xl font-semibold mb-2">Pet Profile Management</h2>
+        <p class="text-gray-600">Shelters and owners can create and update detailed profiles for pets.</p>
+      </div>
+
+      <!-- ADOPTION APPLICATION -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <img src="{% static 'images/adoption_icon.png' %}" alt="Adoption Icon" class="w-20 h-20 mb-4">
+        <h2 class="text-xl font-semibold mb-2">Adoption Application</h2>
+        <p class="text-gray-600">Submit adoption applications with relevant questions and details.</p>
+      </div>
+
+      <!-- SHELTER/OWNER DASHBOARD -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <img src="{% static 'images/dashboard_icon.png' %}" alt="Dashboard Icon" class="w-20 h-20 mb-4">
+        <h2 class="text-xl font-semibold mb-2">Shelter/Owner Dashboard</h2>
+        <p class="text-gray-600">Manage listed pets, applications, and communicate with adopters.</p>
+      </div>
+
+      <!-- COMMUNICATION AND MESSAGING -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <img src="{% static 'images/message_icon.png' %}" alt="Messaging Icon" class="w-20 h-20 mb-4">
+        <h2 class="text-xl font-semibold mb-2">Communication and Messaging</h2>
+        <p class="text-gray-600">Users and shelters can communicate within the system for updates and queries.</p>
+      </div>
+
+      <!-- ADOPTION STATUS TRACKING -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <img src="{% static 'images/status_icon.png' %}" alt="Status Tracking Icon" class="w-20 h-20 mb-4">
+        <h2 class="text-xl font-semibold mb-2">Adoption Status Tracking</h2>
+        <p class="text-gray-600">Shelters can update pet adoption statuses and notify interested users.</p>
+      </div>
+
+      <!-- USER PROFILE MANAGEMENT -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <img src="{% static 'images/usermanagement_icon.png' %}" alt="User Profile Icon" class="w-20 h-20 mb-4">
+        <h2 class="text-xl font-semibold mb-2">User Profile Management</h2>
+        <p class="text-gray-600">Users can manage profiles, update personal information, and track their applications.</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+<!-- Footer -->
+<footer class="bg-white py-8">
+    <div class="container mx-auto text-center">
+        <p class="text-gray-600 mb-4">info@paws4home.com</p>
+        <div class="social-icons flex justify-center space-x-4 mb-4">
+            <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
+            <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
+            <a href="#"><img src="{% static 'images/githubpic.png' %}" alt="GitHub" class="w-6"></a>
+        </div>
+        <p><a href="#" class="text-gray-600 hover:text-gray-800">Terms & Conditions</a> | <a href="#" class="text-gray-600 hover:text-gray-800">Privacy Policy</a></p>
+    </div>
+</footer>
+</html>
