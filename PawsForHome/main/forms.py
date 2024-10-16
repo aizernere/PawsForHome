@@ -79,14 +79,38 @@ class Login_Account(forms.Form):
     
 class Profile_Fillling(forms.Form):
     first_name = forms.CharField(
-        label='First Name'
+        label='First Name',
+        widget=forms.TextInput(
+            attrs={
+            'class': 'input-field',
+            'placeholder': 'Enter your first name',
+            }
+        )
     )
     last_name = forms.CharField(
-        label='Last Name'
+        label='Last Name',
+        widget=forms.TextInput(
+            attrs={
+            'class': 'input-field',
+            'placeholder': 'Enter your last name',
+            }
+        )
     )
     birthdate = forms.DateField(
-        label='Birthdate'
+        label='Birthdate',
+        widget=forms.DateInput(
+            attrs={
+            'class': 'input-field',
+            'placeholder': 'Enter your birthdate',
+            }
+        )
     )
     phone_number = forms.IntegerField(
         label='Phone Number',
+        widget=forms.NumberInput(
+            attrs={
+            'class': 'input-field',
+            'placeholder': 'Enter your phone number',
+            }
+        )
     )

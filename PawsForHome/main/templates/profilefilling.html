@@ -1,21 +1,74 @@
 <head>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/profile-filling.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 </head>
 <body>
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ form }}
+    <div class="container">
+        {% comment %} profile fillling form {% endcomment %}
+        <div class="left">
+            <div class = "inner-container">
+                <center>
+                    <img src="{% static 'images/PawImageForSignUp.png' %}" alt="Custom Paw"> 
+                    <h2>Profile Filling</h2>
+                </center>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    
+                    <div class="label-input">
+                        <label for="first_name" class="lbl">First Name</label>
+                        <br>
+                        <center>
+                            {{ form.first_name }}
+                        </center>
+                    </div>
+                    <div class="label-input">
+                        <label for="last_name" class="lbl">Last Name</label>
+                        <br>
+                        <center>
+                            {{ form.last_name }}
+                        </center>
+                    </div>
+                    <div class="label-input">
+                        <label for="birthdate" class="lbl">Birthdate</label>
+                        <br>
+                        <center>
+                            {{ form.birthdate }}
+                        </center>
+                    </div>
+                    <div class="label-input">
+                        <label for="phone_number" class="lbl">Phone Number</label>
+                        <br>
+                        <center>
+                            {{ form.phone_number }}
+                        </center>
+                    </div>
+                    
+                    {% if messages %}
+                        <br>
+                        {% for m in messages %}
+                
+                            {{m}}
+                
+                        {% endfor %}
+                    {% endif %}
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="btns">
+                        <button type="submit" class="done-btn">Done</button>
+                        <a class="skip-btn" href="{% url "main:login_account" %}">Skip for now</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% comment %} eme eme lang {% endcomment %}
+        <div class="right">
 
-        {% if messages %}
-            <br>
-            {% for m in messages %}
-    
-                {{m}}
-    
-            {% endfor %}
-        {% endif %}
-        <button type="submit">Done</button>
-        <a href="{% url "main:login_account" %}">Skip for now</a>
-    </form>
+        </div>
+    </div>
+   
 </body>

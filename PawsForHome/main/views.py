@@ -8,19 +8,17 @@ from django.contrib.auth import login, authenticate, logout
 # Create your views here.
 
 def landing_page(request):
-    if request.user.is_authenticated:
-        return index(request)
-    return render(request, 'landing_page.html', {})
+     return render(request, 'landing_page.html', {})
 def index(request):
     return render(request, 'index.html', {})
 def adoptionform(request):
     return render(request, 'adoptionform.html', {})
-# def shelterdashboard(request):
-#     return render(request, 'shelterdashboard.html', {})
+def shelterdashboard(request):
+    return render(request, 'shelterdashboard.html', {})
 def user_dashboard(request):
     return render(request, 'userdashboard.html', {})
-# def pet_listings(request):
-#     return render(request, 'shelterdashboard/pet_listings.html',{})
+def pet_listings(request):
+    return render(request, 'shelterdashboard/pet_listings.html',{})
 def adoptform(request):
     return render(request, 'shelterdashboard/adoptform.html',{})
 def pending_requests(request):

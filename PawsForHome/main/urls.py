@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from pets.views import my_pets, dashpets
 
 urlpatterns = [
     path('',views.landing_page,name='landing_page'),
@@ -13,8 +12,8 @@ urlpatterns = [
     path('logout/',views.logout_account, name='logout_account'),  
     path('home/',views.home, name='home'),    
     path('adoptionform/',views.adoptionform, name='adoptionform'),
-    path('shelterdashboard/',dashpets, name='shelterdashboard'),
-    path('pet_listings/', my_pets, name='pet_listings'),
+    path('shelterdashboard/',views.shelterdashboard, name='shelterdashboard'),
+    path('pet_listings/', views.pet_listings, name='pet_listings'),
     path('pending_requests/', views.pending_requests, name='pending_requests'),
     path('adoptform/', views.adoptform, name='adoptform'),
     path('profile_filling/', views.profile_filling_page, name='profile_filling'),
