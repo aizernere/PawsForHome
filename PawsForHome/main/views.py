@@ -44,8 +44,8 @@ def pet_listings(request):
     return render(request, 'shelterdashboard/pet_listings.html',{})
 def adoptform(request):
     return render(request, 'shelterdashboard/adoptform.html',{})
-def pending_requests(request):
-    return render(request, 'shelterdashboard/pending_requests.html',{})
+# def pending_requests(request):
+#     return render(request, 'shelterdashboard/pending_requests.html',{})
 def notifications(request):
     return render(request, 'navbar/notifications.html', {})
 
@@ -162,19 +162,17 @@ def logout_account(request):
 def adoption_request_view(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
     
-    # Fetch the user's profile data
-    user_profile = request.user  # Assuming `Account` model is linked to the logged-in user
+    user_profile = request.user 
 
     if request.method == 'POST':
         form = AdoptionForm(request.POST)
         if form.is_valid():
             adoption_request = form.save(commit=False)
             adoption_request.pet = pet
-            adoption_request.account = user_profile  # Link the adoption request to the user's profile
+            adoption_request.account = user_profile
             adoption_request.save()
-            return redirect('pets:list_pet')  # Redirect to a success page
+            return redirect('pets:list_pet')
     else:
-        # Prepopulate the form with the user's profile data
         form = AdoptionForm(initial={
             'first_name': user_profile.first_name,
             'last_name': user_profile.last_name,
@@ -187,3 +185,20 @@ def adoption_request_view(request, pet_id):
         'form': form,
         'pet': pet,
     })
+
+@login_required
+def pending_requests(request):
+    shelter = request.user 
+    pets = Pet.objects.filter(owner=shelter)
+    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets)
+    
+    context = {
+        'adoption_requests': adoption_requests,
+        'pets': pets,
+    }
+    return render(request, 'shelterdashboard/pending_requests.html', context)
+
+@login_required
+def adoption_request_detail(request, request_id):
+    adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
+    return render(request, 'shelterdashboard/adoptform.html', {'request': adoption_request})

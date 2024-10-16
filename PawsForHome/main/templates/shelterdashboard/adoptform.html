@@ -1,131 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adoption Form - Shelter View</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  {% load static %}
-</head>
-<body class="bg-[#FFDDD2] min-h-screen flex flex-col justify-between">
+{% extends "index.html" %}
 
-  <!-- Header -->
-  <header class="w-full bg-[#FFDDD2] py-6">
-    <nav class="flex justify-between items-center max-w-7xl mx-auto px-6">
-      <!-- Left Section (Logo) -->
-      <div class="flex items-center space-x-4">
-        <img src="{% static 'images/paws4homelogo.png' %}" alt="Logo" class="h-14">
-      </div>
+{% block contents %}
+<script src="https://cdn.tailwindcss.com"></script>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
 
-      <!-- Center Section (Browse, Notifications, Messages, Profile) -->
-      <ul class="flex space-x-10 text-lg">
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Browse</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Notifications</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Messages</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Profile</a></li>
-      </ul>
-
-      <!-- Right Section (Logout) -->
-      <div class="flex items-center space-x-4">
-        <a href="{% url 'main:logout_account' %}" class="text-gray-600 hover:text-orange-500 font-semibold text-lg">Logout</a>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Main Content (Form Section) -->
-  <main class="flex-grow flex items-center justify-center">
+<!-- Main adoption request resume -->
+<main class="flex-grow flex items-center justify-center">
     <section class="w-full max-w-4xl bg-white p-12 rounded-xl shadow-lg">
-      <div class="flex items-center space-x-6 mb-8">
-        <img src="{% static 'images/testdogimage.png' %}" alt="Dog Image" class="h-24 w-24 rounded-full object-cover">
-        <div>
-          <h2 class="text-3xl font-semibold">Gary</h2>
-          <p class="text-lg text-gray-500">Yorkshire Terrier</p>
-        </div>
-      </div>
-
-      <h3 class="text-3xl font-bold mb-6">Contact Information</h3>
-
-      <form action="#" method="POST" class="space-y-8">
-        <div class="grid grid-cols-2 gap-8">
-          <div>
-            <label for="name" class="block text-lg font-bold">Name:</label>
-            <input type="text" id="name" name="name" value="Alice Guo" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" placeholder="Enter Name" readonly>
-          </div>
-          <div class="relative">
-            <label for="address" class="block text-lg font-bold">Address:</label>
-            <input type="text" id="address" name="address" value="Upper Mahon" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" readonly>
-          </div>
+        <div class="flex items-center space-x-6 mb-8">
+            <img src="{{ request.pet.image.url }}" alt="{{ request.pet.name }}" class="h-24 w-24 rounded-full object-cover">
+            <div>
+                <h2 class="text-3xl font-semibold">Adopt {{ request.pet.name }}</h2>
+                <p class="text-lg text-gray-500">{{ request.pet.breed }}</p>
+            </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-8">
-          <div>
-            <label for="city" class="block text-lg font-bold">City/State:</label>
-            <input type="text" id="city" name="city" value="Talloy City" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" readonly>
-          </div>
-          <div>
-            <label for="zip" class="block text-lg font-bold">Zip Code:</label>
-            <input type="text" id="zip" name="zip" value="6045" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" readonly>
-          </div>
-        </div>
-
-        <div>
-          <label for="phone" class="block text-lg font-bold">Phone Number:</label>
-          <input type="text" id="phone" name="phone" value="0923466789" class="w-full px-6 py-4 border rounded-md border-gray-300 focus:ring focus:ring-[#F2968F]" readonly>
-        </div>
-
-        <h3 class="text-3xl font-bold mt-10">Your Home</h3>
-        <div class="space-y-4 mt-6">
-          <label class="block text-lg font-bold">What type of housing do you live in?</label>
-          <div class="space-y-4">
-            <label><input type="radio" name="housing" value="apartment" checked disabled class="mr-2"> Apartment</label><br>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-lg font-bold">Describe your household:</label>
-          <div class="flex flex-wrap gap-6 mt-4">
-            <label><input type="checkbox" checked disabled class="mr-2"> Active</label>
-            <label><input type="checkbox" disabled class="mr-2"> Calm</label>
-          </div>
+        <h3 class="text-3xl font-bold mb-6">Contact Information</h3>
+        <div class="space-y-4">
+            <p><strong>First Name:</strong> {{ request.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ request.last_name }}</p>
+            <p><strong>Email:</strong> {{ request.email }}</p>
+            <p><strong>Phone Number:</strong> {{ request.phone_number }}</p>
+            <p><strong>Address:</strong> {{ request.address }}</p>
+            <p><strong>Housing Type:</strong> {{ request.housing_type }}</p>
+            <p><strong>Household Description:</strong> {{ request.household_description }}</p>
         </div>
 
         <h3 class="text-3xl font-bold mt-10">General Information</h3>
-        <div class="space-y-6 mt-6">
-          <label class="block text-lg font-bold">Why do you want to adopt this pet?</label>
-          <div class="space-y-4">
-            <label><input type="checkbox" checked disabled class="mr-2"> Companion for child</label><br>
-            <label><input type="checkbox" disabled class="mr-2"> Security</label><br>
-          </div>
+        <div class="space-y-4 mt-6">
+            <p><strong>Why do you want to adopt this pet?</strong> {{ request.general_info }}</p>
+            <p><strong>Other Info:</strong> {{ request.other_general_info }}</p>
         </div>
 
-        <!-- Agreement/Terms Section -->
-        <div class="mt-10 space-y-6 text-sm text-[#C1A3A3]">
-          <p>By clicking the submit button, I agree to go through the adoption process, undergo a home check, and interview.</p>
+        <div class="mt-10 text-sm text-[#C1A3A3]">
+            <p>By submitting this request, the user agrees to undergo adoption processes, home checks, and interviews.</p>
+            <p>References may be checked, including veterinary and personal references.</p>
+            <p>If they can no longer care for the pet, they will surrender it to the Rescue Center.</p>
+            <p>All information provided is true and accurate.</p>
         </div>
-
-        <!-- Shelter's Action Buttons -->
-        <div class="flex justify-between mt-8">
-          <button type="submit" class="w-1/4 py-4 bg-red-500 text-white font-bold text-lg rounded-md hover:bg-red-400">Decline</button>
-          <button type="submit" class="w-1/4 py-4 bg-green-500 text-white font-bold text-lg rounded-md hover:bg-green-400">Accept</button>
-        </div>
-      </form>
     </section>
-  </main>
+</main>
 
-  <!-- Footer -->
-  <footer class="bg-white w-full py-6">
+<!-- Footer -->
+<footer class="bg-white w-full py-6">
     <div class="max-w-6xl mx-auto flex justify-between px-4">
-      <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
-      <div class="flex space-x-4">
-        <p class="text-gray-600">info@pawsathome.com</p>
-        <div class="space-x-2">
-          <a href="#" class="text-gray-600">Facebook</a>
-          <a href="#" class="text-gray-600">Instagram</a>
-          <a href="#" class="text-gray-600">Twitter</a>
+        <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
+        <div class="flex space-x-4">
+            <p class="text-gray-600">info@pawsathome.com</p>
+            <div class="space-x-2">
+                <a href="#" class="text-gray-600">Facebook</a>
+                <a href="#" class="text-gray-600">Instagram</a>
+                <a href="#" class="text-gray-600">Twitter</a>
+            </div>
         </div>
-      </div>
     </div>
-  </footer>
+</footer>
 
-</body>
-</html>
+{% endblock contents %}

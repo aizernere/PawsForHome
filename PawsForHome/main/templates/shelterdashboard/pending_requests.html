@@ -1,36 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pending Requests</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  {% load static %}
-</head>
+{% extends "index.html" %}
+
+
+{% block contents %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
 <body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
 
-  <!-- Header (same as dashboard) -->
-  <header class="w-full bg-[#FFDDD2] py-6">
-    <nav class="flex justify-between items-center max-w-7xl mx-auto px-6">
-      <!-- Left Section (Logo) -->
-      <div class="flex items-center space-x-4">
-        <img src="{% static 'images/paws4homelogo.png' %}" alt="Logo" class="h-14">
-      </div>
-
-      <!-- Center Section (Browse, Notifications, Messages, Profile) -->
-      <ul class="flex space-x-10 text-lg">
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Browse</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Notifications</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Messages</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Profile</a></li>
-      </ul>
-
-      <!-- Right Section (Logout) -->
-      <div class="flex items-center space-x-4">
-        <a href="{% url 'main:logout_account' %}" class="text-gray-600 hover:text-orange-500 font-semibold text-lg">Logout</a>
-      </div>
-    </nav>
-  </header>
 
   <!-- Sidebar (same as dashboard) -->
   <div class="flex flex-grow">
@@ -42,10 +19,10 @@
 
       <nav class="mt-10">
         <ul class="space-y-4">
-          <li><a href="{% url 'main:shelterdashboard' %}" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Overview</a></li>
-          <li><a href="{% url 'main:pet_listings' %}" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pet Listings</a></li>
-          <li><a href="{% url 'main:pending_requests' %}" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pending Requests</a></li>
-          <li><a href="" class="block text-lg text-black hover:text-[#F2968F] font-semibold">Pets Adopted</a></li>
+          <li><a href="{% url 'main:shelterdashboard' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Overview</a></li>
+          <li><a href="{% url 'main:pet_listings' %}" class="block text-lg text-gray-600  hover:text-[#F2968F] font-bold">Pet Listings</a></li>
+          <li><span class="block text-lg text-black font-bold">Pending Requests</span></li>
+          <li><a href="" class="block text-lg text-gray-600  hover:text-[#F2968F] font-bold">Pets Adopted</a></li>
         </ul>
       </nav>
     </aside>
@@ -55,36 +32,27 @@
         <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
       <h3 class="text-3xl font-bold mb-8">Pending Adoption Requests</h3>
 
-      <!-- Requests Grid -->
-      <div class="grid grid-cols-1 gap-6">
-        <!-- Single Request Card -->
-        <div class="bg-[#F2968F] p-6 rounded-lg shadow-lg flex items-center">
-          <img src="{% static 'images/testdogimage.png' %}" alt="Spike" class="h-24 w-24 object-cover rounded-lg">
-          <div class="ml-6">
-            <h4 class="text-xl font-bold">Request #1 - Spike</h4>
-            <p class="text-gray-600 mt-1">Adopter: John Doe</p>
-            <p class="text-gray-600">Requested on: 2024-10-05</p>
-          </div>
-          <div class="ml-auto">
-            <a href="{% url 'main:adoptform'%}" class="text-black bg-white px-4 py-2 rounded-lg hover:bg-orange-600"><b>Review</b></a>
-          </div>
-        </div>
 
-        <!-- Repeat for more requests -->
-        <div class="bg-[#F2968F] p-6 rounded-lg shadow-lg flex items-center">
-          <img src="{% static 'images/testdogimage.png' %}" alt="Lucy" class="h-24 w-24 object-cover rounded-lg">
-          <div class="ml-6">
-            <h4 class="text-xl font-bold">Request #2 - Lucy</h4>
-            <p class="text-gray-600 mt-1">Adopter: Jane Smith</p>
-            <p class="text-gray-600">Requested on: 2024-10-06</p>
-          </div>
-          <div class="ml-auto">
-            <a href="{% url 'main:adoptform'%}" class="text-black bg-white px-4 py-2 rounded-lg hover:bg-orange-600"><b>Review</b></a>
-          </div>
-        </div>
+    
+      <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden p-4">
+        <ul class="space-y-2">
+            {% for request in adoption_requests %}
+                <li class="flex items-center justify-between bg-[#FFB2A1] rounded-full px-4 py-2">
+                    <span class="text-gray-800 font-semibold">
+                        {{ request.first_name }} wants to adopt {{ request.pet.name }}.
+                    </span>
+                    <button 
+                        onclick="redirectToAdoptionForm({{ request.id }})" 
+                        class="bg-[#FFDDD2] text-gray-800 font-bold py-1 px-3 rounded-full hover:bg-[#F2968F] transition duration-200">
+                        View Details
+                    </button>
+                </li>
+            {% empty %}
+                <p class="text-gray-500 p-4">No adoption requests available.</p>
+            {% endfor %}
+        </ul>
+    </div>
 
-        <!-- More requests... -->
-      </div>
     </main>
   </div>
 
@@ -104,4 +72,9 @@
   </footer>
 
 </body>
-</html>
+<script>
+  function redirectToAdoptionForm(petId) {
+      window.location.href = `/adoptionrequest/${petId}`;
+  }
+</script>
+{% endblock contents %}
