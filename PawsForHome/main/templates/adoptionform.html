@@ -1,39 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adoption Form</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  {% load static %}
-</head>
-<body class="bg-[#FFDDD2] min-h-screen flex flex-col justify-between">
+{% extends "index.html" %}
 
-  <!-- Header -->
-  <header class="w-full bg-[#FFDDD2] py-6">
-    <nav class="flex justify-between items-center max-w-7xl mx-auto px-6">
-      <!-- Left Section (Logo) -->
-      <div class="flex items-center space-x-4">
-        <img src="{% static 'images/paws4homelogo.png' %}" alt="Logo" class="h-14">
-      </div>
 
-      <!-- Center Section (Browse, Notifications, Messages, Profile) -->
-      <ul class="flex space-x-10 text-lg">
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Browse</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Notifications</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Messages</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-orange-500 font-semibold">Profile</a></li>
-      </ul>
+{% block contents %}
 
-      <!-- Right Section (Logout) -->
-      <div class="flex items-center space-x-4">
-        <a href="{% url 'main:logout_account' %}" class="text-gray-600 hover:text-orange-500 font-semibold text-lg">Logout</a>
-      </div>
-    </nav>
-  </header>
+<script src="https://cdn.tailwindcss.com"></script>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
 
-  <!-- Main Content (Form Section) -->
-  <main class="flex-grow flex items-center justify-center">
+  
+  <!-- <main class="flex-grow flex items-center justify-center">
     <section class="w-full max-w-4xl bg-white p-12 rounded-xl shadow-lg">
       <div class="flex items-center space-x-6 mb-8">
         <img src="dog.jpg" alt="Dog Image" class="h-24 w-24 rounded-full object-cover">
@@ -110,7 +85,7 @@
           </div>
         </div>
 
-        <!-- Agreement/Terms Section -->
+        
         <div class="mt-10 space-y-6 text-sm text-[#C1A3A3]">
           <p>By clicking the submit button, I agree to go through adoption processes, undergo a home check, and interview.</p>
           <p>By clicking the submit button, I understand my references will be checked, including veterinary and personal.</p>
@@ -123,18 +98,88 @@
         </div>
       </form>
     </section>
-  </main>
-
+  </main> -->
+  
+  <section class="container mx-auto mt-8 px-8">
+      <h2 class="text-3xl font-bold text-gray-700 py-12">Adopt {{ pet.name }}</h2>
+  
+      {% if user.is_authenticated %}
+      <form method="post" class="bg-white p-6 rounded-lg shadow-md">
+          {% csrf_token %}
+          
+          <!-- First Name -->
+          <div class="mt-4">
+              <label for="first_name" class="block text-gray-700">First Name</label>
+              {{ form.first_name }}
+          </div>
+  
+          <!-- Last Name -->
+          <div class="mt-4">
+              <label for="last_name" class="block text-gray-700">Last Name</label>
+              {{ form.last_name }}
+          </div>
+  
+          <!-- Email -->
+          <div class="mt-4">
+              <label for="email" class="block text-gray-700">Email</label>
+              {{ form.email }}
+          </div>
+  
+          <!-- Phone Number -->
+          <div class="mt-4">
+              <label for="phone_number" class="block text-gray-700">Phone Number</label>
+              {{ form.phone_number }}
+          </div>
+  
+          <!-- Address -->
+          <div class="mt-4">
+              <label for="address" class="block text-gray-700">Address</label>
+              {{ form.address }}
+          </div>
+  
+          <!-- Housing Type -->
+          <div class="mt-4">
+              <label for="housing_type" class="block text-gray-700">What type of housing do you live in?</label>
+              {{ form.housing_type }}
+              {{ form.other_housing_description }}
+          </div>
+  
+          <!-- Household Description -->
+          <div class="mt-4">
+              <label for="household_description" class="block text-gray-700">Describe your household:</label>
+              {{ form.household_description }}
+          </div>
+  
+          <!-- General Info -->
+          <div class="mt-4">
+              <label for="general_info" class="block text-gray-700">Why do you want to adopt this pet?</label>
+              {{ form.general_info }}
+              {{ form.other_general_info }}
+          </div>
+  
+          <!-- Submit Button -->
+          <div class="mt-4">
+              <button type="submit" class="bg-[#F2968F] text-white px-4 py-2 rounded">Submit Adoption Request</button>
+          </div>
+      </form>
+      {% else %}
+      <p>You need to <a href="{% url 'login' %}" class="text-blue-500">log in</a> to submit an adoption request.</p>
+      {% endif %}
+  </section>
+  
   <!-- Footer -->
   <footer class="bg-white w-full py-6">
-    <div class="max-w-6xl mx-auto flex justify-between px-4">
-      <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
-      <div class="flex space-x-4">
-        <p class="text-gray-600">info@pawsathome.com</p>
-        <div class="space-x-2">
-          <a href="#" class="text-gray-600">Facebook</a>
-          <a href="#" class="text-gray-600">Instagram</a>
-          <a href="#" class="text-gray-600">Twitter</a>
-        </div>
+      <div class="max-w-6xl mx-auto flex justify-between px-4">
+          <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
+          <div class="flex space-x-4">
+              <p class="text-gray-600">info@pawsathome.com</p>
+              <div class="space-x-2">
+                  <a href="#" class="text-gray-600">Facebook</a>
+                  <a href="#" class="text-gray-600">Instagram</a>
+                  <a href="#" class="text-gray-600">Twitter</a>
+              </div>
+          </div>
       </div>
-   
+  </footer>
+  
+  {% endblock contents %}

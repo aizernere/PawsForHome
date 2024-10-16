@@ -1,18 +1,23 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from .models import Account
-from .forms import Create_Account, Login_Account, Profile_Fillling
+from .forms import Create_Account, Login_Account, Profile_Filling
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from .forms import AdoptionForm
+from pets.models import Pet, AdoptionRequest
 
 # Create your views here.
 
 def landing_page(request):
-     return render(request, 'landing_page.html', {})
+    if request.user.is_authenticated:
+        return index(request)
+    return render(request, 'landing_page.html', {})
 def index(request):
     return render(request, 'index.html', {})
-def adoptionform(request):
-    return render(request, 'adoptionform.html', {})
+# def adoptionform(request):
+#     return render(request, 'adoptionform.html', {})
 def shelterdashboard(request):
     return render(request, 'shelterdashboard.html', {})
 def user_dashboard(request):
@@ -35,37 +40,40 @@ def profile(request):
 def home(request):
     return render(request, 'home.html', {})
 
-def profile_filling_page(request):
-    # accounts = Account.objects.all()
-    curr_account = Account.objects.last()
+@login_required
+def profile_filling(request):
+    
+    curr_account = request.user
 
     if request.method == 'POST':
-        form = Profile_Fillling(request.POST)
+        form = Profile_Filling(request.POST)
 
         if form.is_valid():
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
             birthdate = form.cleaned_data.get('birthdate')
             phone_num = form.cleaned_data.get('phone_number')
+            address = form.cleaned_data.get('address')
 
             if phone_num and first_name and last_name and birthdate:
                 phone_len = len(str(phone_num))
-                if phone_len != 10:
+                if phone_len != 11:
                     messages.warning(request, 'Input 11 digit number')
                 else: 
                     curr_account.first_name = first_name
                     curr_account.last_name = last_name
                     curr_account.birth_date = birthdate
                     curr_account.phone_number = phone_num
+                    curr_account.address = address
 
                     curr_account.save()
 
-                    return redirect('main:login_account')
+                    return redirect('main:profile')
         else:
             messages.warning(request, 'All fields are required')
 
     else:
-        form = Profile_Fillling()
+        form = Profile_Filling()
     return render(request, 'profilefilling.html', {'form':form})
 
 def create_account(request):
@@ -87,8 +95,8 @@ def create_account(request):
                 create_account = Account(account_type=account_type, email=email, password=hash_password)
                 create_account.save()
                 # return render(request,'index.html', {})
-                # return redirect('main:login_account')
-                return redirect('main:profile_filling') # redirect to profile filling or profile_filling_page
+                return redirect('main:login_account')
+                #return redirect('main:profile_filling') 
                 
             elif confirm_password!=password: 
                 # print("password is not the same")
@@ -131,3 +139,33 @@ def login_account(request):
 def logout_account(request):
     logout(request)
     return redirect('main:landing_page')
+
+@login_required
+def adoption_request_view(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+    
+    # Fetch the user's profile data
+    user_profile = request.user  # Assuming `Account` model is linked to the logged-in user
+
+    if request.method == 'POST':
+        form = AdoptionForm(request.POST)
+        if form.is_valid():
+            adoption_request = form.save(commit=False)
+            adoption_request.pet = pet
+            adoption_request.account = user_profile  # Link the adoption request to the user's profile
+            adoption_request.save()
+            return redirect('pets:list_pet')  # Redirect to a success page
+    else:
+        # Prepopulate the form with the user's profile data
+        form = AdoptionForm(initial={
+            'first_name': user_profile.first_name,
+            'last_name': user_profile.last_name,
+            'email': user_profile.email,
+            'phone_number': user_profile.phone_number,
+            'address': user_profile.address,
+        })
+
+    return render(request, 'adoptionform.html', {
+        'form': form,
+        'pet': pet,
+    })

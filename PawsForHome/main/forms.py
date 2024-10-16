@@ -2,6 +2,7 @@ from django import forms
 from .models import Account
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from pets.models import AdoptionRequest
  
 class Create_Account(forms.Form):
     types = [
@@ -77,7 +78,7 @@ class Login_Account(forms.Form):
         'placeholder': 'Enter your password'
     }))
     
-class Profile_Fillling(forms.Form):
+class Profile_Filling(forms.Form):
     first_name = forms.CharField(
         label='First Name',
         widget=forms.TextInput(
@@ -100,17 +101,57 @@ class Profile_Fillling(forms.Form):
         label='Birthdate',
         widget=forms.DateInput(
             attrs={
-            'class': 'input-field',
-            'placeholder': 'Enter your birthdate',
+                'class': 'input-field',
+                'type': 'date',
+                'placeholder': 'Enter your birthdate',
             }
         )
     )
-    phone_number = forms.IntegerField(
+    phone_number = forms.CharField(
         label='Phone Number',
         widget=forms.NumberInput(
             attrs={
-            'class': 'input-field',
-            'placeholder': 'Enter your phone number',
+                'class': 'input-field',
+                'placeholder': 'Enter your phone number',
             }
-        )
+        ),
+        max_length=11 
     )
+    address = forms.CharField(
+        label='Address',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'input-field',
+                'placeholder': 'Enter your address',
+                'rows': 3, 
+            }
+        ),
+        required=True
+    )
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        if phone_number and len(str(phone_number)) != 11:
+            raise forms.ValidationError("Phone number must be exactly 11 digits.")
+        return phone_number
+
+class AdoptionForm(forms.ModelForm):
+    class Meta:
+        model = AdoptionRequest
+        fields = [
+            'first_name', 'last_name', 'email', 'phone_number', 'address',
+            'housing_type', 'household_description', 'general_info',
+            'other_housing_description', 'other_general_info',
+        ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'input-field', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'input-field', 'placeholder': 'Last Name'}),
+            'email': forms.EmailInput(attrs={'class': 'input-field', 'placeholder': 'Email'}),
+            'phone_number': forms.TextInput(attrs={'class': 'input-field', 'placeholder': 'Phone Number'}), 
+            'address': forms.Textarea(attrs={'class': 'input-field', 'placeholder': 'Address'}),
+            'housing_type': forms.RadioSelect(),  
+            'household_description': forms.RadioSelect(),  
+            'general_info': forms.RadioSelect(), 
+            'other_housing_description': forms.Textarea(attrs={'class': 'input-field', 'placeholder': 'If Other, describe here', 'rows': 3}),
+            'other_general_info': forms.Textarea(attrs={'class': 'input-field', 'placeholder': 'If Other, describe here', 'rows': 3}),
+        }

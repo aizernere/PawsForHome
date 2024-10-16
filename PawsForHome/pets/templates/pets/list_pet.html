@@ -6,13 +6,11 @@
 <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
 
 <section class="container mx-auto mt-8 px-8">
-    <h2 class="text-3xl font-bold text-gray-700 py-12">
-        Browse
-    </h2>
+    <h2 class="text-3xl font-bold text-gray-700 py-12">Browse</h2>
 
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
         {% for pet in pets %}
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.age }}', '{{ pet.type }}', '{{ pet.description }}', '{{ pet.image.url }}')">
             <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-48 object-cover">
             <div class="p-4">
                 <h3 class="font-bold text-lg">{{ pet.name }}</h3>
@@ -29,9 +27,7 @@
     <div class="flex justify-center mt-8">
         <div class="inline-flex items-center space-x-1">
             {% if pets.has_previous %}
-                <a href="?page={{ pets.previous_page_number }}" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-full">
-                    Previous
-                </a>
+                <a href="?page={{ pets.previous_page_number }}" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-full">Previous</a>
             {% endif %}
             
             {% for page_num in pets.paginator.page_range %}
@@ -43,12 +39,54 @@
             {% endfor %}
             
             {% if pets.has_next %}
-                <a href="?page={{ pets.next_page_number }}" class="bg-[#F2968F] text-white px-3 py-2 rounded-full">
-                    Next
-                </a>
+                <a href="?page={{ pets.next_page_number }}" class="bg-[#F2968F] text-white px-3 py-2 rounded-full">Next</a>
             {% endif %}
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
+            <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800" onclick="closePetModal()">✕</button>
+            <div class="flex">
+                <img id="modalPetImage" class="w-48 h-48 object-cover rounded-lg mr-4" alt="Pet Image">
+                <div class="flex-grow">
+                    <h3 id="modalPetName" class="font-bold text-2xl mb-2"></h3>
+                    <p id="modalPetAge" class="text-gray-500 mb-1"></p>
+                    <span id="modalPetType" class="text-gray-500 block mb-2"></span>
+                    <p id="modalPetDescription" class="text-gray-600 mb-4"></p>
+                    <input type="hidden" id="modalPetId" value=""> <!-- Hidden input for Pet ID -->
+                    <button class="bg-[#F2968F] text-white px-4 py-2 rounded mt-4" onclick="redirectToAdoptionForm()">Apply to Adopt</button>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
+<script>
+
+    function showPetModal(id, name, age, type, description, imageUrl) {
+        document.getElementById('modalPetId').value = id;  
+        document.getElementById('modalPetName').innerText = name;
+        document.getElementById('modalPetAge').innerText = age + " years old";
+        document.getElementById('modalPetType').innerText = type;
+        document.getElementById('modalPetDescription').innerText = description;
+        document.getElementById('modalPetImage').src = imageUrl;
+        document.getElementById('petModal').classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+    }
+
+
+    function closePetModal() {
+        document.getElementById('petModal').classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }
+
+
+    function redirectToAdoptionForm() {
+        const petId = document.getElementById('modalPetId').value;  
+        window.location.href = `/adoptionform/${petId}/`; 
+    }
+</script>
+         
 {% endblock contents %}

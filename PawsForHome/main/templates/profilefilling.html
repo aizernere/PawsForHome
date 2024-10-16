@@ -45,6 +45,14 @@
                             {{ form.phone_number }}
                         </center>
                     </div>
+
+                    <div class="label-input">
+                        <label for="address" class="lbl">Address</label>
+                        <br>
+                        <center>
+                            {{ form.address }}
+                        </center>
+                    </div>
                     
                     {% if messages %}
                         <br>
@@ -60,7 +68,7 @@
                     <br>
                     <div class="btns">
                         <button type="submit" class="done-btn">Done</button>
-                        <a class="skip-btn" href="{% url "main:login_account" %}">Skip for now</a>
+                        <a class="skip-btn" href="{% url "main:profile" %}">Skip for now</a>
                     </div>
                 </form>
             </div>
