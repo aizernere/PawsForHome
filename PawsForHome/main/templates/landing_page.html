@@ -33,7 +33,7 @@
     </header>
 
     <div class="max-w-7xl mx-auto px-4 py-16">
-        <div class="flex items-center justify-between ">
+        <div class="flex items-center justify-between">
             <div class="w-1/2">
                 <img src="{% static 'images/GirlWithPetImage.png' %}" alt="Person with pet" class="w-70">
             </div>
@@ -63,27 +63,31 @@
         </h2>
     </div>
             
-    
-    <!-- Features Section -->
-    <section class="py-12">
-        <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center space-y-8 lg:space-y-0 lg:space-x-8 px-6">
-            
-            <div class="feature-box text-center bg-white shadow-md rounded-lg p-8">
-                <img src="{% static 'images/convenientapplicationpic.png' %}" alt="Online Application" class="w-16 mx-auto mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Convenient Online Application</h3>
-            </div>
-            
-            <div class="feature-box text-center bg-white shadow-md rounded-lg p-8">
-                <img src="{% static 'images/searchbyagepic.png' %}" alt="Search Options" class="w-16 mx-auto mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Search by Type, Age, Disposition, and More!</h3>
-            </div>
-            
-            <div class="feature-box text-center bg-white shadow-md rounded-lg p-8">
-                <img src="{% static 'images/getinstantnotifpics.png' %}" alt="Notifications" class="w-16 mx-auto mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Get Instant Notifications</h3>
-            </div>
+ <!-- Features Section -->
+<section class="py-12 bg-[#FFDDD2]">
+    <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 lg:space-x-4 px-6">
+        
+        <!-- Feature 1: Convenient Online Application -->
+        <div class="feature-box text-center bg-white shadow-md rounded-lg p-8 w-80 h-60 flex flex-col items-center justify-center hover:shadow-lg transition-all">
+            <img src="{% static 'images/convenientapplicationpic.png' %}" alt="Online Application" class="w-20 mb-4">
+            <h3 class="text-lg font-semibold" style="color: #735858;"><b>Convenient Online Application</b></h3>
         </div>
-    </section>
+        
+        <!-- Feature 2: Search by Type, Age, Disposition, and More -->
+        <div class="feature-box text-center bg-white shadow-md rounded-lg p-8 w-80 h-60 flex flex-col items-center justify-center hover:shadow-lg transition-all">
+            <img src="{% static 'images/searchbyagepic.png' %}" alt="Search Options" class="w-20 mb-4">
+            <h3 class="text-lg font-semibold" style="color: #735858;"><b>Search by Type, Age, Disposition, and More!</b></h3>
+        </div>
+        
+        <!-- Feature 3: Get Instant Notifications -->
+        <div class="feature-box text-center bg-white shadow-md rounded-lg p-8 w-80 h-60 flex flex-col items-center justify-center hover:shadow-lg transition-all">
+            <img src="{% static 'images/getinstantnotifpics.png' %}" alt="Notifications" class="w-20 mb-4">
+            <h3 class="text-lg font-semibold" style="color: #735858;"><b>Get Instant Notifications</b></h3>
+        </div>
+    </div>
+</section>
+
+
 
     <!-- Footer -->
     <footer class="bg-white py-8">
