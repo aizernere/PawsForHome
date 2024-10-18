@@ -92,7 +92,8 @@ def profile_filling(request):
 
                     curr_account.save()
 
-                    return redirect('main:profile')
+                    # return redirect('main:profile')
+                    return redirect('main:home')
         else:
             messages.warning(request, 'All fields are required')
 
@@ -151,8 +152,12 @@ def login_account(request):
             # else:
             #     error_message = "Account with this email does not exist."
             if user:
+                first_login = user.last_login is None
                 login(request, user)
-                return redirect('main:home')
+                if first_login:
+                    return redirect('main:profile_filling')
+                else:
+                    return redirect('main:home')
         error_message = "Invalid email or password."
         return render(request, 'login_signup/login.html', {'form': form, 'error_message': error_message})
 
