@@ -21,7 +21,7 @@
           <li><a href="{% url 'main:shelterdashboard' %}" class="block text-lg text-black font-bold">Overview</a></li>
           <li><a href="{% url 'main:pet_listings' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pet Listings</a></li>
           <li><a href="{% url 'main:pending_requests' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pending Requests</a></li>
-          <li><a href="#" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pets Adopted</a></li>
+          <li><a href="{% url 'main:petsadopted' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pets Adopted</a></li>
         </ul>
       </nav>
     </aside>
@@ -45,8 +45,8 @@
       <div class="bg-[#FFE5D9] p-6 rounded-lg text-center shadow">
         <img src="{% static 'images/shelterboardpic3.png' %}" alt="Pets Adopted" class="h-40 mx-auto">
         <h3 class="text-2xl font-bold mt-4">Pets Adopted</h3>
-        <p class="text-5xl font-extrabold mt-4">##</p>
-      </div>
+        <p class="text-5xl font-extrabold mt-4">{{ adopted_count }}</p>
+    </div>    
     </div>
   </section>
 
