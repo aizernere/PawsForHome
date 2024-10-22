@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+
+{% block contents %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+<body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
+
+  <!-- Sidebar (same as dashboard) -->
+  <div class="flex flex-grow">
+    <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col fixed h-screen">
+      <div class="flex items-center justify-center">
+        <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
+      </div>
+      <h1 class="text-2xl font-bold text-center mt-4">{{request.user.first_name}}</h1>
+
+      <nav class="mt-10">
+        <ul class="space-y-4">
+          <li><a href="{% url 'main:shelterdashboard' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Overview</a></li>
+          <li><a href="{% url 'main:pet_listings' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pet Listings</a></li>
+          <li><a href="{% url 'main:pending_requests' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pending Requests</a></li>
+          <li><a href="{% url 'main:petsadopted' %}" class="block text-lg text-black font-bold">Pets Adopted</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
+      <h3 class="text-3xl font-bold mb-8">Pets Adopted</h3>
+
+      <!-- Adopted Pets List Section -->
+      <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden p-4">
+        <ul class="space-y-4">
+            {% for adoption in adopted_pets %}
+                <li class="bg-[#FFB2A1] rounded-lg px-6 py-4 flex items-center justify-between shadow-md">
+                    <div class="flex items-center space-x-4">
+                        <img src="{{ adoption.pet.image.url }}" alt="{{ adoption.pet.name }}" class="h-20 w-20 object-cover rounded-full shadow">
+                        <div>
+                            <h4 class="text-xl font-bold">{{ adoption.pet.name }}</h4>
+                            <p class="text-gray-600">{{ adoption.pet.age }} years old, {{ adoption.pet.type }}</p>
+                            <p class="text-gray-600">Adopted by: <span class="font-semibold">{{ adoption.adopter.first_name }} {{ adoption.adopter.last_name }}</span></p>
+                            <p class="text-gray-500">Adoption Date: {{ adoption.date | date:"F j, Y" }}</p>
+                        </div>
+                    </div>
+                    <button 
+                        onclick="viewAdoptionDetails({{ adoption.id }})" 
+                        class="bg-[#FFDDD2] text-gray-800 font-bold py-2 px-4 rounded hover:bg-[#F2968F] transition duration-200">
+                        View Details
+                    </button>
+                </li>
+            {% empty %}
+                <p class="text-gray-500 p-4">No pets have been adopted yet.</p>
+            {% endfor %}
+        </ul>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer (same as dashboard) -->
+  <footer class="bg-white w-full py-6">
+    <div class="max-w-6xl mx-auto flex justify-between px-4">
+      <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
+      <div class="flex space-x-4">
+        <p class="text-gray-600">info@pawsathome.com</p>
+        <div class="space-x-2">
+          <a href="#" class="text-gray-600">Facebook</a>
+          <a href="#" class="text-gray-600">Instagram</a>
+          <a href="#" class="text-gray-600">Twitter</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+<script>
+  function viewAdoptionDetails(adoptionId) {
+      window.location.href = `/adopteddetail/${adoptionId}`;
+  }
+</script>
+{% endblock contents %}

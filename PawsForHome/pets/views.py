@@ -32,6 +32,11 @@ def my_pets(request):
     return render(request, 'shelterdashboard/pet_listings.html', {'pets': pets})
 
 @login_required
+def petsadopted(request):
+    pets = Pet.objects.filter(owner=request.user, status=2)
+    return render(request, 'shelterdashboard/petsadopted.html', {'pets': pets})
+
+@login_required
 def dashpets(request):
     pets = Pet.objects.filter(owner=request.user) 
     pet_count = pets.count()
@@ -40,4 +45,11 @@ def dashpets(request):
     pets_request = Pet.objects.filter(owner=shelter)
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets_request)
     pending_count = adoption_requests.count()
-    return render(request, 'shelterdashboard.html', {'pets': pets, 'pet_count': pet_count, 'pending_count': pending_count})
+
+    adopted_count = pets.filter(status=2).count()
+    return render(request, 'shelterdashboard.html', {
+        'pets': pets,
+        'pet_count': pet_count,
+        'pending_count': pending_count,
+        'adopted_count': adopted_count,
+    })

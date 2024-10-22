@@ -45,7 +45,8 @@ def shelterdashboard(request):
 def user_dashboard(request):
     curr_fn = request.user.first_name
     return render(request, 'userdashboard.html', {'curr_fn':curr_fn})
-
+def petsadopted(request):
+    return render(request, 'shelterdashboard/petsadopted.html',{})
 def pet_listings(request):
     return render(request, 'shelterdashboard/pet_listings.html',{})
 def adoptform(request):
