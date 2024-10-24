@@ -24,6 +24,13 @@ class Pet(models.Model):
         return self.name
     
 class AdoptionRequest(models.Model):
+
+    STATUS_CHOICES = [
+        (1, 'Pending'),
+        (2, 'Accepted'),
+        (3, 'Rejected'),
+    ]
+
     HOUSING_CHOICES = [
         ('Apartment', 'Apartment'),
         ('House', 'House'),
@@ -47,7 +54,7 @@ class AdoptionRequest(models.Model):
         ('Breeding', 'Breeding'),
         ('Other', 'Other'),
     ]
-
+    # status = models.IntegerField(choices=STATUS_CHOICES, default=1)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     account = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -65,3 +72,14 @@ class AdoptionRequest(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.pet.name}"
+    
+    # function to accept
+    def accept(self):
+        self.status = 2
+        self.pet.status = 2 
+        self.save()
+        self.pet.save()
+    # function to reject
+    def reject(self):
+        self.status = 3
+        self.save()

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Pet, AdoptionRequest
 from .forms import PetForm
 from django.core.paginator import Paginator
@@ -53,3 +53,34 @@ def dashpets(request):
         'pending_count': pending_count,
         'adopted_count': adopted_count,
     })
+# @login_required
+# def dashpets(request):
+#     pets = Pet.objects.filter(owner=request.user) 
+#     pet_count = pets.count()
+
+#     shelter = request.user 
+#     pets_request = Pet.objects.filter(owner=shelter)
+#     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets_request, status=1)
+    
+#     pending_count = adoption_requests.count()
+#     adopted_count = pets.filter(status=2).count()
+
+#     return render(request, 'shelterdashboard.html', {
+#         'pets': pets,
+#         'pet_count': pet_count,
+#         'pending_count': pending_count,
+#         'adopted_count': adopted_count,
+#         'adoption_requests': adoption_requests,  
+#     })
+
+@login_required
+def accept_adoption_request(request, request_id):
+    adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
+    adoption_request.accept()
+    return redirect('main:shelterdashboard')
+
+@login_required
+def reject_adoption_request(request, request_id):
+    adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
+    adoption_request.reject()
+    return redirect('main:shelterdashboard')
