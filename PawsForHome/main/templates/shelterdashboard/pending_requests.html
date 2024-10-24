@@ -36,20 +36,20 @@
     
       <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden p-4">
         <ul class="space-y-2">
-            {% for request in adoption_requests %}
-                <li class="flex items-center justify-between bg-[#FFB2A1] rounded-full px-4 py-2">
-                    <span class="text-gray-800 font-semibold">
-                        {{ request.first_name }} wants to adopt {{ request.pet.name }}.
-                    </span>
-                    <button 
-                        onclick="redirectToAdoptionForm({{ request.id }})" 
-                        class="bg-[#FFDDD2] text-gray-800 font-bold py-1 px-3 rounded-full hover:bg-[#F2968F] transition duration-200">
-                        View Details
-                    </button>
-                </li>
-            {% empty %}
-                <p class="text-gray-500 p-4">No adoption requests available.</p>
-            {% endfor %}
+          {% for request in adoption_requests %}
+          <li class="flex items-center justify-between bg-[#FFB2A1] rounded-full px-4 py-2">
+              <span class="text-gray-800 font-semibold">
+                  {{ request.first_name }} wants to adopt {{ request.pet.name }}.
+              </span>
+              <button 
+                  onclick="redirectToAdoptionForm({{ request.id }})" 
+                  class="bg-[#FFDDD2] text-gray-800 font-bold py-1 px-3 rounded-full hover:bg-[#F2968F] transition duration-200">
+                  View Details
+              </button>
+          </li>
+      {% empty %}
+          <p class="text-gray-500 p-4">No adoption requests available.</p>
+      {% endfor %}
         </ul>
     </div>
 

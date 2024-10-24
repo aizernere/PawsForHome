@@ -46,6 +46,19 @@
               Message User
           </button>
       </div>
+
+      <!-- Accept and Reject Buttons -->
+      <div class="mt-8 flex justify-center space-x-20">
+        <button 
+        onclick="location.href='{% url 'pets:reject_adoption_request' adoption_request.id %}'"
+            class="px-8 py-3 bg-red-500 text-white font-bold text-lg rounded-full hover:bg-red-600">
+            Decline
+        </button>
+        <button 
+        onclick="location.href='{% url 'pets:accept_adoption_request' adoption_request.id %}'"
+            class="px-8 py-3 bg-green-500 text-white font-bold text-lg rounded-full hover:bg-green-600">
+            Accept
+        </button>
     </section>
 </main>
 
@@ -66,6 +79,12 @@
 <script>
   function redirectToAdoptionForm(accountId) {
       window.location.href = `/pmessages/send/${accountId}`;
+  }
+  function handleAcceptDecision(requestId) {
+      window.location.href = `/adoption/accept/${requestId}`;
+  }
+  function handleRejectDecision(requestId) {
+      window.location.href = `/adoption/reject/${requestId}`;
   }
 </script>
 {% endblock contents %}
