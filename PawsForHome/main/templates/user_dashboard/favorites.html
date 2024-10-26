@@ -1,9 +1,10 @@
 {% extends "userdashboard.html" %}
 
+{% block ud_name %}Favorites{% endblock ud_name %}
 {% block u_dash_content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
-
+    {% comment %} <h2>Favorites</h2> {% endcomment %}
     {% if fav_pets %}
         {% for fp in fav_pets %}
 
