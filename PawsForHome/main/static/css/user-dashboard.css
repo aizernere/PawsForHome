@@ -4,13 +4,13 @@
     padding: 20px;
     display: flex;
     flex-direction: row;
+    font-family: 'Open Sans';
     /* border: 1px solid black; */
 }
 
 
 .main .side-bar{
     width: 25%;
-    font-family: 'Open Sans';
     font-weight: bold;
     padding: 10px;
     /* border: 1px solid black; */
@@ -51,13 +51,20 @@
     border-radius: 20px;
     padding: 20px;
     min-height: 70vh;
-    width: 1050px;
+    max-width: 1000px;
     display: flex; 
     flex-direction: row; 
     gap: 10px; 
     /* justify-content: space-between; */
     flex-wrap: wrap;
     gap:0;
+}
+
+.side-bar-contents .content h2{
+    width: 100%;
+    margin: 0;
+    padding-bottom: 0;
+    font-weight: bolder;
 }
 
 .side-bar-contents .content > div {
