@@ -155,3 +155,72 @@ class AdoptionForm(forms.ModelForm):
             'other_housing_description': forms.Textarea(attrs={'class': 'input-field', 'placeholder': 'If Other, describe here', 'rows': 3}),
             'other_general_info': forms.Textarea(attrs={'class': 'input-field', 'placeholder': 'If Other, describe here', 'rows': 3}),
         }
+
+class ProfileEdit(forms.Form):
+    first_name = forms.CharField(
+        label='First Name',
+        widget=forms.TextInput(
+            attrs={
+            'class': 'input-field',
+            'placeholder': 'First Name',
+            }
+        )
+    )
+    last_name = forms.CharField(
+        label='Last Name',
+        widget=forms.TextInput(
+            attrs={
+            'class': 'input-field',
+            'placeholder': 'Last Name',
+            }
+        )
+    )
+    birthdate = forms.DateField(
+        label='Birthdate',
+        widget=forms.DateInput(
+            attrs={
+                'class': 'input-field',
+                'type': 'date',
+                'placeholder': 'Birthdate',
+            }
+        )
+    )
+    phone_number = forms.CharField(
+        label='Phone Number',
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'input-field',
+                'placeholder': 'Phone Number',
+            }
+        ),
+        max_length=11 
+    )
+    address = forms.CharField(
+        label='Address',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'input-field',
+                'placeholder': 'Address',
+                'rows': 3, 
+            }
+        ),
+        required=True
+    )
+    email = forms.EmailField(
+        label='Address',
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'input-field',
+                'placeholder': 'Email',
+            }
+        )
+    )
+    password = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'input-field',
+                'placeholder': 'Password',
+            }
+        ), required=False
+    )

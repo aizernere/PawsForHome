@@ -1,4 +1,91 @@
 {% extends "index.html" %}
+
 {% block contents %}
-    Profile
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <div class="bg">
+        {% comment %} left side, basic information sa user {% endcomment %}
+        <div class="info">
+            <center>
+                <div>
+                    <img src="{% static "images/shelterlogo.png" %}" alt="test">
+                    <h2>{{ curr_fn }}</h2>
+                </div>
+            </center>
+        </div>
+        <div class="vertical-line"></div>
+        {% comment %} pwede maka edit ang user sa info here {% endcomment %}
+        <div class="edit">
+            <h2>Personal Information</h2>
+        
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.non_field_errors }}
+
+                <div class="row">
+                    <div>
+                        <label for="first_name" class="lbl">First Name</label>
+                        <br>
+                        <center>
+                            {{form.first_name}}
+                        </center>
+                    </div>
+                    <div>
+                        <label for="last_name" class="lbl">Last Name</label>
+                        <br>
+                        <center>
+                            {{form.last_name}}
+                        </center>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <label for="birthdate" class="lbl">Birthdate</label>
+                        <br>
+                        <center>
+                            {{form.birthdate}}
+                        </center>
+
+                    </div>
+                    <div>
+                        <label for="phone_number" class="lbl">Phone Number</label>
+                        <br>
+                        <center>
+                            {{form.phone_number}}
+                        </center>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <label for="address" class="lbl">Address</label>
+                        <br>
+                            {{form.address}}
+                        
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <label for="email" class="lbl">Email</label>
+                        <br>
+                        <center>
+                            {{form.email}}
+                        </center>
+                    </div>
+                    <div>
+                        <label for="password" class="lbl">Password</label>
+                        <br>
+                        <center>
+                            {{form.password}}
+                        </center>
+                    </div>
+                </div>
+                <br>
+                <button type="submit" class="update-btn">Update</button>
+            </form>
+        </div>
+    </div>
 {% endblock contents %}
