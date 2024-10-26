@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Pet, AdoptionRequest
+from .models import Pet, AdoptionRequest, Favorite
 from .forms import PetForm
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -24,7 +24,12 @@ def list_pet(request):
     page_number = request.GET.get('page') 
     pets = paginator.get_page(page_number)
 
-    return render(request, 'pets/list_pet.html', {'pets': pets})
+    favorite_pet_ids = Favorite.objects.filter(user=request.user).values_list('pet_id', flat=True)
+
+    return render(request, 'pets/list_pet.html', {
+        'pets': pets,
+        'favorite_pet_ids': favorite_pet_ids, 
+    })
 
 @login_required
 def my_pets(request):
@@ -84,3 +89,11 @@ def reject_adoption_request(request, request_id):
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
     adoption_request.reject()
     return redirect('main:shelterdashboard')
+
+@login_required
+def toggle_favorite(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, pet=pet)
+    if not created:
+        favorite.delete()
+    return redirect('pets:list_pet')
