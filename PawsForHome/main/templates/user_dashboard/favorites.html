@@ -1,5 +1,21 @@
 {% extends "userdashboard.html" %}
 
 {% block u_dash_content %}
-    favorites
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+
+    {% if fav_pets %}
+        {% for fp in fav_pets %}
+
+                <div class="pet">
+                    <img src="{{ fp.image.url }}" alt="{{ fp.name }}" class="pet-image">
+                    <div class="pet-info">
+                        <h3 class="pet-name">{{ fp.name }}</h3>
+                        <p class="pet-age">{{ fp.age }} years old</p>
+                        <span class="pet-type">{{ fp.type }}</span>
+                    </div>
+                </div> 
+                
+        {% endfor %}
+    {% endif %}
 {% endblock u_dash_content %}

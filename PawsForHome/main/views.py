@@ -6,7 +6,7 @@ from .forms import Create_Account, Login_Account, Profile_Filling, ProfileEdit
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import AdoptionForm
-from pets.models import Pet, AdoptionRequest
+from pets.models import Pet, AdoptionRequest, Favorite
 
 # Create your views here.
 
@@ -32,7 +32,9 @@ def ud_requests(request):
 
 def ud_favorites(request):
     curr_fn = request.user.first_name
-    return render(request, 'user_dashboard/favorites.html', {'curr_fn': curr_fn})
+    user_favorites = Favorite.objects.filter(user_id = request.user.id).values_list('pet_id', flat=True)
+    fav_pets = Pet.objects.filter(id__in=user_favorites)
+    return render(request, 'user_dashboard/favorites.html', {'curr_fn': curr_fn, 'fav_pets':fav_pets})
 
 def ud_adoptionhistory(request):
     curr_fn = request.user.first_name
