@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from .models import Account
-from .forms import Create_Account, Login_Account, Profile_Filling
+from .forms import Create_Account, Login_Account, Profile_Filling, ProfileEdit
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import AdoptionForm
@@ -59,8 +59,41 @@ def notifications(request):
 # def message(request):
 #     return render(request, 'navbar/message.html', {})
 
+@login_required
 def profile(request):
-    return render(request, 'navbar/profile.html', {})
+    user_profile = request.user
+
+    if request.method == 'POST':
+        form = ProfileEdit(request.POST)
+        if form.is_valid():
+            user_profile.first_name = form.cleaned_data['first_name']
+            user_profile.last_name = form.cleaned_data['last_name']
+            user_profile.birth_date = form.cleaned_data['birthdate']
+            user_profile.phone_number = form.cleaned_data['phone_number']
+            user_profile.address = form.cleaned_data['address']
+            user_profile.email = form.cleaned_data['email']
+            new_password = form.cleaned_data.get('password')
+            
+            if new_password:
+                user_profile.set_password(new_password)
+            
+            user_profile.save()
+            login(request, user_profile)
+            return redirect('main:profile')
+    else:
+        form = ProfileEdit(initial={
+            'first_name': user_profile.first_name,
+            'last_name': user_profile.last_name,
+            'birthdate': user_profile.birth_date,
+            'phone_number': user_profile.phone_number,
+            'address': user_profile.address,
+            'email': user_profile.email,
+        })
+
+    return render(request, 'navbar/profile.html', {
+        'curr_fn':user_profile.first_name,
+        'form': form
+    })
 
 def home(request):
     return render(request, 'home.html', {})
