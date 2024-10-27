@@ -3,6 +3,7 @@ from .models import Pet, AdoptionRequest, Favorite
 from .forms import PetForm
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 
 @login_required 
 def add_pet(request):
@@ -51,12 +52,20 @@ def dashpets(request):
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets_request)
     pending_count = adoption_requests.count()
 
+    popular_pets = (
+        pets.annotate(favorites_count=Count('favorite'))
+        .filter(favorites_count__gt=0)
+        .order_by('-favorites_count')
+    )
+
+
     adopted_count = pets.filter(status=2).count()
     return render(request, 'shelterdashboard.html', {
         'pets': pets,
         'pet_count': pet_count,
         'pending_count': pending_count,
         'adopted_count': adopted_count,
+        'popular_pets': popular_pets,
     })
 # @login_required
 # def dashpets(request):
