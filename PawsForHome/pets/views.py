@@ -48,7 +48,7 @@ def dashpets(request):
     pet_count = pets.count()
     #to do pending request
     shelter = request.user 
-    pets_request = Pet.objects.filter(owner=shelter)
+    pets_request = Pet.objects.filter(owner=shelter,status=3)
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets_request)
     pending_count = adoption_requests.count()
 

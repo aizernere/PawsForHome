@@ -236,7 +236,7 @@ def adoption_request_view(request, pet_id):
 @login_required
 def pending_requests(request):
     shelter = request.user 
-    pets = Pet.objects.filter(owner=shelter)
+    pets = Pet.objects.filter(owner=shelter,status=3)
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets)
     
     context = {

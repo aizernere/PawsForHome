@@ -73,15 +73,15 @@ class AdoptionRequest(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.pet.name}"
     
-    # function to accept
     def accept(self):
         self.status = 2
         self.pet.status = 2 
         self.save()
         self.pet.save()
-    # function to reject
+
     def reject(self):
         self.status = 3
+        self.pet.status = 1
         self.save()
 
 class Favorite(models.Model):
