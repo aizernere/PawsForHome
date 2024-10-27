@@ -218,6 +218,8 @@ def adoption_request_view(request, pet_id):
             adoption_request.pet = pet
             adoption_request.account = user_profile
             adoption_request.save()
+            pet.status = 3
+            pet.save()
             return redirect('pets:list_pet')
     else:
         form = AdoptionForm(initial={
@@ -233,12 +235,23 @@ def adoption_request_view(request, pet_id):
         'pet': pet,
     })
 
+# @login_required
+# def pending_requests(request):
+#     shelter = request.user 
+#     pets = Pet.objects.filter(owner=shelter,status=3)
+#     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets)
+    
+#     context = {
+#         'adoption_requests': adoption_requests,
+#         'pets': pets,
+#     }
+#     return render(request, 'shelterdashboard/pending_requests.html', context)
 @login_required
 def pending_requests(request):
-    shelter = request.user 
-    pets = Pet.objects.filter(owner=shelter,status=3)
+    shelter = request.user
+    pets = Pet.objects.filter(owner=shelter, status=3)
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets)
-    
+
     context = {
         'adoption_requests': adoption_requests,
         'pets': pets,

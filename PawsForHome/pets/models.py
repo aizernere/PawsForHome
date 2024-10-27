@@ -81,8 +81,14 @@ class AdoptionRequest(models.Model):
 
     def reject(self):
         self.status = 3
-        self.pet.status = 1
+        self.pet.status = 1  
         self.save()
+        self.pet.save()
+
+    def submit_request(self):
+        self.pet.status = 3 
+        self.save()
+        self.pet.save()
 
 class Favorite(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
