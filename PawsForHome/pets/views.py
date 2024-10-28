@@ -18,8 +18,9 @@ def add_pet(request):
         form = PetForm()
     return render(request, 'pets/add_pet.html', {'form': form})
 
+
 def list_pet(request):
-    pets_list = Pet.objects.all()
+    pets_list = Pet.objects.filter(status__in=[1, 2])
     paginator = Paginator(pets_list, 10)
 
     page_number = request.GET.get('page') 
@@ -39,16 +40,16 @@ def my_pets(request):
 
 @login_required
 def petsadopted(request):
-    pets = Pet.objects.filter(owner=request.user, status=2)
+    pets = Pet.objects.filter(owner=request.user, status=3) #dapat mu check sa adoption history since ang owner is ang new adopter
     return render(request, 'shelterdashboard/petsadopted.html', {'pets': pets})
 
 @login_required
 def dashpets(request):
-    pets = Pet.objects.filter(owner=request.user) 
+    pets = Pet.objects.filter(owner=request.user, status__in=[1, 2]) 
     pet_count = pets.count()
     #to do pending request
     shelter = request.user 
-    pets_request = Pet.objects.filter(owner=shelter,status=3)
+    pets_request = Pet.objects.filter(owner=shelter,status=2)
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets_request)
     pending_count = adoption_requests.count()
 

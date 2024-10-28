@@ -5,9 +5,9 @@ from django.conf import settings
 class Pet(models.Model):
     STATUS_CHOICES = [
         (1, 'Available'),
-        (2, 'Adopted'),
-        (3, 'Pending'),
-        (4, 'Not Available'),
+        (2, 'Pending'),
+        (3, 'Adopted'),
+        #(4, 'Not Available'),
     ]
 
     name = models.CharField(max_length=100)
@@ -54,7 +54,7 @@ class AdoptionRequest(models.Model):
         ('Breeding', 'Breeding'),
         ('Other', 'Other'),
     ]
-    # status = models.IntegerField(choices=STATUS_CHOICES, default=1)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=1)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     account = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -75,7 +75,7 @@ class AdoptionRequest(models.Model):
     
     def accept(self):
         self.status = 2
-        self.pet.status = 2 
+        self.pet.status = 3 
         self.save()
         self.pet.save()
 
@@ -86,7 +86,7 @@ class AdoptionRequest(models.Model):
         self.pet.save()
 
     def submit_request(self):
-        self.pet.status = 3 
+        self.pet.status = 2 
         self.save()
         self.pet.save()
 
@@ -99,4 +99,4 @@ class Favorite(models.Model):
         unique_together = ('user', 'pet')
 
     def __str__(self):
-        return f"{self.user.username} - {self.pet.name}"
+        return f"{self.user.email} - {self.pet.name}"

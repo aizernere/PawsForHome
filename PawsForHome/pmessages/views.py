@@ -18,24 +18,30 @@ def send_message(request, receiver_id):
     return render(request, 'pmessages/send_message.html', {'receiver': receiver})
 
 @login_required
-def view_conversation(request, receiver_id):
-    receiver = Account.objects.get(id=receiver_id)
+def view_conversation(request, receiver_id=None):
+    conversation_partners = Account.objects.filter(
+        id__in=set(
+            Message.objects.filter(sender=request.user).values_list('receiver_id', flat=True)
+            .union(Message.objects.filter(receiver=request.user).values_list('sender_id', flat=True))
+        )
+    )
+    
+    receiver = Account.objects.get(id=receiver_id) if receiver_id else None
     messages = Message.objects.filter(
         (models.Q(sender=request.user) & models.Q(receiver=receiver)) |
         (models.Q(sender=receiver) & models.Q(receiver=request.user))
-    ).order_by('timestamp')
+    ).order_by('timestamp') if receiver else []
     
-    for message in messages:
-        if message.receiver == request.user:
-            message.read = True
-            message.save()
-
-    if request.method == 'POST':
+    if request.method == 'POST' and receiver:
         content = request.POST.get('content')
         Message.objects.create(sender=request.user, receiver=receiver, content=content)
         return redirect('view_conversation', receiver_id=receiver.id)
-    
-    return render(request, 'pmessages/conversation.html', {'receiver': receiver, 'messages': messages})
+
+    return render(request, 'navbar/message.html', {
+        'conversation_partners': conversation_partners,
+        'receiver': receiver,
+        'messages': messages
+    })
 
 
 @login_required

@@ -4,20 +4,56 @@
 <script src="https://cdn.tailwindcss.com"></script>
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
-<h2 class="text-lg font-bold mb-4 text-center">Conversations</h2>
 
-<ul class="space-y-2 max-w-md mx-auto">
-    {% for partner in conversation_partners %}
-    <li onclick="window.location.href='{% url 'view_conversation' partner.id %}'" class="flex justify-between items-center p-4 bg-[#F2968F] shadow-md rounded-full cursor-pointer">
-        <div class="flex items-center space-x-2">
-            <div>
+<div class="flex h-[calc(100vh-110px)] overflow-hidden">
+    <!-- Conversations List -->
+    <div class="md:w-1/3 w-full bg-gray-200 p-4 overflow-y-auto h-full">
+        <h2 class="text-lg font-bold mb-4">Conversations</h2>
+        <ul class="space-y-2">
+            {% for partner in conversation_partners %}
+            <li onclick="window.location.href='{% url 'view_conversation' partner.id %}'" class="cursor-pointer bg-[#F2968F] p-4 rounded-full shadow-md flex items-center">
                 <h3 class="text-md text-white font-semibold">{{ partner.first_name }} {{ partner.last_name }}</h3>
-            </div>
+            </li>
+            {% empty %}
+            <li class="text-center text-gray-500">No conversations found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Messages Section -->
+    <div class="md:w-2/3 w-full flex flex-col h-full">
+        {% if receiver %}
+        <header class="bg-[#F2968F] text-white p-4">
+            <h2 class="text-lg font-semibold">{{ receiver.first_name }} {{ receiver.last_name }}</h2>
+        </header>
+        
+        <!-- Message List -->
+        <div class="flex-grow p-4 space-y-4 overflow-y-auto bg-gray-100">
+            {% for message in messages %}
+                {% if message.sender == request.user %}
+                    <div class="flex justify-end">
+                        <div class="bg-gray-300 p-2 rounded-lg text-black max-w-xs">{{ message.content }}</div>
+                        <small class="text-gray-500 ml-2">{{ message.timestamp|date:"M d, Y H:i" }}</small>
+                    </div>
+                {% else %}
+                    <div class="flex">
+                        <div class="bg-[#F2968F] p-2 rounded-lg text-white max-w-xs">{{ message.content }}</div>
+                        <small class="text-gray-500 ml-2">{{ message.timestamp|date:"M d, Y H:i" }}</small>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
-    </li>
-    {% empty %}
-    <li class="text-center text-gray-500">No conversations found.</li>
-    {% endfor %}
-</ul>
+
+        <!-- Message Input -->
+        <form method="POST" class="bg-white p-4 border-t border-gray-200 flex items-center space-x-2">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="Type message..." required class="flex-grow p-2 border rounded-full border-gray-300 focus:outline-none">
+            <button type="submit" class="bg-[#F2968F] hover:bg-red-400 text-white font-semibold px-4 rounded-full">Send</button>
+        </form>
+        {% else %}
+        <p class="text-center text-gray-500 p-4">Select a conversation to start chatting.</p>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock contents %}
