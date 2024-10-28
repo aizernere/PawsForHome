@@ -81,7 +81,8 @@ class AdoptionRequest(models.Model):
 
     def reject(self):
         self.status = 3
-        self.pet.status = 1  
+        # if self.pet.status == 2:
+        #     self.pet.status = 2
         self.save()
         self.pet.save()
 
