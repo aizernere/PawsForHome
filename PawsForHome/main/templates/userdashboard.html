@@ -1,5 +1,10 @@
 {% extends "index.html" %}
 
+{% url 'main:user_dashboard' as user_dashboard_url %}
+{% url 'main:ud_requests' as ud_requests_url %}
+{% url 'main:ud_favorites' as ud_favorites_url %}
+{% url 'main:ud_adoptionhistory' as ud_adoptionhistory_url %}
+
 
 {% block contents %}
 
@@ -19,22 +24,22 @@
             </center>
 
             <div class="side-items">
-                <div class="item">
+                <div class="item {% if request.resolver_match.url_name == 'user_dashboard' %}active{% endif %}">
                     <a href="{% url "main:user_dashboard" %}">
                         Overview
                     </a>
                 </div>
-                <div class="item">
+                <div class="item {% if request.resolver_match.url_name == 'ud_requests' %}active{% endif %}">
                     <a href="{% url "main:ud_requests" %}">
                         Requests
                     </a>
                 </div>
-                <div class="item">
+                <div class="item {% if request.resolver_match.url_name == 'ud_favorites' %}active{% endif %}">
                     <a href="{% url "main:ud_favorites" %}">
                         Favorites
                     </a>
                 </div>
-                <div class="item">
+                <div class="item {% if request.resolver_match.url_name == 'ud_adoptionhistory' %}active{% endif %}">
                     <a href="{% url "main:ud_adoptionhistory" %}">
                         Adoption History
                     </a>
