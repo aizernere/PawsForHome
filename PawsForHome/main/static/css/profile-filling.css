@@ -85,3 +85,15 @@ body{
     text-decoration: none;
     color: #F2968F;
 }
+
+.right {
+    padding: auto;
+    position: relative;
+}
+
+.right img{
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    margin: 25px 0 0 0;
+}
