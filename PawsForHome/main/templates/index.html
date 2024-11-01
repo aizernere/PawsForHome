@@ -18,30 +18,32 @@
     <div class="nav-bar">
         <div>
             {% comment %} logo dire {% endcomment %}
-            <img src="{% static "images/paws4homelogo.png" %}" alt="logo">
+            <a href="{% url 'main:home' %}">
+                <img src="{% static 'images/paws4homelogo.png' %}" alt="logo">
+            </a>
         </div>
         <div>
             {% if request.user.account_type == 'user' %}
                 <div class="nav-items">
-                    <a href="{% url "main:user_dashboard" %}">Dashboard</a>
+                    <a href="{% url 'main:user_dashboard' %}">Dashboard</a>
                 </div>
                 <div class="nav-items">
-                    <a href="{% url "pets:list_pet" %}">Browse</a>
+                    <a href="{% url 'pets:list_pet' %}">Browse</a>
                 </div>
             {% else %}
                 <div class="nav-items">
-                    <a href="{% url "main:shelterdashboard" %}">Dashboard</a>
+                    <a href="{% url 'main:shelterdashboard' %}">Dashboard</a>
                 </div>
             {% endif %}
             
             <div class="nav-items">
-                <a href="{% url "main:notifications" %}">Notification</a>
+                <a href="{% url 'main:notifications' %}">Notification</a>
             </div>
             <div class="nav-items">
-                <a href="{% url "main:conversations_list" %}">Messages</a>
+                <a href="{% url 'main:conversations_list' %}">Messages</a>
             </div>
             <div class="nav-items">
-                <a href="{% url "main:profile" %}">Profile</a>
+                <a href="{% url 'main:profile' %}">Profile</a>
             </div>
         </div>
         <div>

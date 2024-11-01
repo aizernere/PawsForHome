@@ -1,6 +1,107 @@
-{% extends "index.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paws for Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#FFDDD2] min-h-screen p-4">
+    <div class="flex justify-center items-center mb-4">
+        <img src="{% static 'images/headerGif.gif' %}" alt="Paws for Home Header" class="w-1/3 max-w-3xl rounded-[24px] mb-4">
+    </div>
+    <div class="max-w-4xl mx-auto flex-grow">
+        <div class="grid grid-cols-3 gap-4">
+            <!-- Browse -->
+            <div class="col-span-1 bg-white rounded-xl shadow-lg p-6 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 h-full group">
+                <a href="{% url 'pets:list_pet' %}" class="flex flex-col items-center justify-center h-full">
+                    <div class="w-52 h-52 flex items-center justify-center mb-4">
+                        <img src="{% static 'images/BrowsePetB.png' %}" alt="Browse" class="w-40 h-40 block group-hover:hidden">
+                        <img src="{% static 'images/BrowsePet.png' %}" alt="Browse" class="w-40 h-40 hidden group-hover:block">
+                    </div>
+                    <span class="text-2xl font-semibold text-gray-700">Browse</span>
+                </a>
+            </div>
 
-{% block contents %}
-    <h1>Welcome to the Home Page!</h1>
-{% endblock contents %}
+            <!-- Right side grid -->
+            <div class="col-span-2">
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- First Row -->
+                    <!-- Dashboard -->
+                    <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">
+                        <a href="{% url 'main:user_dashboard' %}" class="flex flex-col items-center">
+                            <div class="w-24 h-24 flex items-center justify-center mb-2">
+                                <img src="{% static 'images/DashboardPetB.png' %}" alt="Dashboard" class="w-20 h-20 block group-hover:hidden">
+                                <img src="{% static 'images/DashboardPet.png' %}" alt="Dashboard" class="w-20 h-20 hidden group-hover:block">
+                            </div>
+                            <span class="text-lg font-semibold text-gray-700">Dashboard</span>
+                        </a>
+                    </div>
 
+                    <!-- Messages -->
+                    <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">
+                        <a href="{% url 'main:conversations_list' %}" class="flex flex-col items-center">
+                            <div class="w-24 h-24 flex items-center justify-center mb-2">
+                                <img src="{% static 'images/MessagePetB.png' %}" alt="Messages" class="w-20 h-20 block group-hover:hidden">
+                                <img src="{% static 'images/MessagePet.png' %}" alt="Messages" class="w-20 h-20 hidden group-hover:block">
+                            </div>
+                            <span class="text-lg font-semibold text-gray-700">Messages</span>
+                        </a>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">
+                        <a href="{% url 'main:notifications' %}" class="flex flex-col items-center">
+                            <div class="w-24 h-24 flex items-center justify-center mb-2">
+                                <img src="{% static 'images/NotificationPetB.png' %}" alt="Notifications" class="w-20 h-20 block group-hover:hidden">
+                                <img src="{% static 'images/NotificationPet.png' %}" alt="Notifications" class="w-20 h-20 hidden group-hover:block">
+                            </div>
+                            <span class="text-lg font-semibold text-gray-700">Notifications</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Second Row -->
+                <div class="grid grid-cols-3 gap-4 mt-4">
+                    <!-- Profile -->
+                    <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">
+                        <a href="{% url 'main:profile' %}" class="flex flex-col items-center">
+                            <div class="w-24 h-24 flex items-center justify-center mb-2">
+                                <img src="{% static 'images/ProfilePetB.png' %}" alt="Profile" class="w-20 h-20 block group-hover:hidden">
+                                <img src="{% static 'images/ProfilePet.png' %}" alt="Profile" class="w-20 h-20 hidden group-hover:block">
+                            </div>
+                            <span class="text-lg font-semibold text-gray-700">Profile</span>
+                        </a>
+                    </div>
+
+                    <!-- Logout -->
+                    <div class="col-span-2 bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">
+                        <a href="{% url 'main:logout_account' %}" class="flex flex-row items-center justify-center w-full h-full">
+                            <div class="w-24 h-24 flex items-center justify-center">
+                                <img src="{% static 'images/LogoutPetB.png' %}" alt="Logout" class="w-20 h-20 block group-hover:hidden">
+                                <img src="{% static 'images/LogoutPet.png' %}" alt="Logout" class="w-20 h-20 hidden group-hover:block">
+                            </div>
+                            <span class="text-lg font-semibold text-gray-700 ml-4">Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+<!-- Footer -->
+<footer class="bg-white py-8 mt-20 w-full rounded-t-[24px]">
+    <div class="container mx-auto text-center">
+        <p class="text-gray-600 mb-4">info@paws4home.com</p>
+        <div class="social-icons flex justify-center space-x-4 mb-4">
+            <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
+            <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
+            <a href="#"><img src="{% static 'images/githubpic.png' %}" alt="GitHub" class="w-6"></a>
+        </div>
+        <p><a href="#" class="text-gray-600 hover:text-gray-800">Terms & Conditions</a> | <a href="#" class="text-gray-600 hover:text-gray-800">Privacy Policy</a></p>
+    </div>
+</footer>
+</html>
