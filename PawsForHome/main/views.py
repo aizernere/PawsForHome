@@ -208,8 +208,7 @@ def logout_account(request):
 @login_required
 def adoption_request_view(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
-    
-    user_profile = request.user 
+    user_profile = request.user
 
     if request.method == 'POST':
         form = AdoptionForm(request.POST)
@@ -217,9 +216,9 @@ def adoption_request_view(request, pet_id):
             adoption_request = form.save(commit=False)
             adoption_request.pet = pet
             adoption_request.account = user_profile
+            adoption_request.status = 1 
             adoption_request.save()
-            pet.status = 2
-            pet.save()
+            
             return redirect('pets:list_pet')
     else:
         form = AdoptionForm(initial={
@@ -235,6 +234,7 @@ def adoption_request_view(request, pet_id):
         'pet': pet,
     })
 
+
 # @login_required
 # def pending_requests(request):
 #     shelter = request.user 
@@ -249,14 +249,15 @@ def adoption_request_view(request, pet_id):
 @login_required
 def pending_requests(request):
     shelter = request.user
-    pets = Pet.objects.filter(owner=shelter, status=1)
-    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets)
+    pets = Pet.objects.filter(owner=shelter)
+    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets, status=1)  
 
     context = {
         'adoption_requests': adoption_requests,
         'pets': pets,
     }
     return render(request, 'shelterdashboard/pending_requests.html', context)
+
 
 @login_required
 def adoption_request_detail(request, request_id):
