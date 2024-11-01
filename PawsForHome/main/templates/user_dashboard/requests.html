@@ -1,10 +1,10 @@
 {% extends "userdashboard.html" %}
-{% block ud_name %}Requests{% endblock ud_name %}Favorites
+{% block ud_name %}<h2>Requests</h2>{% endblock ud_name %}Favorites
 
 {% block u_dash_content %}
 {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+{% comment %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/landing_page.css' %}"> {% endcomment %}
 
 {% comment %} <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6"> {% endcomment %}
     {% if request_pets %}
