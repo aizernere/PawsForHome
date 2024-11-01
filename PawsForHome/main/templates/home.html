@@ -13,31 +13,52 @@
     </div>
     <div class="max-w-4xl mx-auto flex-grow">
         <div class="grid grid-cols-3 gap-4">
-            <!-- Browse -->
             <div class="col-span-1 bg-white rounded-xl shadow-lg p-6 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 h-full group">
-                <a href="{% url 'pets:list_pet' %}" class="flex flex-col items-center justify-center h-full">
-                    <div class="w-52 h-52 flex items-center justify-center mb-4">
-                        <img src="{% static 'images/BrowsePetB.png' %}" alt="Browse" class="w-40 h-40 block group-hover:hidden">
-                        <img src="{% static 'images/BrowsePet.png' %}" alt="Browse" class="w-40 h-40 hidden group-hover:block">
-                    </div>
-                    <span class="text-2xl font-semibold text-gray-700">Browse</span>
-                </a>
+                {% if request.user.account_type == 'user' %}
+                    <a href="{% url 'pets:list_pet' %}" class="flex flex-col items-center justify-center h-full">
+                        <div class="w-52 h-52 flex items-center justify-center mb-4">
+                            <img src="{% static 'images/BrowsePetB.png' %}" alt="Browse" class="w-40 h-40 block group-hover:hidden">
+                            <img src="{% static 'images/BrowsePet.png' %}" alt="Browse" class="w-40 h-40 hidden group-hover:block">
+                        </div>
+                        <span class="text-2xl font-semibold text-gray-700">Browse</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'pets:add_pet' %}" class="flex flex-col items-center justify-center h-full">
+                        <div class="w-52 h-52 flex items-center justify-center mb-4">
+                            <img src="{% static 'images/AddPetB.png' %}" alt="Add Pets" class="w-40 h-40 block group-hover:hidden">
+                            <img src="{% static 'images/AddPet.png' %}" alt="Add Pets" class="w-40 h-40 hidden group-hover:block">
+                        </div>
+                        <span class="text-2xl font-semibold text-gray-700">Add Pet</span>
+                    </a>
+                {% endif %}
             </div>
-
+    
             <!-- Right side grid -->
             <div class="col-span-2">
                 <div class="grid grid-cols-3 gap-4">
                     <!-- First Row -->
                     <!-- Dashboard -->
-                    <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">
-                        <a href="{% url 'main:user_dashboard' %}" class="flex flex-col items-center">
-                            <div class="w-24 h-24 flex items-center justify-center mb-2">
-                                <img src="{% static 'images/DashboardPetB.png' %}" alt="Dashboard" class="w-20 h-20 block group-hover:hidden">
-                                <img src="{% static 'images/DashboardPet.png' %}" alt="Dashboard" class="w-20 h-20 hidden group-hover:block">
-                            </div>
-                            <span class="text-lg font-semibold text-gray-700">Dashboard</span>
-                        </a>
-                    </div>
+                    {% if request.user.account_type == 'user' %}
+                        <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">
+                            <a href="{% url 'main:user_dashboard' %}" class="flex flex-col items-center">
+                                <div class="w-24 h-24 flex items-center justify-center mb-2">
+                                    <img src="{% static 'images/DashboardPetB.png' %}" alt="Dashboard" class="w-20 h-20 block group-hover:hidden">
+                                    <img src="{% static 'images/DashboardPet.png' %}" alt="Dashboard" class="w-20 h-20 hidden group-hover:block">
+                                </div>
+                                <span class="text-lg font-semibold text-gray-700">Dashboard</span>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">
+                            <a href="{% url 'main:shelterdashboard' %}" class="flex flex-col items-center">
+                                <div class="w-24 h-24 flex items-center justify-center mb-2">
+                                    <img src="{% static 'images/DashboardPetB.png' %}" alt="Dashboard" class="w-20 h-20 block group-hover:hidden">
+                                    <img src="{% static 'images/DashboardPet.png' %}" alt="Dashboard" class="w-20 h-20 hidden group-hover:block">
+                                </div>
+                                <span class="text-lg font-semibold text-gray-700">Dashboard</span>
+                            </a>
+                        </div>
+                    {% endif %}
 
                     <!-- Messages -->
                     <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl hover:ring-4 hover:ring-blue-400 transition duration-300 group">

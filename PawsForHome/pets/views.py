@@ -19,18 +19,23 @@ def add_pet(request):
     return render(request, 'pets/add_pet.html', {'form': form})
 
 
+@login_required
 def list_pet(request):
-    pets_list = Pet.objects.filter(status__in=[1, 2])
-    paginator = Paginator(pets_list, 10)
+    # Get IDs of pets for which the current user has pending adoption requests
+    pending_requests_pet_ids = AdoptionRequest.objects.filter(account=request.user, status=1).values_list('pet_id', flat=True)
 
-    page_number = request.GET.get('page') 
+    # Get the list of pets that are available for adoption and do not have pending requests
+    pets_list = Pet.objects.filter(status=1).exclude(id__in=pending_requests_pet_ids)
+
+    paginator = Paginator(pets_list, 10)
+    page_number = request.GET.get('page')
     pets = paginator.get_page(page_number)
 
     favorite_pet_ids = Favorite.objects.filter(user=request.user).values_list('pet_id', flat=True)
 
     return render(request, 'pets/list_pet.html', {
         'pets': pets,
-        'favorite_pet_ids': favorite_pet_ids, 
+        'favorite_pet_ids': favorite_pet_ids,
     })
 
 @login_required
@@ -40,17 +45,15 @@ def my_pets(request):
 
 @login_required
 def petsadopted(request):
-    pets = Pet.objects.filter(owner=request.user, status=3) #dapat mu check sa adoption history since ang owner is ang new adopter
+    pets = Pet.objects.filter(owner=request.user, status=2) #dapat mu check sa adoption history since ang owner is ang new adopter
     return render(request, 'shelterdashboard/petsadopted.html', {'pets': pets})
 
 @login_required
 def dashpets(request):
-    pets = Pet.objects.filter(owner=request.user, status__in=[1, 2]) 
+    pets = Pet.objects.filter(owner=request.user, status=1) 
     pet_count = pets.count()
     #to do pending request
-    shelter = request.user 
-    pets = Pet.objects.filter(owner=shelter, status=1)
-    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets,status =1)
+    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets,status = 1)
     pending_count = adoption_requests.count()
 
     popular_pets = (
@@ -60,7 +63,7 @@ def dashpets(request):
     )
 
 
-    adopted_count = Pet.objects.filter(owner=request.user, status=3).count()
+    adopted_count = Pet.objects.filter(owner=request.user, status=2).count()
     return render(request, 'shelterdashboard.html', {
         'pets': pets,
         'pet_count': pet_count,
@@ -108,3 +111,4 @@ def toggle_favorite(request, pet_id):
     if not created:
         favorite.delete()
     return redirect('pets:list_pet')
+    

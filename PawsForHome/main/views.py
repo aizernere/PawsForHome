@@ -24,7 +24,7 @@ def contactus(request):
 def ud_requests(request):
     user_request = AdoptionRequest.objects.filter(account_id=request.user.id)
     # print(user_request)
-    pet_ids = user_request.values_list('pet_id', flat=True)
+    pet_ids = user_request.filter(status=1).values_list('pet_id', flat=True)
     request_pets = Pet.objects.filter(id__in=pet_ids)
     # print(request_pets)
     curr_fn = request.user.first_name

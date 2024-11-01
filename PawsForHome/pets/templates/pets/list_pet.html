@@ -10,8 +10,8 @@
 
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
         {% for pet in pets %}
-        <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
-             onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.age }}', '{{ pet.type }}', '{{ pet.description }}', '{{ pet.image.url }}')">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" data-pet-id="{{ pet.id }}" 
+        onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}','{{ pet.age_years }}', '{{ pet.age_months }}','{{ pet.type }}', '{{ pet.adoption_fee }}','{{ pet.description }}', '{{ pet.image.url }}', {% if pet.id in favorite_pet_ids %} true {% else %} false {% endif %})">
              
 
              
@@ -19,7 +19,13 @@
             <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-48 object-cover">
             <div class="p-4">
                 <h3 class="font-bold text-lg">{{ pet.name }}</h3>
-                <p class="text-gray-500">{{ pet.age }} years old</p>
+                <p class="text-gray-500">
+                    {% if pet.age_years > 0 %}
+                        {{ pet.age_years }} years{% if pet.age_months > 0 %} and {{ pet.age_months }} months{% endif %} old
+                    {% else %}
+                        {{ pet.age_months }} months old
+                    {% endif %}
+                </p>
                 <span class="text-gray-500">{{ pet.type }}</span>
             </div>
 
@@ -28,9 +34,9 @@
                class="absolute top-2 right-2 z-10" 
                onclick="event.stopPropagation();">
                 {% if pet.id in favorite_pet_ids %}
-                    <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-14 h-14">
+                    <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
                 {% else %}
-                    <img src="{% static 'images/unliked.png' %}" alt="Not Liked" class="w-14 h-14">
+                    <img src="{% static 'images/unliked.png' %}" alt="Not Liked" class="w-10 h-10">
                 {% endif %}
             </a>
         </div>
@@ -62,34 +68,69 @@
 
     <!-- Modal -->
     <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
-            <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800" onclick="closePetModal()">✕</button>
-            <div class="flex">
-                <img id="modalPetImage" class="w-48 h-48 object-cover rounded-lg mr-4" alt="Pet Image">
+        <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-2xl w-full relative">
+    
+            <button class="absolute top-4 left-4" onclick="closePetModal()">
+                <img src="{% static 'images/backArrow.png' %}" alt="Close" class="w-7 h-7">
+            </button>
+            <div class="flex flex-col md:flex-row">
+                <!-- Image occupying half of the modal with rounded corners and fixed size -->
+                <img id="modalPetImage" class="w-[300px] h-[400px] object-cover rounded-3xl mb-4 md:mb-0 md:mr-6" alt="Pet Image">
                 <div class="flex-grow">
-                    <h3 id="modalPetName" class="font-bold text-2xl mb-2"></h3>
-                    <p id="modalPetAge" class="text-gray-500 mb-1"></p>
-                    <span id="modalPetType" class="text-gray-500 block mb-2"></span>
-                    <p id="modalPetDescription" class="text-gray-600 mb-4"></p>
-                    <input type="hidden" id="modalPetId" value=""> <!-- Hidden input for Pet ID -->
-                    <button class="bg-[#F2968F] text-white px-4 py-2 rounded mt-4" onclick="redirectToAdoptionForm()">Apply to Adopt</button>
+                    <h3 id="modalPetName" class="pt-8 font-bold text-2xl mb-2"></h3>
+                    <p id="modalPetCreated" class="text-gray-500 text-sm mb-2"></p>
+                    <div class="flex space-x-2 mb-1">
+                        <p id="modalPetAgeYears" class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                        <p id="modalPetAgeMonths" class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm"></p>
+                        <p id="modalPetType" class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                        <p id="modalPetFee" class="bg-[#FF395D] text-white px-3 py-1 rounded-full text-sm"></p>
+                    </div>
+                    <p id="modalPetDescription" class="text-gray-600 mt-2 mb-4"></p>
+                    <input type="hidden" id="modalPetId" value="">
+    
+                    <!-- Favorite Button in the Modal -->
+                    <button id="modalFavoriteButton" class="absolute top-4 right-4 z-10" onclick="toggleFavorite()">
+                        <img id="modalFavoriteIcon" src="{% static 'images/unliked.png' %}" alt="Favorite" class="w-10 h-10">
+                    </button>
                 </div>
+                <!-- Positioned "Apply to Adopt" button in the bottom right of the modal -->
+                <button class="absolute bottom-6 right-6 bg-[#F2968F] text-white px-6 py-2 rounded-full" onclick="redirectToAdoptionForm()">Apply to Adopt</button>
             </div>
         </div>
     </div>
+    
 </section>
 
 <script>
 
-    function showPetModal(id, name, age, type, description, imageUrl) {
+    function showPetModal(id, name, created, ageyears, agemonths, type, fee, description, imageUrl, isLiked) {
         document.getElementById('modalPetId').value = id;  
         document.getElementById('modalPetName').innerText = name;
-        document.getElementById('modalPetAge').innerText = age + " years old";
+        document.getElementById('modalPetCreated').innerText = "Uploaded on: " + created;
+        document.getElementById('modalPetAgeYears').innerText = ageyears + " years";
+        document.getElementById('modalPetAgeMonths').innerText = agemonths + " months";
         document.getElementById('modalPetType').innerText = type;
+        document.getElementById('modalPetFee').innerText = fee;
         document.getElementById('modalPetDescription').innerText = description;
         document.getElementById('modalPetImage').src = imageUrl;
+
+        // Set favorite icon based on whether it's liked
+        const favoriteIcon = isLiked ? '{% static "images/liked.png" %}' : '{% static "images/unliked.png" %}';
+        document.getElementById('modalFavoriteIcon').src = favoriteIcon;
+
         document.getElementById('petModal').classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
+    }
+
+    function toggleFavorite() {
+        const petId = document.getElementById('modalPetId').value;  
+        const currentIcon = document.getElementById('modalFavoriteIcon').src.includes('liked.png') 
+            ? '{% static "images/unliked.png" %}' 
+            : '{% static "images/liked.png" %}';
+
+        document.getElementById('modalFavoriteIcon').src = currentIcon;
+        // Optionally make an AJAX call or redirect to toggle the favorite status
+        window.location.href = `/pets/toggle_favorite/${petId}/`;
     }
 
 

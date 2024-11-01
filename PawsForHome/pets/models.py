@@ -5,15 +5,14 @@ from django.conf import settings
 class Pet(models.Model):
     STATUS_CHOICES = [
         (1, 'Available'),
-        (2, 'Pending'),
-        (3, 'Adopted'),
-        #(4, 'Not Available'),
+        (2, 'Adopted'),
     ]
 
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='pets/', default='pets/default_pet.jpg')
     type = models.CharField(max_length=100)
-    age = models.DecimalField(max_digits=4, decimal_places=2)
+    age_years = models.IntegerField(default=0)
+    age_months = models.IntegerField(default=0)
     description = models.TextField()
     adoption_fee = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.IntegerField(choices=STATUS_CHOICES, default=1) 
@@ -75,27 +74,19 @@ class AdoptionRequest(models.Model):
     
     def accept(self):
         self.status = 2
-        self.pet.status = 3 
+        self.pet.status = 2 
         self.save()
         self.pet.save()
 
     def reject(self):
-        # print("Reject method called")
         self.status = 3
-        # if self.pet.status == 2:
-        #     self.pet.status = 2
-        # else:
-        #     self.pet.status = 1
-        # if self.pet.status == 2: 
-        #     self.pet.status = 1
         self.save()
         self.pet.save()
-        # print("Adoption request status:", self.status, "Pet status:", self.pet.status)
 
-    def submit_request(self):
-        self.pet.status = 2 
-        self.save()
-        self.pet.save()
+    # def submit_request(self):
+    #     self.status = 2 
+    #     self.save()
+    #     self.pet.save()
 
 class Favorite(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
