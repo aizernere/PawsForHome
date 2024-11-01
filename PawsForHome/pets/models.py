@@ -80,11 +80,17 @@ class AdoptionRequest(models.Model):
         self.pet.save()
 
     def reject(self):
+        # print("Reject method called")
         self.status = 3
         # if self.pet.status == 2:
         #     self.pet.status = 2
+        # else:
+        #     self.pet.status = 1
+        # if self.pet.status == 2: 
+        #     self.pet.status = 1
         self.save()
         self.pet.save()
+        # print("Adoption request status:", self.status, "Pet status:", self.pet.status)
 
     def submit_request(self):
         self.pet.status = 2 

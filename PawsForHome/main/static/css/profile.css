@@ -7,6 +7,8 @@
     padding: 25px;
     display: flex;
     flex-direction: row;
+    width: 90%;
+    margin: 24.5px auto;
     /* border: 1px solid black; */
 }
 
@@ -32,7 +34,7 @@
 }
 
 .edit h2{
-    margin: 0 0 10px;
+    margin: 0 0 30px;
 }
 
 .edit form{
@@ -48,13 +50,17 @@
 }
 
 .row div{
-    margin: 0 10px;
+    margin: 5px 10px;
     width: 50%;
     /* border: 1px solid blue; */
 }
 
 .edit form .row:nth-of-type(3) div {
     width: 100%;
+}
+
+.edit form .row:nth-of-type(3) div .input-field{
+    width: 98%;
 }
 
 .row .lbl{

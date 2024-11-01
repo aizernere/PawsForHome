@@ -49,8 +49,8 @@ def dashpets(request):
     pet_count = pets.count()
     #to do pending request
     shelter = request.user 
-    pets_request = Pet.objects.filter(owner=shelter,status=2)
-    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets_request)
+    pets = Pet.objects.filter(owner=shelter, status=1)
+    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets,status =1)
     pending_count = adoption_requests.count()
 
     popular_pets = (
@@ -60,7 +60,7 @@ def dashpets(request):
     )
 
 
-    adopted_count = pets.filter(status=2).count()
+    adopted_count = Pet.objects.filter(owner=request.user, status=3).count()
     return render(request, 'shelterdashboard.html', {
         'pets': pets,
         'pet_count': pet_count,
@@ -96,6 +96,7 @@ def accept_adoption_request(request, request_id):
 
 @login_required
 def reject_adoption_request(request, request_id):
+    # print("Reject button clicked for adoption request ID:", request_id)
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
     adoption_request.reject()
     return redirect('main:shelterdashboard')

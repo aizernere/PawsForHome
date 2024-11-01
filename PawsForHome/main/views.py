@@ -38,15 +38,48 @@ def ud_favorites(request):
 
 def ud_adoptionhistory(request):
     curr_fn = request.user.first_name
-    return render(request, 'user_dashboard/adoption_history.html', {'curr_fn':curr_fn})
+
+    user_requests = AdoptionRequest.objects.filter(account_id = request.user.id)
+    
+    accepted = Pet.objects.filter(id__in = user_requests.filter(status = 2).values_list('pet_id', flat=True))
+    rejected = Pet.objects.filter(id__in = user_requests.filter(status = 3).values_list('pet_id', flat=True))
+    
+    return render(request, 'user_dashboard/adoption_history.html', {
+        'curr_fn':curr_fn,
+        'accepted':accepted,
+        'rejected':rejected
+        })
     
 # def adoptionform(request):
 #     return render(request, 'adoptionform.html', {})
 def shelterdashboard(request):
     return render(request, 'shelterdashboard.html', {})
+
+@login_required
 def user_dashboard(request):
     curr_fn = request.user.first_name
-    return render(request, 'userdashboard.html', {'curr_fn':curr_fn})
+
+    user_requests = AdoptionRequest.objects.filter(account_id = request.user.id)
+    
+    # pets owned count and not count
+    pets = user_requests.filter(status=2).values_list('pet_id', flat=True)
+    own_pet = Pet.objects.filter(id__in = pets)
+    own_pet_count = user_requests.filter(status = 2).count()
+
+    # request count
+    request_count = user_requests.filter(status=1).count()
+
+    # favorite pets count
+    fave_count = Favorite.objects.filter(user_id = request.user.id).count()
+
+    return render(request, 'userdashboard.html', {
+        'curr_fn':curr_fn,
+        'own_pet':own_pet,
+        'own_pet_count':own_pet_count,
+        'request_count':request_count,
+        'fave_count':fave_count
+        })
+
 def petsadopted(request):
     return render(request, 'shelterdashboard/petsadopted.html',{})
 def pet_listings(request):
@@ -208,8 +241,7 @@ def logout_account(request):
 @login_required
 def adoption_request_view(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
-    
-    user_profile = request.user 
+    user_profile = request.user
 
     if request.method == 'POST':
         form = AdoptionForm(request.POST)
@@ -217,9 +249,9 @@ def adoption_request_view(request, pet_id):
             adoption_request = form.save(commit=False)
             adoption_request.pet = pet
             adoption_request.account = user_profile
+            adoption_request.status = 1 
             adoption_request.save()
-            pet.status = 2
-            pet.save()
+            
             return redirect('pets:list_pet')
     else:
         form = AdoptionForm(initial={
@@ -235,6 +267,7 @@ def adoption_request_view(request, pet_id):
         'pet': pet,
     })
 
+
 # @login_required
 # def pending_requests(request):
 #     shelter = request.user 
@@ -249,14 +282,15 @@ def adoption_request_view(request, pet_id):
 @login_required
 def pending_requests(request):
     shelter = request.user
-    pets = Pet.objects.filter(owner=shelter, status=1)
-    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets)
+    pets = Pet.objects.filter(owner=shelter)
+    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets, status=1)  
 
     context = {
         'adoption_requests': adoption_requests,
         'pets': pets,
     }
     return render(request, 'shelterdashboard/pending_requests.html', context)
+
 
 @login_required
 def adoption_request_detail(request, request_id):

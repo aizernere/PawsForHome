@@ -1,5 +1,10 @@
 {% extends "index.html" %}
 
+{% url 'main:user_dashboard' as user_dashboard_url %}
+{% url 'main:ud_requests' as ud_requests_url %}
+{% url 'main:ud_favorites' as ud_favorites_url %}
+{% url 'main:ud_adoptionhistory' as ud_adoptionhistory_url %}
+
 
 {% block contents %}
 
@@ -19,22 +24,22 @@
             </center>
 
             <div class="side-items">
-                <div class="item">
+                <div class="item {% if request.resolver_match.url_name == 'user_dashboard' %}active{% endif %}">
                     <a href="{% url "main:user_dashboard" %}">
                         Overview
                     </a>
                 </div>
-                <div class="item">
+                <div class="item {% if request.resolver_match.url_name == 'ud_requests' %}active{% endif %}">
                     <a href="{% url "main:ud_requests" %}">
                         Requests
                     </a>
                 </div>
-                <div class="item">
+                <div class="item {% if request.resolver_match.url_name == 'ud_favorites' %}active{% endif %}">
                     <a href="{% url "main:ud_favorites" %}">
                         Favorites
                     </a>
                 </div>
-                <div class="item">
+                <div class="item {% if request.resolver_match.url_name == 'ud_adoptionhistory' %}active{% endif %}">
                     <a href="{% url "main:ud_adoptionhistory" %}">
                         Adoption History
                     </a>
@@ -44,9 +49,53 @@
         </div>
         <div class="side-bar-contents">
             <div class="content">
-                <h2>{% block ud_name %}Overview{% endblock ud_name %}</h2>
+                {% block ud_name %}{% endblock ud_name %}
                 {% block u_dash_content %}
-                    hello 1
+                    
+                    <section class="overview-stats">
+
+                        <div class="overview">
+                            <center>
+                                <img src="{% static "images/guinea-pig 1.png" %}" alt="Request Pets">
+                                <h3>Request Pets</h3>
+                                <p class="count">{{request_count}}</p>
+                            </center>
+                        </div>
+                        <div class="overview">
+                            <center>
+                                <img src="{% static "images/catshelterboardpic.png" %}" alt="Favorite Pets">
+                                <h3>Favorite Pets</h3>
+                                <p class="count">{{fave_count}}</p>
+                            </center>
+                        </div>
+                        <div class="overview">
+                            <center>
+                                <img src="{% static "images/shelterboardpic3.png" %}" alt="Pets Owned">
+                                <h3>Pets Owned</h3>
+                                <p class="count">{{own_pet_count}}</p>
+                            </center>
+                        </div>
+
+                    </section>
+
+                    <section class="pets-owned">
+                        <h3>Pets Owned:</h3>
+                        {% if own_pet %}
+                            {% for op in own_pet %}
+
+                                    <div class="pet">
+                                        <img src="{{ op.image.url }}" alt="{{ op.name }}" class="pet-image">
+                                        <div class="pet-info">
+                                            <h3 class="pet-name">{{ op.name }}</h3>
+                                            <p class="pet-age">{{ op.age }} years old</p>
+                                            <span class="pet-type">{{ op.type }}</span>
+                                        </div>
+                                    </div> 
+                                    
+                            {% endfor %}
+                        {% endif %}
+                    </section>
+
                 {% endblock u_dash_content %}
             </div>
         </div>
