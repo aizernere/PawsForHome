@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+from pmessages.models import Message
 
 # Create your models here.
 class Pet(models.Model):
@@ -77,16 +79,23 @@ class AdoptionRequest(models.Model):
         self.pet.status = 2 
         self.save()
         self.pet.save()
+        Message.objects.create(
+            sender=self.pet.owner,
+            receiver=self.account, 
+            content=f"Your adoption request for {self.pet.name} has been accepted!",
+            timestamp=timezone.now()
+        )
 
     def reject(self):
         self.status = 3
         self.save()
         self.pet.save()
-
-    # def submit_request(self):
-    #     self.status = 2 
-    #     self.save()
-    #     self.pet.save()
+        Message.objects.create(
+            sender=self.pet.owner,  
+            receiver=self.account, 
+            content=f"Your adoption request for {self.pet.name} has been rejected!",
+            timestamp=timezone.now()
+        )
 
 class Favorite(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

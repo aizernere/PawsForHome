@@ -30,7 +30,7 @@
             </div>
 
             <!-- Favorite Button Overlay -->
-            <a href="{% url "pets:toggle_favorite" pet.id %}" 
+            <a href="{% url 'pets:toggle_favorite' pet.id %}" 
                class="absolute top-2 right-2 z-10" 
                onclick="event.stopPropagation();">
                 {% if pet.id in favorite_pet_ids %}

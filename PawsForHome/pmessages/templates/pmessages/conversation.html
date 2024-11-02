@@ -30,10 +30,10 @@
                 </div>
             {% else %}
                 <div class="flex items-center space-x-2">
+                    <small class="text-gray-500">{{ message.timestamp|date:"M d, Y H:i" }}</small>
                     <div class="bg-[#F2968F] p-2 rounded-lg text-white max-w-xs">
                         {{ message.content }}
                     </div>
-                    <small class="text-gray-500">{{ message.timestamp|date:"M d, Y H:i" }}</small>
                 </div>
             {% endif %}
         {% endfor %}
