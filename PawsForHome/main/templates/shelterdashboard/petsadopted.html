@@ -38,7 +38,14 @@
                 <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="h-20 w-20 object-cover rounded-full shadow">
                 <div>
                   <h4 class="text-xl font-bold">{{ pet.name }}</h4>
-                  <p class="text-gray-600">{{ pet.age }} years old, {{ pet.type }}</p>
+                 </p>
+                  <p class="text-gray-600">
+                    {% if pet.age_years > 0 %}
+                        {{ pet.age_years }} years{% if pet.age_months > 0 %} and {{ pet.age_months }} months{% endif %} old
+                    {% else %}
+                        {{ pet.age_months }} months old , {{ pet.type }}
+                    {% endif %}
+                  </p>
                 </div>
               </div>
             </li>
@@ -50,7 +57,7 @@
     </main>
   </div>
 
-  <!-- Footer (same as dashboard) -->
+  <!-- Footer (same as dashboard)
   <footer class="bg-white w-full py-6 pl-64">
     <div class="max-w-6xl mx-auto flex justify-between px-4">
       <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
@@ -63,7 +70,7 @@
         </div>
       </div>
     </div>
-  </footer>
+  </footer> -->
 
 </body>
 
