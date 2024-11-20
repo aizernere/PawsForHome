@@ -12,7 +12,13 @@
                     <img src="{{ fp.image.url }}" alt="{{ fp.name }}" class="pet-image">
                     <div class="pet-info">
                         <h3 class="pet-name">{{ fp.name }}</h3>
-                        <p class="pet-age">{{ fp.age }} years old</p>
+                        <p class="pet-age">
+                            {% if fp.age_years > 0 %}
+                                {{ fp.age_years }} years{% if fp.age_months > 0 %} and {{ fp.age_months }} months{% endif %} old
+                            {% else %}
+                                {{ fp.age_months }} months old
+                            {% endif %}
+                        </p>
                         <span class="pet-type">{{ fp.type }}</span>
                     </div>
                 </div> 

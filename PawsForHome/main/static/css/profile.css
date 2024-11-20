@@ -35,6 +35,8 @@
 
 .edit h2{
     margin: 0 0 30px;
+    font-size: large;
+    font-weight: 900;
 }
 
 .edit form{
