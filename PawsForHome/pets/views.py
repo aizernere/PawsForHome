@@ -4,6 +4,8 @@ from .forms import PetForm
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.contrib import messages
+from django.db import transaction
 
 @login_required 
 def add_pet(request):
@@ -17,6 +19,41 @@ def add_pet(request):
     else:
         form = PetForm()
     return render(request, 'pets/add_pet.html', {'form': form})
+
+@login_required
+def delete_pet(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+    if pet.owner != request.user:
+        messages.error(request, "You do not have permission to delete this pet.")
+        return redirect('main:shelterdashboard')
+    
+    if request.method == "POST":
+        with transaction.atomic():
+            # Delete related adoption requests and favorites
+            AdoptionRequest.objects.filter(pet=pet).delete()
+            Favorite.objects.filter(pet=pet).delete()
+            
+            # Delete the pet
+            pet.delete()
+        
+        messages.success(request, "Pet and all related data deleted successfully.")
+        return redirect('main:shelterdashboard')
+    
+    return render(request, 'pets/confirm_delete.html', {'pet': pet})
+
+@login_required
+def edit_pet(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+
+    if request.method == 'POST':
+        form = PetForm(request.POST, request.FILES, instance=pet)
+        if form.is_valid():
+            form.save()
+            return redirect('main:pet_listings')  # Redirect to the pet listings page
+    else:
+        form = PetForm(instance=pet)
+
+    return render(request, 'pets/edit_pet.html', {'form': form, 'pet': pet})
 
 
 @login_required

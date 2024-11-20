@@ -1,20 +1,17 @@
 {% extends "index.html" %}
 
-
 {% block contents %}
-
 <script src="https://cdn.tailwindcss.com"></script>
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
 <body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
 
   <div class="flex flex-grow">
-    
     <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col fixed h-screen">
       <div class="flex items-center justify-center">
         <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
       </div>
-      <h1 class="text-2xl font-bold text-center mt-4">{{request.user.first_name}}</h1>
+      <h1 class="text-2xl font-bold text-center mt-4">{{ request.user.first_name }}</h1>
 
       <!-- Sidebar Navigation -->
       <nav class="mt-10">
@@ -28,51 +25,98 @@
     </aside>
 
     <!-- Main Content -->
-    <!-- <main class="flex-grow bg-white ml-72 p-10 rounded-tl-3xl shadow-lg max-w-5xl mx-auto"> -->
-      <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
+    <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
       <section class="mb-12">
         <h3 class="text-2xl font-bold mb-6">Pet Listings:</h3>
         <div class="grid grid-cols-5 gap-6">
           {% for pet in pets %}
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-              <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-48 object-cover">
-              <div class="p-4">
-                  <h3 class="font-bold text-lg">{{ pet.name }}</h3>
-                  <p class="text-gray-500">
-                    {% if pet.age_years > 0 %}
-                        {{ pet.age_years }} years{% if pet.age_months > 0 %} and {{ pet.age_months }} months{% endif %} old
-                    {% else %}
-                        {{ pet.age_months }} months old
-                    {% endif %}
-                  </p>
-                  <span class="text-gray-500">{{ pet.type }}</span>
-              </div>
+          <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+               onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}', '{{ pet.age_years }}', '{{ pet.age_months }}', '{{ pet.type }}', '{{ pet.description }}', '{{ pet.image.url }}')">
+            <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="font-bold text-lg">{{ pet.name }}</h3>
+              <p class="text-gray-500">
+                {% if pet.age_years > 0 %}
+                    {{ pet.age_years }} years{% if pet.age_months > 0 %} and {{ pet.age_months }} months{% endif %} old
+                {% else %}
+                    {{ pet.age_months }} months old
+                {% endif %}
+              </p>
+              <span class="text-gray-500">{{ pet.type }}</span>
+            </div>
           </div>
           {% empty %}
           <p class="text-gray-500">You have no pets listed for adoption.</p>
           {% endfor %}
-          <!-- More listings -->
-          <a href="{% url "pets:add_pet" %}" class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center py-28">
+          <!-- Add Pet Button -->
+          <a href="{% url 'pets:add_pet' %}" class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center py-28">
             <span class="text-gray-500">Add Pet</span>
-            </a>
+          </a>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Footer
-  <footer class="bg-white w-full py-6 pl-64">
-    <div class="max-w-6xl mx-auto flex justify-between px-4">
-      <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
-      <div class="flex space-x-4">
-        <p class="text-gray-600">info@pawsathome.com</p>
-        <div class="space-x-2">
-          <a href="#" class="text-gray-600">Facebook</a>
-          <a href="#" class="text-gray-600">Instagram</a>
-          <a href="#" class="text-gray-600">Twitter</a>
+  <!-- Modal -->
+  <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
+    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-2xl w-full relative">
+      
+      <!-- Back Button -->
+      <button class="absolute top-4 left-4" onclick="closePetModal()">
+        <img src="{% static 'images/backArrow.png' %}" alt="Back" class="w-7 h-7">
+      </button>
+
+      <div class="flex flex-col md:flex-row">
+        <!-- Pet Image -->
+        <img id="modalPetImage" class="w-[300px] h-[400px] object-cover rounded-3xl mb-4 md:mb-0 md:mr-6" alt="Pet Image">
+        <div class="flex-grow">
+          <h3 id="modalPetName" class="pt-8 font-bold text-2xl mb-2"></h3>
+          <p id="modalPetCreated" class="text-gray-500 text-sm mb-2"></p>
+          <div class="flex space-x-2 mb-1">
+            <p id="modalPetAgeYears" class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm"></p>
+            <p id="modalPetAgeMonths" class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm"></p>
+            <p id="modalPetType" class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"></p>
+          </div>
+          <p id="modalPetDescription" class="text-gray-600 mt-2 mb-4"></p>
         </div>
       </div>
+
+      <!-- Edit and Delete Buttons -->
+      <div class="flex justify-end space-x-4 mt-6 pb-6 pr-6">
+        <a href="#" id="editPetButton" class="bg-blue-500 text-white px-6 py-2 rounded-full">Edit</a>
+        <a href="#" id="deletePetButton" class="bg-red-500 text-white px-6 py-2 rounded-full" 
+   onclick="deletePet(event, this.getAttribute('data-url'))">Delete</a>
+      </div>
     </div>
-  </footer> -->
+  </div>
+
+  <script>
+    function showPetModal(id, name, created, ageYears, ageMonths, type, description, imageUrl) {
+    document.getElementById('modalPetName').innerText = name;
+    document.getElementById('modalPetCreated').innerText = "Uploaded on: " + created;
+    document.getElementById('modalPetAgeYears').innerText = ageYears + " years";
+    document.getElementById('modalPetAgeMonths').innerText = ageMonths + " months";
+    document.getElementById('modalPetType').innerText = type;
+    document.getElementById('modalPetDescription').innerText = description;
+    document.getElementById('modalPetImage').src = imageUrl;
+    document.getElementById('editPetButton').href = `/edit_pet/${id}/`;
+    document.getElementById('deletePetButton').setAttribute('data-url', `/delete_pet/${id}/`);
+    document.getElementById('petModal').classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+}
+
+
+    function closePetModal() {
+      document.getElementById('petModal').classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+    function deletePet(event, url) {
+  event.preventDefault(); 
+  if (confirm("Are you sure you want to delete this pet?")) {
+    window.location.href = url; 
+  }
+}
+
+  </script>
 </body>
 {% endblock contents %}

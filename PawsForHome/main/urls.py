@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from pets.views import my_pets, dashpets, petsadopted
+from pets.views import my_pets, dashpets, petsadopted, edit_pet, delete_pet
 from pmessages.views import send_message, view_conversation, conversations_list
 
 urlpatterns = [
@@ -22,6 +22,8 @@ urlpatterns = [
     path('shelterdashboard/',dashpets, name='shelterdashboard'),
     path('petsadopted/',petsadopted, name='petsadopted'),
     path('pet_listings/', my_pets, name='pet_listings'),
+    path('edit_pet/<int:pet_id>/', edit_pet, name='edit_pet'),
+    path('delete_pet/<int:pet_id>/',delete_pet, name='delete_pet'),
     path('pending_requests/', views.pending_requests, name='pending_requests'),
     #path('adoptform/', views.adoptform, name='adoptform'),
     path('profile_filling/', views.profile_filling, name='profile_filling'),
