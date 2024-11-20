@@ -87,7 +87,13 @@
                                         <img src="{{ op.image.url }}" alt="{{ op.name }}" class="pet-image">
                                         <div class="pet-info">
                                             <h3 class="pet-name">{{ op.name }}</h3>
-                                            <p class="pet-age">{{ op.age }} years old</p>
+                                            <p class="pet-age">
+                                                {% if op.age_years > 0 %}
+                                                    {{ op.age_years }} years{% if op.age_months > 0 %} and {{ op.age_months }} months{% endif %} old
+                                                {% else %}
+                                                    {{ op.age_months }} months old
+                                                {% endif %}
+                                            </p>
                                             <span class="pet-type">{{ op.type }}</span>
                                         </div>
                                     </div> 

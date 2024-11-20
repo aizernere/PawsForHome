@@ -65,7 +65,7 @@
 
     {% block contents %}
     {% endblock contents %}
-    <footer class="bg-white w-full py-6 pl-64">
+    {% comment %} <footer class="bg-white w-full py-6 pl-64">
         <div class="max-w-6xl mx-auto flex justify-between px-4">
           <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
           <div class="flex space-x-4">
@@ -77,6 +77,18 @@
             </div>
           </div>
         </div>
-      </footer>
+      </footer> {% endcomment %}
+      <footer class="bg-white py-8 m-0 mt-20 w-full rounded-t-[24px]">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-600 mb-4">info@paws4home.com</p>
+            <div class="social-icons flex justify-center space-x-4 mb-4">
+                <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
+                <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
+                <a href="#"><img src="{% static 'images/githubpic.png' %}" alt="GitHub" class="w-6"></a>
+            </div>
+            <p><a href="#" class="text-gray-600 hover:text-gray-800">Terms & Conditions</a> | <a href="#" class="text-gray-600 hover:text-gray-800">Privacy Policy</a></p>
+        </div>
+    </footer>
+    </html>
 </body>
 </html>
