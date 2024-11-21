@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.contrib.auth.hashers import make_password, check_password
+from datetime import datetime
 
 # Create your models here.
 
@@ -49,4 +50,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
         return check_password(raw_password, self.password)
     def __str__(self):
         return self.email 
+    
+class Notification(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="notifications")
+    notification = models.TextField()
+    is_read = models.BooleanField(default=False) 
+    created_at = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return self.account.email + " - " + self.notification
     

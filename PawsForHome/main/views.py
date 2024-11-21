@@ -88,9 +88,13 @@ def adoptform(request):
     return render(request, 'shelterdashboard/adoptform.html',{})
 # def pending_requests(request):
 #     return render(request, 'shelterdashboard/pending_requests.html',{})
-def notifications(request):
-    return render(request, 'navbar/notifications.html', {})
+# def notifications(request):
+#     return render(request, 'navbar/notifications.html', {})
 
+@login_required
+def notifications(request):
+    notifications = request.user.notifications.all().order_by("-created_at")
+    return render(request, "navbar/notifications.html", {"notifications": notifications})
 # def message(request):
 #     return render(request, 'navbar/message.html', {})
 

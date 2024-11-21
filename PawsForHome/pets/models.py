@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from pmessages.models import Message
+from main.models import Notification
 
 # Create your models here.
 class Pet(models.Model):
@@ -79,12 +80,15 @@ class AdoptionRequest(models.Model):
         self.pet.status = 2 
         self.save()
         self.pet.save()
+        output = f"Your adoption request for {self.pet.name} has been accepted!"
         Message.objects.create(
             sender=self.pet.owner,
             receiver=self.account, 
-            content=f"Your adoption request for {self.pet.name} has been accepted!",
+            content=output,
             timestamp=timezone.now()
         )
+        Notification.objects.create(account=self.account, notification=output)
+    
 
     def reject(self):
         self.status = 3
