@@ -7,7 +7,7 @@ html, body{
     /* width: 96vw; */
     /* height: 97vh; */
     /* padding: 0 !important;  */
-    /* padding: 20px; */
+    padding: 20px;
     display: flex;
     flex-direction: row;
     font-family: 'Open Sans';
@@ -51,34 +51,43 @@ html, body{
     color: black;
 }
 
-.main .side-bar-contents{
-    width: 75%;
-    /* padding: 0 !important; */
-    /* border: 1px solid black; */
+/* .main  */
+.side-bar-contents .content{
+    width: 100%;
+    height: 70vh;
+    /* max-width: 1000px; */
+    /* border: 1px solid blue; */
 }
 
-.side-bar-contents .content{
+.side-bar-contents .for-overview{
+    height: 75vh;
+}
+
+.side-bar-contents {
     background-color: #FFF1EE;
     border-radius: 20px;
     padding: 20px;
-    min-height: 70vh;
-    height: fit-content;
-    max-width: 1000px;
+    min-height: 80vh;
+    max-height: 80vh;
+    width: 75%;
     display: flex; 
     flex-direction: row; 
     gap: 5px 15px; 
+    flex-wrap: wrap;
+    /* height: fit-content; */
+    /* max-width: 1000px; */
     /* justify-content: space-between; */
     /* flex-grow: initial; */
-    flex-wrap: wrap;
     /* gap: 0; */
+    /* border: 1px solid black; */
 }
 
-.side-bar-contents .content h2{
+.side-bar-contents h2{
     width: 100%;
-    margin: 0 0 20px;
     padding-bottom: 0;
     font-weight: bolder;
     height: fit-content;
+    /* margin: 0 0 20px; */
     /* border: 1px solid black; */
 }
 
@@ -173,4 +182,18 @@ html, body{
 .history h3{
     margin: 0;
     font-weight:normal;
+}
+
+.empty{
+    text-align: center;
+    color: gray;
+    /* border: 1px solid black; */
+}
+
+.empty-overview{
+    margin: auto;
+    text-align: center;
+    color: gray;
+    /* height: 250px; */
+    /* border: 1px solid black; */
 }

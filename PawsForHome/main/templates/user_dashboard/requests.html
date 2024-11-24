@@ -1,31 +1,30 @@
 {% extends "userdashboard.html" %}
-{% block ud_name %}<h2>Requests</h2>{% endblock ud_name %}Favorites
 
 {% block u_dash_content %}
-{% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
-{% comment %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/landing_page.css' %}"> {% endcomment %}
-
-{% comment %} <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6"> {% endcomment %}
+{% block ud_name %}<h2>Requests</h2>{% endblock ud_name %}
+<div class="content">
     {% if request_pets %}
         {% for rp in request_pets %}
-
-                <div class="pet">
-                    <img src="{{ rp.image.url }}" alt="{{ rp.name }}" class="pet-image">
-                    <div class="pet-info">
-                        <h3 class="pet-name">{{ rp.name }}</h3>
-                        <p class="pet-age">
-                            {% if rp.age_years > 0 %}
-                                {{ rp.age_years }} years{% if rp.age_months > 0 %} and {{ rp.age_months }} months{% endif %} old
-                            {% else %}
-                                {{ rp.age_months }} months old
-                            {% endif %}
-                        </p>
-                        <span class="pet-type">{{ rp.type }}</span>
-                    </div>
-                </div> 
-                
+    
+        <div class="pet">
+            <img src="{{ rp.image.url }}" alt="{{ rp.name }}" class="pet-image">
+            <div class="pet-info">
+                <h3 class="pet-name">{{ rp.name }}</h3>
+                <p class="pet-age">
+                    {% if rp.age_years > 0 %}
+                    {{ rp.age_years }} years{% if rp.age_months > 0 %} and {{ rp.age_months }} months{% endif %} old
+                    {% else %}
+                    {{ rp.age_months }} months old
+                    {% endif %}
+                </p>
+                <span class="pet-type">{{ rp.type }}</span>
+            </div>
+        </div> 
+        
         {% endfor %}
+    {% else %}    
+        <p class="empty">No request pets.</p>    
     {% endif %}
+</div>
 {% comment %} </div> {% endcomment %}
 {% endblock u_dash_content %}
