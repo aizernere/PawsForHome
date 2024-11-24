@@ -1,7 +1,13 @@
+html, body{
+    padding: 0;
+    margin: 0;
+}
+
 .main {
     /* width: 96vw; */
     /* height: 97vh; */
-    padding: 20px;
+    /* padding: 0 !important;  */
+    /* padding: 20px; */
     display: flex;
     flex-direction: row;
     font-family: 'Open Sans';
@@ -47,6 +53,7 @@
 
 .main .side-bar-contents{
     width: 75%;
+    /* padding: 0 !important; */
     /* border: 1px solid black; */
 }
 
@@ -88,6 +95,8 @@
     border-radius: 8px;
     background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    cursor: pointer;
     /* border: 1px solid black; */
 }
 

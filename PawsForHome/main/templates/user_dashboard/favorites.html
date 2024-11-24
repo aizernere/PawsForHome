@@ -2,13 +2,15 @@
 
 {% block ud_name %}<h2>Favorites</h2>{% endblock ud_name %}
 {% block u_dash_content %}
-{% comment %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/landing_page.css' %}"> {% endcomment %}
+{% load static %}
+{% comment %} <link rel="stylesheet" href="{% static 'css/landing_page.css' %}"> {% endcomment %}
     {% comment %} <h2>Favorites</h2> {% endcomment %}
     {% if fav_pets %}
         {% for fp in fav_pets %}
-
-                <div class="pet">
+            {% comment %} <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" data-pet-id="{{ pet.id }}" 
+            onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}', true)"> {% endcomment %}
+            {% comment %} pet image {% endcomment %}
+                <div class="pet" onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}', true)">
                     <img src="{{ fp.image.url }}" alt="{{ fp.name }}" class="pet-image">
                     <div class="pet-info">
                         <h3 class="pet-name">{{ fp.name }}</h3>
@@ -21,8 +23,52 @@
                         </p>
                         <span class="pet-type">{{ fp.type }}</span>
                     </div>
-                </div> 
-                
+                {% comment %} </div>  {% endcomment %}
+
+                <!-- Favorite Button Overlay -->
+                    <a href="{% url 'pets:toggle_favorite' fp.id %}" 
+                        class="absolute top-2 right-2 z-10" 
+                        onclick="event.stopPropagation();">
+                            <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
+                    </a>
+                </div>  
+                {% empty %}
+                <p>No favorite pets.</p>           
         {% endfor %}
     {% endif %}
+
+        <!-- Modal -->
+        <div id="petModal" class="fixed -inset-2 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
+            <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-3xl w-full relative">
+        
+                <button class="absolute top-4 left-4" onclick="closePetModal()">
+                    <img src="{% static 'images/backArrow.png' %}" alt="Close" class="w-7 h-7">
+                </button>
+                <div class="flex flex-col md:flex-row">
+                    <!-- Image occupying half of the modal with rounded corners and fixed size -->
+                    <img id="modalPetImage" class="w-[300px] h-[400px] object-cover rounded-3xl mb-4 md:mb-0 md:mr-6" alt="Pet Image">
+                    <div class="flex-grow">
+                        <h3 id="modalPetName" class="pt-8 font-bold text-2xl mb-2"></h3>
+                        <p id="modalPetCreated" class="text-gray-500 text-sm mb-2"></p>
+                        <div class="flex space-x-2 mb-1">
+                            <p id="modalPetAgeYears" class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                            <p id="modalPetAgeMonths" class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm"></p>
+                            <p id="modalPetType" class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                            <p id="modalPetFee" class="bg-[#FF395D] text-white px-3 py-1 rounded-full text-sm"></p>
+                        </div>
+                        <p id="modalPetDescription" class="text-gray-600 mt-2 mb-4"></p>
+                        <input type="hidden" id="modalPetId" value="">
+        
+                        <!-- Favorite Button in the Modal -->
+                        <button id="modalFavoriteButton" class="absolute top-4 right-4 z-10" onclick="toggleFavorite()">
+                            <img id="modalFavoriteIcon" src="{% static 'images/liked.png' %}" alt="Favorite" class="w-10 h-10">
+                        </button>
+                    </div>
+                    <!-- Positioned "Apply to Adopt" button in the bottom right of the modal -->
+                    <button class="absolute bottom-6 right-6 bg-[#F2968F] text-white px-6 py-2 rounded-full" onclick="redirectToAdoptionForm()">Apply to Adopt</button>
+                </div>
+            </div>
+        </div>
+
+    <script src={% static 'js/modal.js' %} ></script>
 {% endblock u_dash_content %}
