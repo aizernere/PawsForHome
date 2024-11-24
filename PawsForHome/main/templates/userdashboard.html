@@ -11,7 +11,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static "css/user-dashboard.css" %}">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-    
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <div class="main">
         <div class="side-bar">
@@ -48,9 +48,9 @@
 
         </div>
         <div class="side-bar-contents">
-            <div class="content">
-                {% block ud_name %}{% endblock ud_name %}
-                {% block u_dash_content %}
+            {% block u_dash_content %}
+            <div class="content for-overview">
+                    {% block ud_name %}{% endblock ud_name %}
                     
                     <section class="overview-stats">
 
@@ -99,11 +99,13 @@
                                     </div> 
                                     
                             {% endfor %}
+                        {% else %}    
+                            <p class="empty-overview">No pets owned.</p>
                         {% endif %}
                     </section>
 
-                {% endblock u_dash_content %}
-            </div>
+                </div>
+            {% endblock u_dash_content %}
         </div>
     </div>
 {% endblock contents %}

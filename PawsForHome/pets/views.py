@@ -147,5 +147,6 @@ def toggle_favorite(request, pet_id):
     favorite, created = Favorite.objects.get_or_create(user=request.user, pet=pet)
     if not created:
         favorite.delete()
-    return redirect('pets:list_pet')
+    # return redirect('pets:list_pet')
+    return redirect(request.META.get('HTTP_REFERER', '/'))
     

@@ -1,31 +1,77 @@
 {% extends "userdashboard.html" %}
-{% block ud_name %}<h2>Requests</h2>{% endblock ud_name %}Favorites
 
 {% block u_dash_content %}
-{% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
-{% comment %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/landing_page.css' %}"> {% endcomment %}
-
-{% comment %} <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6"> {% endcomment %}
+{% load static %}
+{% block ud_name %}<h2>Requests</h2>{% endblock ud_name %}
+<div class="content">
     {% if request_pets %}
         {% for rp in request_pets %}
+    
+        <div class="pet" onclick="showPetModal('{{ rp.id }}', '{{ rp.name }}', '{{ rp.created_at }}','{{ rp.age_years }}', '{{ rp.age_months }}','{{ rp.type }}', '{{ rp.adoption_fee }}','{{ rp.description }}', '{{ rp.image.url }}',  {% if rp.id in favorite_pet_ids %} true {% else %} false {% endif %})">
+            <img src="{{ rp.image.url }}" alt="{{ rp.name }}" class="pet-image">
+            <div class="pet-info">
+                <h3 class="pet-name">{{ rp.name }}</h3>
+                <p class="pet-age">
+                    {% if rp.age_years > 0 %}
+                    {{ rp.age_years }} years{% if rp.age_months > 0 %} and {{ rp.age_months }} months{% endif %} old
+                    {% else %}
+                    {{ rp.age_months }} months old
+                    {% endif %}
+                </p>
+                <span class="pet-type">{{ rp.type }}</span>
+            </div>
 
-                <div class="pet">
-                    <img src="{{ rp.image.url }}" alt="{{ rp.name }}" class="pet-image">
-                    <div class="pet-info">
-                        <h3 class="pet-name">{{ rp.name }}</h3>
-                        <p class="pet-age">
-                            {% if rp.age_years > 0 %}
-                                {{ rp.age_years }} years{% if rp.age_months > 0 %} and {{ rp.age_months }} months{% endif %} old
-                            {% else %}
-                                {{ rp.age_months }} months old
-                            {% endif %}
-                        </p>
-                        <span class="pet-type">{{ rp.type }}</span>
-                    </div>
-                </div> 
-                
+                <!-- Favorite Button Overlay -->
+            <a href="{% url 'pets:toggle_favorite' rp.id %}" 
+                class="absolute top-2 right-2 z-10" 
+                onclick="event.stopPropagation();">
+                {% if rp.id in favorite_pet_ids %}
+                    <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
+                {% else %}
+                    <img src="{% static 'images/unliked.png' %}" alt="Not Liked" class="w-10 h-10">
+                {% endif %}
+            </a>
+        </div> 
+        
         {% endfor %}
+    {% else %}    
+        <p class="empty">No request pets.</p>    
     {% endif %}
+</div>
 {% comment %} </div> {% endcomment %}
+
+<!-- Modal -->
+<div id="petModal" class="fixed -inset-2 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
+    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-3xl w-full relative">
+
+        <button class="absolute top-4 left-4" onclick="closePetModal()">
+            <img src="{% static 'images/backArrow.png' %}" alt="Close" class="w-7 h-7">
+        </button>
+        <div class="flex flex-col md:flex-row">
+            <!-- Image occupying half of the modal with rounded corners and fixed size -->
+            <img id="modalPetImage" class="w-[300px] h-[400px] object-cover rounded-3xl mb-4 md:mb-0 md:mr-6" alt="Pet Image">
+            <div class="flex-grow">
+                <h3 id="modalPetName" class="pt-8 font-bold text-2xl mb-2"></h3>
+                <p id="modalPetCreated" class="text-gray-500 text-sm mb-2"></p>
+                <div class="flex space-x-2 mb-1">
+                    <p id="modalPetAgeYears" class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                    <p id="modalPetAgeMonths" class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm"></p>
+                    <p id="modalPetType" class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                    <p id="modalPetFee" class="bg-[#FF395D] text-white px-3 py-1 rounded-full text-sm"></p>
+                </div>
+                <p id="modalPetDescription" class="text-gray-600 mt-2 mb-4"></p>
+                <input type="hidden" id="modalPetId" value="">
+
+                <!-- Favorite Button in the Modal -->
+                <button id="modalFavoriteButton" class="absolute top-4 right-4 z-10" onclick="toggleFavorite()">
+                    <img id="modalFavoriteIcon" src="{% static 'images/liked.png' %}" alt="Favorite" class="w-10 h-10">
+                </button>
+            </div>
+            <!-- Positioned "Apply to Adopt" button in the bottom right of the modal -->
+            {% comment %} <button class="absolute bottom-6 right-6 bg-[#F2968F] text-white px-6 py-2 rounded-full" onclick="redirectToAdoptionForm()">Apply to Adopt</button> {% endcomment %}
+        </div>
+    </div>
+</div>
+
+<script src={% static 'js/modal.js' %} ></script>
 {% endblock u_dash_content %}

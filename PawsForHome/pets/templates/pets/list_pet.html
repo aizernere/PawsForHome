@@ -46,7 +46,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="flex justify-center mt-8">
+    <div class="flex justify-center mt-20">
         <div class="inline-flex items-center space-x-1">
             {% if pets.has_previous %}
                 <a href="?page={{ pets.previous_page_number }}" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-full">Previous</a>
@@ -101,48 +101,5 @@
     
 </section>
 
-<script>
-
-    function showPetModal(id, name, created, ageyears, agemonths, type, fee, description, imageUrl, isLiked) {
-        document.getElementById('modalPetId').value = id;  
-        document.getElementById('modalPetName').innerText = name;
-        document.getElementById('modalPetCreated').innerText = "Uploaded on: " + created;
-        document.getElementById('modalPetAgeYears').innerText = ageyears + " years";
-        document.getElementById('modalPetAgeMonths').innerText = agemonths + " months";
-        document.getElementById('modalPetType').innerText = type;
-        document.getElementById('modalPetFee').innerText = fee;
-        document.getElementById('modalPetDescription').innerText = description;
-        document.getElementById('modalPetImage').src = imageUrl;
-
-        // Set favorite icon based on whether it's liked
-        const favoriteIcon = isLiked ? '{% static "images/liked.png" %}' : '{% static "images/unliked.png" %}';
-        document.getElementById('modalFavoriteIcon').src = favoriteIcon;
-
-        document.getElementById('petModal').classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-    }
-
-    function toggleFavorite() {
-        const petId = document.getElementById('modalPetId').value;  
-        const currentIcon = document.getElementById('modalFavoriteIcon').src.includes('liked.png') 
-            ? '{% static "images/unliked.png" %}' 
-            : '{% static "images/liked.png" %}';
-
-        document.getElementById('modalFavoriteIcon').src = currentIcon;
-        // Optionally make an AJAX call or redirect to toggle the favorite status
-        window.location.href = `/pets/toggle_favorite/${petId}/`;
-    }
-
-
-    function closePetModal() {
-        document.getElementById('petModal').classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-    }
-
-
-    function redirectToAdoptionForm() {
-        const petId = document.getElementById('modalPetId').value;  
-        window.location.href = `/adoptionform/${petId}/`; 
-    }
-</script>
+<script src={% static 'js/modal.js' %} ></script>
 {% endblock %}
