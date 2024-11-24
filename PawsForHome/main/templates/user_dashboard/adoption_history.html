@@ -2,8 +2,38 @@
 
 
 {% block u_dash_content %}
+{% load static %}
 {% block ud_name %}<h2>Adoption History</h2>{% endblock ud_name %}
-    <section class="history">
+<div class="content">
+    {% if user_requests %}
+        {% for h in request_pets %}
+        <div class="pet" onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}', true, {% if fp.id in pet_requested %} true {% else %} false {% endif %})">
+            <img src="{{ fp.image.url }}" alt="{{ fp.name }}" class="pet-image">
+            <div class="pet-info">
+                <h3 class="pet-name">{{ fp.name }}</h3>
+                <p class="pet-age">
+                    {% if fp.age_years > 0 %}
+                    {{ fp.age_years }} years{% if fp.age_months > 0 %} and {{ fp.age_months }} months{% endif %} old
+                    {% else %}
+                            {{ fp.age_months }} months old
+                        {% endif %}
+                    </p>
+                    <span class="pet-type">{{ fp.type }}</span>
+                </div>
+                
+                <!-- Favorite Button Overlay -->
+            <a href="{% url 'pets:toggle_favorite' fp.id %}" 
+                class="absolute top-2 right-2 z-10" 
+                onclick="event.stopPropagation();">
+                <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
+            </a>
+        </div>  
+        {% endfor %}
+    {% else %}    
+        <p class="empty">No adoption history.</p>           
+    {% endif %}
+</div>    
+{% comment %} <section class="history">
         <h3>Accepted (Owned)</h3>
         {% if accepted %}
             {% for a in accepted %}
@@ -43,5 +73,5 @@
                     
             {% endfor %}
         {% endif %}
-    </section>
+    </section> {% endcomment %}
 {% endblock u_dash_content %}

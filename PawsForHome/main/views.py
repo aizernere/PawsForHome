@@ -52,15 +52,26 @@ def ud_favorites(request):
 def ud_adoptionhistory(request):
     curr_fn = request.user.first_name
 
-    user_requests = AdoptionRequest.objects.filter(account_id = request.user.id)
+    # user_requests = AdoptionRequest.objects.filter(account_id = request.user.id)
+    user_requests = AdoptionRequest.objects.filter(
+        account_id = request.user.id,
+        status__in=[2, 3]
+        )
     
-    accepted = Pet.objects.filter(id__in = user_requests.filter(status = 2).values_list('pet_id', flat=True))
-    rejected = Pet.objects.filter(id__in = user_requests.filter(status = 3).values_list('pet_id', flat=True))
+    request_pets = Pet.objects.filter(id__in=user_requests.values_list('pet_id', flat=True))
+
+    # accepted = Pet.objects.filter(id__in = user_requests.filter(status = 2).values_list('pet_id', flat=True))
+    # rejected = Pet.objects.filter(id__in = user_requests.filter(status = 3).values_list('pet_id', flat=True))
     
+    # return render(request, 'user_dashboard/adoption_history.html', {
+    #     'curr_fn':curr_fn,
+    #     'accepted':accepted,
+    #     'rejected':rejected
+    #     })
     return render(request, 'user_dashboard/adoption_history.html', {
         'curr_fn':curr_fn,
-        'accepted':accepted,
-        'rejected':rejected
+        'user_requests':user_requests,
+        'request_pets':request_pets
         })
     
 # def adoptionform(request):
