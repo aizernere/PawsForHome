@@ -1,4 +1,4 @@
-function showPetModal(id, name, created, ageyears, agemonths, type, fee, description, imageUrl, isLiked) {
+function showPetModal(id, name, created, ageyears, agemonths, type, fee, description, imageUrl, isLiked=null, isRequested=null) {
     document.getElementById('modalPetId').value = id;  
     document.getElementById('modalPetName').innerText = name;
     document.getElementById('modalPetCreated').innerText = "Uploaded on: " + created;
@@ -13,6 +13,12 @@ function showPetModal(id, name, created, ageyears, agemonths, type, fee, descrip
     // const favoriteIcon = isLiked ? '{% static "images/liked.png" %}' : '{% static "images/unliked.png" %}';
     const favoriteIcon = isLiked ? '/static/images/liked.png' : '/static/images/unliked.png';
     document.getElementById('modalFavoriteIcon').src = favoriteIcon;
+    
+    if (isRequested !== null){
+        const btn = document.getElementById('modalApplyButton');
+        if (isRequested) btn.classList.add('hidden'); 
+        else btn.classList.remove('hidden');
+    }
 
     document.getElementById('petModal').classList.remove('hidden');
     document.body.classList.add('overflow-hidden');

@@ -1,12 +1,12 @@
 {% extends "userdashboard.html" %}
 
 {% block u_dash_content %}
-{% block ud_name %}<h2>Favorites</h2>{% endblock ud_name %}
 {% load static %}
+{% block ud_name %}<h2>Favorites</h2>{% endblock ud_name %}
 <div class="content">
     {% if fav_pets %}
         {% for fp in fav_pets %}
-        <div class="pet" onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}', true)">
+        <div class="pet" onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}', true, {% if fp.id in pet_requested %} true {% else %} false {% endif %})">
             <img src="{{ fp.image.url }}" alt="{{ fp.name }}" class="pet-image">
             <div class="pet-info">
                 <h3 class="pet-name">{{ fp.name }}</h3>
@@ -21,7 +21,7 @@
                 </div>
                 
                 <!-- Favorite Button Overlay -->
-                <a href="{% url 'pets:toggle_favorite' fp.id %}" 
+            <a href="{% url 'pets:toggle_favorite' fp.id %}" 
                 class="absolute top-2 right-2 z-10" 
                 onclick="event.stopPropagation();">
                 <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
@@ -61,7 +61,7 @@
                 </button>
             </div>
             <!-- Positioned "Apply to Adopt" button in the bottom right of the modal -->
-            <button class="absolute bottom-6 right-6 bg-[#F2968F] text-white px-6 py-2 rounded-full" onclick="redirectToAdoptionForm()">Apply to Adopt</button>
+            <button id="modalApplyButton" class="absolute bottom-6 right-6 bg-[#F2968F] text-white px-6 py-2 rounded-full" onclick="redirectToAdoptionForm()">Apply to Adopt</button>
         </div>
     </div>
 </div>

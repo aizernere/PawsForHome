@@ -28,13 +28,26 @@ def ud_requests(request):
     request_pets = Pet.objects.filter(id__in=pet_ids)
     # print(request_pets)
     curr_fn = request.user.first_name
-    return render(request, 'user_dashboard/requests.html', {'request_pets':request_pets, 'curr_fn':curr_fn})
+
+    favorite_pet_ids = Favorite.objects.filter(user=request.user).values_list('pet_id', flat=True)
+
+    return render(request, 'user_dashboard/requests.html', {
+        'request_pets':request_pets, 
+        'curr_fn':curr_fn,
+        'favorite_pet_ids':favorite_pet_ids
+        })
 
 def ud_favorites(request):
     curr_fn = request.user.first_name
     user_favorites = Favorite.objects.filter(user_id = request.user.id).values_list('pet_id', flat=True)
     fav_pets = Pet.objects.filter(id__in=user_favorites)
-    return render(request, 'user_dashboard/favorites.html', {'curr_fn': curr_fn, 'fav_pets':fav_pets})
+
+    pet_requested = AdoptionRequest.objects.filter(account_id = request.user.id).values_list('pet_id', flat=True)
+    return render(request, 'user_dashboard/favorites.html', {
+        'curr_fn': curr_fn, 
+        'fav_pets':fav_pets,
+        'pet_requested':pet_requested
+        })
 
 def ud_adoptionhistory(request):
     curr_fn = request.user.first_name

@@ -170,7 +170,9 @@ html, body{
 }
 
 .pets-owned h3{
-    margin: 0;
+    margin: 10px 0;
+    font-weight: bold;
+    /* border: 1px solid black; */
 }
 
 .history {
@@ -196,4 +198,8 @@ html, body{
     color: gray;
     /* height: 250px; */
     /* border: 1px solid black; */
+}
+
+.hidden{
+    display: none;
 }
