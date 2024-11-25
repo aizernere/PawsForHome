@@ -11,9 +11,10 @@ function showPetModal(id, name, created, ageyears, agemonths, type, fee, descrip
 
     // Set favorite icon based on whether it's liked
     // const favoriteIcon = isLiked ? '{% static "images/liked.png" %}' : '{% static "images/unliked.png" %}';
-    const favoriteIcon = isLiked ? '/static/images/liked.png' : '/static/images/unliked.png';
-    document.getElementById('modalFavoriteIcon').src = favoriteIcon;
-    
+    if (isLiked !== null){
+        const favoriteIcon = isLiked ? '/static/images/liked.png' : '/static/images/unliked.png';
+        document.getElementById('modalFavoriteIcon').src = favoriteIcon;
+    }
     if (isRequested !== null){
         const btn = document.getElementById('modalApplyButton');
         if (isRequested) btn.classList.add('hidden'); 

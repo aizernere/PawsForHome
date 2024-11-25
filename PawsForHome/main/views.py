@@ -58,7 +58,10 @@ def ud_adoptionhistory(request):
         status__in=[2, 3]
         )
     
-    request_pets = Pet.objects.filter(id__in=user_requests.values_list('pet_id', flat=True))
+    status_map = {req.pet_id: req.status for req in user_requests}
+
+    request_pets = Pet.objects.filter(id__in=status_map.keys())
+    # request_pets = Pet.objects.filter(id__in=user_requests.values_list('pet_id', flat=True))
 
     # accepted = Pet.objects.filter(id__in = user_requests.filter(status = 2).values_list('pet_id', flat=True))
     # rejected = Pet.objects.filter(id__in = user_requests.filter(status = 3).values_list('pet_id', flat=True))
@@ -68,10 +71,26 @@ def ud_adoptionhistory(request):
     #     'accepted':accepted,
     #     'rejected':rejected
     #     })
+    # pets_with_status = [
+    #     {
+    #         'request_pet': request_pet,
+    #         'status': status_map.get(request_pet.id, None),
+    #     }
+    #     for request_pet in request_pets
+    # ]
+    pets_with_status = [
+        {
+            'request_pet': request_pet,
+            'status': status_map[request_pet.id],
+        }
+        for request_pet in request_pets
+    ]
     return render(request, 'user_dashboard/adoption_history.html', {
         'curr_fn':curr_fn,
-        'user_requests':user_requests,
-        'request_pets':request_pets
+        'pets_with_status':pets_with_status
+        # 'user_requests':user_requests,
+        # 'request_pets':request_pets,
+        # 'status_map':status_map
         })
     
 # def adoptionform(request):
