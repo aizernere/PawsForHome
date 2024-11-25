@@ -54,7 +54,7 @@ html, body{
 /* .main  */
 .side-bar-contents .content{
     width: 100%;
-    height: 70vh;
+    height: 105vh;
     display: flex; 
     flex-direction: row; 
     gap: 5px 15px; 
@@ -64,7 +64,9 @@ html, body{
 }
 
 .side-bar-contents .for-overview{
-    height: 75vh;
+    height: 100vh;
+    /* height: fit-content; */
+    /* border: 1px solid black; */
 }
 
 .side-bar-contents {
@@ -72,9 +74,9 @@ html, body{
     border-radius: 20px;
     padding: 20px;
     min-height: 80vh;
-    max-height: 80vh;
     width: 75%;
-    /* height: fit-content; */
+    height: fit-content;
+    /* max-height: 80vh; */
     /* max-width: 1000px; */
     /* justify-content: space-between; */
     /* flex-grow: initial; */
@@ -107,6 +109,10 @@ html, body{
     position: relative;
     cursor: pointer;
     /* border: 1px solid black; */
+}
+
+.pet.cursor-default{
+    cursor: default;
 }
 
 .pet .pet-image{
@@ -189,6 +195,8 @@ html, body{
 .empty{
     text-align: center;
     color: gray;
+    height: fit-content;
+    width: 100%;
     /* border: 1px solid black; */
 }
 

@@ -5,29 +5,37 @@
 {% load static %}
 {% block ud_name %}<h2>Adoption History</h2>{% endblock ud_name %}
 <div class="content">
-    {% if user_requests %}
-        {% for h in request_pets %}
-        <div class="pet" onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}', true, {% if fp.id in pet_requested %} true {% else %} false {% endif %})">
-            <img src="{{ fp.image.url }}" alt="{{ fp.name }}" class="pet-image">
-            <div class="pet-info">
-                <h3 class="pet-name">{{ fp.name }}</h3>
-                <p class="pet-age">
-                    {% if fp.age_years > 0 %}
-                    {{ fp.age_years }} years{% if fp.age_months > 0 %} and {{ fp.age_months }} months{% endif %} old
-                    {% else %}
-                            {{ fp.age_months }} months old
-                        {% endif %}
-                    </p>
-                    <span class="pet-type">{{ fp.type }}</span>
-                </div>
+    {% if pets_with_status %}
+        {% for h in pets_with_status %}
+            {% comment %} {% if h.status != 1 %} {% endcomment %}
+                <div class="pet cursor-default" 
+                onclick="showPetModal('{{ h.request_pet.id }}', '{{ h.request_pet.name }}', '{{ h.request_pet.created_at }}','{{ h.request_pet.age_years }}', '{{ h.request_pet.age_months }}','{{ h.request_pet.type }}', '{{ h.request_pet.adoption_fee }}','{{ h.request_pet.description }}', '{{ h.request_pet.image.url }}')">
+                    <img src="{{ h.request_pet.image.url }}" alt="{{ h.request_pet.name }}" class="pet-image">
+                    <div class="pet-info">
+                        <h3 class="pet-name">{{ h.request_pet.name }}</h3>
+                        {% comment %} <p class="pet-age">
+                            {% if h.age_years > 0 %}
+                            {{ h.age_years }} years{% if h.age_months > 0 %} and {{ h.age_months }} months{% endif %} old
+                            {% else %}
+                                    {{ h.age_months }} months old
+                                {% endif %}
+                        </p> {% endcomment %}
+                            <span class="pet-type">{{ h.request_pet.type }}</span> <br>
+                            {% if h.status == 2 %}
+                                <span class="pet-type">Accepted</span>
+                            {% elif h.status == 3 %}
+                                <span class="pet-type">Rejected</span>
+                            {% endif %}
+                    </div>
+                </div>  
+            {% comment %} {% endif %} {% endcomment %}
                 
-                <!-- Favorite Button Overlay -->
-            <a href="{% url 'pets:toggle_favorite' fp.id %}" 
+                {% comment %} <!-- Favorite Button Overlay -->
+            <a href="{% url 'pets:toggle_favorite' h.id %}" 
                 class="absolute top-2 right-2 z-10" 
                 onclick="event.stopPropagation();">
                 <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
-            </a>
-        </div>  
+            </a> {% endcomment %}
         {% endfor %}
     {% else %}    
         <p class="empty">No adoption history.</p>           

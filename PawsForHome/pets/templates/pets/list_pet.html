@@ -6,8 +6,9 @@
 <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
 
 <section class="container mx-auto mt-8 px-8">
-    <h2 class="text-3xl font-bold text-gray-700 py-12">Browse</h2>
-
+    {% comment %} <h2 class="text-3xl font-bold text-gray-700 py-12">Browse</h2> {% endcomment %}
+    <h2 class="text-2xl font-bold mb-6">Browse</h2>
+    
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
         {% for pet in pets %}
         <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" data-pet-id="{{ pet.id }}" 
