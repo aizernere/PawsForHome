@@ -3,7 +3,7 @@ form .bg {
     margin: 10px 25px 0;
     border-radius: 10px;
     min-height: 50vh;
-    font-family: 'Open Sans';
+    /* font-family: 'Open Sans'; */
     padding: 25px;
     display: flex;
     flex-direction: row;
@@ -97,7 +97,7 @@ form .bg .edit{
 
 .edit {
     padding: 0 30px;
-    font-family: 'Poppins';
+    /* font-family: 'Poppins'; */
     /* border: 1px solid black; */
 }
 
@@ -132,7 +132,7 @@ form .bg .edit{
     border: 1px solid #C1A3A3;
     border-radius: 5px;
     padding: 5px;
-    font-family: 'Poppins';
+    /* font-family: 'Poppins'; */
 }
 
 .edit button{

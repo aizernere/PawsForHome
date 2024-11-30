@@ -1,13 +1,83 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
-{% block contents %}
-<script src="https://cdn.tailwindcss.com"></script>
+{% block title %}Your Pet Listings{% endblock %}
+
+{% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
-<body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
+<header>
+    <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
+        <div class="flex items-center">
+            <a href="{% url 'main:home' %}">
+                <img src="{% static 'images/paws4homelogo.png' %}" alt="logo">
+            </a>
+        </div>
+        
+        <div class="flex items-center space-x-6">
+            {% if request.user.account_type == 'user' %}
+                
+                <a href="{% url 'pets:list_pet' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                  Browse
+                  <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+                <a href="{% url 'main:user_dashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                    Dashboard
+                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            {% else %}
+            <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Dashboard</span>
+            {% endif %}
+            <a href="{% url 'main:notifications' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Notifications
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'main:conversations_list' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Messages
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'main:profile' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Profile
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+        </div>
+            
+            <div class="flex items-center space-x-4">
+                {% if request.user.is_authenticated %}
+                <div class="group flex items-center space-x-2">
+                    <!-- Welcome message -->
+                    <div class="opacity-100 transition-opacity duration-500 ease-in-out group-hover:opacity-0 ">
+                        Welcome, 
+                    </div> 
+                    <div class="transition-font duration-500 ease-in-out group-hover:font-bold space-x-2">
+                    {{ request.user.email }}!
+                    </div>
+                    <!-- Logout button -->
+                    <a href="{% url 'main:logout_account' %}">
+                        <button class="BtnLogout">
+                            <div class="sign">
+                                <svg viewBox="0 0 512 512">
+                                    <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                                </svg>
+                            </div>
+                            <div class="text">Logout</div>
+                        </button>
+                    </a>
+                </div>
+                {% else %}
+                    <div class="nav-items">Welcome, Guest!</div>
+                    <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
+                        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up
+                    </a>
+                {% endif %}
+
+            </div>
+
+    </nav>
+</header>
 
   <div class="flex flex-grow">
-    <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col fixed h-screen">
+    <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col ">
       <div class="flex items-center justify-center">
         <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
       </div>
@@ -118,5 +188,5 @@
 }
 
   </script>
-</body>
-{% endblock contents %}
+
+{% endblock %}

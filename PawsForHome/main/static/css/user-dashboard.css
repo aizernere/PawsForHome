@@ -10,7 +10,7 @@ html, body{
     padding: 20px;
     display: flex;
     flex-direction: row;
-    font-family: 'Open Sans';
+    /* font-family: 'Open Sans'; */
     /* border: 1px solid black; */
 }
 

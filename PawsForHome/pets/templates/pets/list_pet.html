@@ -40,11 +40,6 @@
         </div>
             
             <div class="flex items-center space-x-4">
-                <!-- <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up
-                </a> -->
                 {% if request.user.is_authenticated %}
                 <div class="group flex items-center space-x-2">
                     <!-- Welcome message -->
@@ -68,9 +63,11 @@
                 </div>
                 {% else %}
                     <div class="nav-items">Welcome, Guest!</div>
-                    <div class="nav-items">
-                        <a href="{% url 'main:login_account' %}">Log In</a>
-                    </div>
+                    <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
+                        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up
+                    </a>
                 {% endif %}
 
             </div>
@@ -84,7 +81,7 @@
     {% comment %} <h2 class="text-3xl font-bold text-gray-700 py-12">Browse</h2> {% endcomment %}
     <h2 class="text-2xl font-bold mb-6">Browse</h2>
     <div class="place-items-center">
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-[900px] place-items-center border">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-[1000px] place-items-center">
             {% for pet in pets %}
             <div class="bg-white rounded-[16px] w-[160px] h-[190px] shadow-md overflow-hidden cursor-pointer relative" data-pet-id="{{ pet.id }}" 
             onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}','{{ pet.age_years }}', '{{ pet.age_months }}','{{ pet.type }}', '{{ pet.adoption_fee }}','{{ pet.description }}', '{{ pet.image.url }}', {% if pet.id in favorite_pet_ids %} true {% else %} false {% endif %})">
