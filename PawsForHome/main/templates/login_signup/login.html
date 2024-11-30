@@ -3,22 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
+  <title>{% block title %}Login!{% endblock %}</title>
   <script src="https://cdn.tailwindcss.com"></script>
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
-  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+  <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+  <script src="{% static 'js/loader.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/loader.css' %}">
 </head>
-<body class="bg-[#FFDDD2] min-h-screen flex items-stretch">
-  <!-- Container that fills the screen width and height -->
-  <div class="w-full flex max-w-none mx-auto">
-    
-    <!-- Left Side (Login Form) -->
-    <div class="right-side w-full lg:w-1/2 p-8 bg-white flex flex-col justify-center min-h-screen">
-
-      <div class="inner">
+<body style="font-family: 'Lexend', sans-serif;" class="text-[#714949]">
+  <div id="content" style="display: none;" class="bg-[#FFDDD2] rounded-[32px] p-t-2 m-12">
+    <div class="outer">
+      
+      <div class="left-side">
+        <div class="inner">
           <center>
               <img src="{% static 'images/PawImageForSignUp.png' %}" alt="Custom Paw"> 
               <h2 class="text-2xl font-bold text-gray-700 mb-4"> Login</h2>
@@ -30,43 +32,56 @@
               <div class="label-input">
                   <label for="email" class="lbl">Email Address</label>
                   <br>
-                  <center class="block text-gray-700 text-xs font-bold mb-2">
+                  <center>
                       {{ form.email }}
                   </center>
               </div>
               <div class="label-input">
                   <label for="password" class="lbl">Password</label>
                   <br>
-                  <center class="block text-gray-700 text-xs font-bold mb-2">
+                  <center>
                       {{ form.password }}
                   </center>
               </div>
               <center>
                 <div>
-                  <button type="submit" class="w-full p-3 bg-[#F2968F] text-white font-bold rounded-md hover:bg-red-400" style="font-family: 'Poppins', sans-serif;">Sign In</button>
+                  <button type="submit" class="signin-btn">Sign In</button>
                 </div>
           
-                <div class="text-center text-gray-600 text-sm mt-4">OR</div>
-          
-                <div class="flex justify-center space-x-4 mt-4">
-                  <button class="p-3 bg-white border border-gray-300 rounded-lg w-full flex items-center justify-center text-gray-600 hover:border-pink-500">
-                    <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-5 h-5 mr-2" alt="Google logo">
-                    Sign in with Google
-                  </button>
-                  <button class="p-3 bg-white border border-gray-300 rounded-lg w-full flex items-center justify-center text-gray-600 hover:border-pink-500">
-                    <img src="https://www.svgrepo.com/show/354409/apple.svg" class="w-5 h-5 mr-2" alt="Apple logo">
-                    Sign in with Apple
-                  </button>
-                </div>
+                
               </center>
           </form>
           <p class="text-center text-gray-600 text-sm mt-6">Don't have an account? <a href="{% url 'main:create_account' %}" class="text-[#FF7578] font-bold">Signup</a></p>
+        </div>
       </div>
+      <div class="right-side">
+        {% comment %} Bold, 75, Open Sans {% endcomment %}
+        {% comment %} first two lines, font color #FF7578 {% endcomment %}
+        <img src="{% static 'images/paws4homelogo.png' %}" alt="logo" class="logo">
+        <p class="bold-texts">
+            <span id="color-pink">
+                Hammy <br>
+            </span>
+            <span id="color-brown">
+                {% comment %} font color #3E2828 {% endcomment %}
+                is looking for a home!
+            </span>
+            <div class="flex justify-center">
+              <img src="{% static 'images/guineapigLogin.png' %}" alt="Hammy" class="w-96 h-96">
+            </div>
+            {% comment %} insert image here {% endcomment %}
+        </p>    
+    </div>
+    </div>
 
-  </div>
+
+
+      
+
+  
 
     <!-- Right Side (Hammy Image and Text) -->
-    <div class="w-full lg:w-1/2 p-8 bg-[#FFDDD2] flex flex-col justify-center items-center min-h-screen">
+    <!-- <div class="lg:w-1/2 p-8 bg-[#FFDDD2] flex flex-col justify-center items-center min-h-screen">
       <div class="text-center">
         <img src="{% static 'images/paws4homelogo.png' %}" alt="Logo" class="w-20 h-20 mb-4">
         <p class="text-4xl font-bold leading-tight" style="font-family: 'Poppins', sans-serif;">
@@ -78,7 +93,28 @@
           <img src="{% static 'images/guineapigLogin.png' %}" alt="Hammy" class="w-96 h-96">
         </div>
       </div>
+    </div> -->
+  
+</div>
+<div id="page-loader" class="loader-container active">
+  <div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+    <div class="wheel"></div>
+    <div class="hamster">
+      <div class="hamster__body">
+        <div class="hamster__head">
+          <div class="hamster__ear"></div>
+          <div class="hamster__eye"></div>
+          <div class="hamster__nose"></div>
+        </div>
+        <div class="hamster__limb hamster__limb--fr"></div>
+        <div class="hamster__limb hamster__limb--fl"></div>
+        <div class="hamster__limb hamster__limb--br"></div>
+        <div class="hamster__limb hamster__limb--bl"></div>
+        <div class="hamster__tail"></div>
+      </div>
     </div>
+    <div class="spoke"></div>
   </div>
+</div>
 </body>
 </html>

@@ -1,10 +1,20 @@
 <head>
-    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
     {% load static %}
+    <title>{% block title %}Sign-Up{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'css/sign-up.css' %}">
-    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <!-- <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+  <script src="{% static 'js/loader.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+    
 </head>
+<body style="font-family: 'Lexend', sans-serif;" class="text-[#714949]">
+<div id="content" style="display: none;" class="bg-[#FFDDD2] rounded-[32px] p-t-2 m-12">
+    
 <div class="outer">
 
     {% comment %} left side: design part sa create account, katu naay image {% endcomment %}
@@ -83,3 +93,25 @@
 
     </div>
 </div>
+</div>
+<div id="page-loader" class="loader-container active">
+    <div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+      <div class="wheel"></div>
+      <div class="hamster">
+        <div class="hamster__body">
+          <div class="hamster__head">
+            <div class="hamster__ear"></div>
+            <div class="hamster__eye"></div>
+            <div class="hamster__nose"></div>
+          </div>
+          <div class="hamster__limb hamster__limb--fr"></div>
+          <div class="hamster__limb hamster__limb--fl"></div>
+          <div class="hamster__limb hamster__limb--br"></div>
+          <div class="hamster__limb hamster__limb--bl"></div>
+          <div class="hamster__tail"></div>
+        </div>
+      </div>
+      <div class="spoke"></div>
+    </div>
+  </div>
+</body>

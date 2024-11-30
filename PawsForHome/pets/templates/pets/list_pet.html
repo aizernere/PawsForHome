@@ -1,49 +1,133 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
-{% block contents %}
-<script src="https://cdn.tailwindcss.com"></script>
+{% block title %}PawsForHome{% endblock %}
+
+{% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
-
-<section class="container mx-auto mt-8 px-8">
-    {% comment %} <h2 class="text-3xl font-bold text-gray-700 py-12">Browse</h2> {% endcomment %}
-    <h2 class="text-2xl font-bold mb-6">Browse</h2>
-    
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-        {% for pet in pets %}
-        <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" data-pet-id="{{ pet.id }}" 
-        onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}','{{ pet.age_years }}', '{{ pet.age_months }}','{{ pet.type }}', '{{ pet.adoption_fee }}','{{ pet.description }}', '{{ pet.image.url }}', {% if pet.id in favorite_pet_ids %} true {% else %} false {% endif %})">
-             
-
-             
-            <!-- Pet Image -->
-            <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-48 object-cover">
-            <div class="p-4">
-                <h3 class="font-bold text-lg">{{ pet.name }}</h3>
-                <p class="text-gray-500">
-                    {% if pet.age_years > 0 %}
-                        {{ pet.age_years }} years{% if pet.age_months > 0 %} and {{ pet.age_months }} months{% endif %} old
-                    {% else %}
-                        {{ pet.age_months }} months old
-                    {% endif %}
-                </p>
-                <span class="text-gray-500">{{ pet.type }}</span>
-            </div>
-
-            <!-- Favorite Button Overlay -->
-            <a href="{% url 'pets:toggle_favorite' pet.id %}" 
-               class="absolute top-2 right-2 z-10" 
-               onclick="event.stopPropagation();">
-                {% if pet.id in favorite_pet_ids %}
-                    <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
-                {% else %}
-                    <img src="{% static 'images/unliked.png' %}" alt="Not Liked" class="w-10 h-10">
-                {% endif %}
+<header>
+    <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
+        <div class="flex items-center">
+            <a href="{% url 'main:home' %}">
+                <img src="{% static 'images/paws4homelogo.png' %}" alt="logo">
             </a>
         </div>
-        {% empty %}
-        <p>No pets available.</p>
-        {% endfor %}
+        
+        <div class="flex items-center space-x-6">
+            {% if request.user.account_type == 'user' %}
+                <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Browse</span>
+                <a href="{% url 'main:user_dashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                    Dashboard
+                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            {% else %}
+                <a href="{% url 'main:shelterdashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                    Dashboard
+                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            {% endif %}
+            <a href="{% url 'main:notifications' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Notifications
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'main:conversations_list' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Messages
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'main:profile' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Profile
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+        </div>
+            
+            <div class="flex items-center space-x-4">
+                <!-- <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
+                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up
+                </a> -->
+                {% if request.user.is_authenticated %}
+                <div class="group flex items-center space-x-2">
+                    <!-- Welcome message -->
+                    <div class="opacity-100 transition-opacity duration-500 ease-in-out group-hover:opacity-0 ">
+                        Welcome, 
+                    </div> 
+                    <div class="transition-font duration-500 ease-in-out group-hover:font-bold space-x-2">
+                    {{ request.user.email }}!
+                    </div>
+                    <!-- Logout button -->
+                    <a href="{% url 'main:logout_account' %}">
+                        <button class="BtnLogout">
+                            <div class="sign">
+                                <svg viewBox="0 0 512 512">
+                                    <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                                </svg>
+                            </div>
+                            <div class="text">Logout</div>
+                        </button>
+                    </a>
+                </div>
+                {% else %}
+                    <div class="nav-items">Welcome, Guest!</div>
+                    <div class="nav-items">
+                        <a href="{% url 'main:login_account' %}">Log In</a>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            
+
+    </nav>
+</header>
+
+<section class="container mx-auto mt-8 px-8 ">
+    {% comment %} <h2 class="text-3xl font-bold text-gray-700 py-12">Browse</h2> {% endcomment %}
+    <h2 class="text-2xl font-bold mb-6">Browse</h2>
+    <div class="place-items-center">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-[900px] place-items-center border">
+            {% for pet in pets %}
+            <div class="bg-white rounded-[16px] w-[160px] h-[190px] shadow-md overflow-hidden cursor-pointer relative" data-pet-id="{{ pet.id }}" 
+            onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}','{{ pet.age_years }}', '{{ pet.age_months }}','{{ pet.type }}', '{{ pet.adoption_fee }}','{{ pet.description }}', '{{ pet.image.url }}', {% if pet.id in favorite_pet_ids %} true {% else %} false {% endif %})">
+                
+
+                
+                <!-- Pet Image -->
+                <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-[116px] object-cover rounded-[16px]">
+                <div class="p-2">
+                    <h3 class="font-bold text-[16px]">{{ pet.name }}</h3>
+                    <p class="text-gray-500 text-[12px]" >
+                        {% if pet.age_years > 0 %}
+                            {% if pet.age_years > 1 %}
+                            {{ pet.age_years }} years
+                            {% else %}
+                            {{ pet.age_years }} year
+                            {% endif %}
+                        {% else %}
+                            {%if pet.age_months > 1 %}
+                            {{ pet.age_months }} months
+                            {% else %}
+                            {{ pet.age_months }} month
+                            {% endif %}
+                        {% endif %}
+                    </p>
+                    <span class="text-gray-500 text-[12px]">{{ pet.type }}</span>
+                </div>
+
+                <!-- Favorite Button Overlay -->
+                <a href="{% url 'pets:toggle_favorite' pet.id %}" 
+                class="absolute top-2 right-2 z-10" 
+                onclick="event.stopPropagation();">
+                    {% if pet.id in favorite_pet_ids %}
+                        <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
+                    {% else %}
+                        <img src="{% static 'images/unliked.png' %}" alt="Not Liked" class="w-10 h-10">
+                    {% endif %}
+                </a>
+            </div>
+            {% empty %}
+            <p>No pets available.</p>
+            {% endfor %}
+        </div>
     </div>
 
     <!-- Pagination -->
