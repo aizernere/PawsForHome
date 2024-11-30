@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PawsForHome{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+  <script src="{% static 'js/loader.js' %}"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Lexend', sans-serif;" class="text-[#714949]">
+  
+  <!-- Page Loader -->
+  <div id="page-loader" class="loader-container active">
+    <div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+      <div class="wheel"></div>
+      <div class="hamster">
+        <div class="hamster__body">
+          <div class="hamster__head">
+            <div class="hamster__ear"></div>
+            <div class="hamster__eye"></div>
+            <div class="hamster__nose"></div>
+          </div>
+          <div class="hamster__limb hamster__limb--fr"></div>
+          <div class="hamster__limb hamster__limb--fl"></div>
+          <div class="hamster__limb hamster__limb--br"></div>
+          <div class="hamster__limb hamster__limb--bl"></div>
+          <div class="hamster__tail"></div>
+        </div>
+      </div>
+      <div class="spoke"></div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div id="content" style="display: none;" class="bg-[#FFDDD2] rounded-[32px] p-t-2 m-12">
+    {% block content %}{% endblock %}
+    <footer class="bg-[#FFF1EE] py-8 rounded-[32px]">
+        <div class="container mx-auto text-center">
+            <p class="mb-4">info@paws4home.com</p>
+            <div class="social-icons flex justify-center space-x-4 mb-4">
+                <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
+                <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
+                <a href="#"><img src="{% static 'images/githubpic.png' %}" alt="GitHub" class="w-6"></a>
+            </div>
+            <p><a href="#" class="hover:text-orange-500">Terms & Conditions</a> | <a href="#" class="hover:text-orange-500">Privacy Policy</a></p>
+        </div>
+      </footer>
+  </div>
+  
+</body>
+</html>

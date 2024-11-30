@@ -1,37 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Features</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-    {% load static %}
-  <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
- 
-</head>
-<!-- Header -->
+{% extends "base.html" %}
+
+{% block title %}Features{% endblock %}
+
+{% block content %}
+{% load static %}
 <header>
     <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
         <div class="flex items-center">
             <img src="{% static 'images/paws4homelogo.png' %}" alt="PawsForHome" class="h-20">
         </div>
         
+
         <div class="flex items-center space-x-6">
-            <a href="{% url 'main:landing_page' %}" class=" text-xl text-gray-600 font-semibold hover:text-orange-500 font-semibold">Home</a>
-            <a href="{% url 'main:features' %}" class="text-xl text-orange-500 font-medium hover:text-orange-500 font-medium">Features</a>
-            <a href="{% url 'main:contactus' %}" class="text-xl text-gray-600 font-medium hover:text-orange-500 font-semibold">Contact Us</a>
-        </div>
+          
+          <a href="{% url 'main:landing_page' %}" class="text-xl font-medium relative group hover:text-orange-500">
+              Home
+              <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+          </a>
+          <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Features</span>
+          <a href="{% url 'main:contactus' %}" class="text-xl font-medium relative group hover:text-orange-500">
+              Contact Us
+              <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+          </a>
+      </div>
             
-            <div class="flex items-center space-x-4">
-                <a href="{% url 'main:login_account' %}" class="text-xl text-gray-800 hover:text-orange-500 font-semibold">Login</a>
-                <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full hover:bg-red-400">Sign Up</a>
-            </div>
+        <div class="flex items-center space-x-4">
+          <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
+              <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+          </a>
+          <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up
+          </a>
+      </div>
 
     </nav>
 </header>
-<body class="bg-[#FFDDD2]">
+
   <div class="container mx-auto py-16 px-6">
-    <h1 class="text-4xl font-bold text-center text-red-600 mb-12">Our Features</h1>
+    <h1 class="text-4xl font-bold text-center text-[#FF7578] mb-12">Our Features</h1>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- USER REGISTRATION AND AUTHENTICATION -->
@@ -91,18 +96,5 @@
       </div>
     </div>
   </div>
-</body>
+  {% endblock %}
 
-<!-- Footer -->
-<footer class="bg-white py-8">
-    <div class="container mx-auto text-center">
-        <p class="text-gray-600 mb-4">info@paws4home.com</p>
-        <div class="social-icons flex justify-center space-x-4 mb-4">
-            <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
-            <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
-            <a href="#"><img src="{% static 'images/githubpic.png' %}" alt="GitHub" class="w-6"></a>
-        </div>
-        <p><a href="#" class="text-gray-600 hover:text-gray-800">Terms & Conditions</a> | <a href="#" class="text-gray-600 hover:text-gray-800">Privacy Policy</a></p>
-    </div>
-</footer>
-</html>

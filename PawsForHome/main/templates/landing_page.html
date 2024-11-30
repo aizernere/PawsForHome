@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paws4Home</title>
+{% extends "base.html" %}
 
-    <!-- Preconnect for Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+{% block title %}PawsForHome{% endblock %}
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
-    
-</head>
-<body style="font-family: 'Lexend', sans-serif;" class="text-[#714949]">
-
-    <!-- Outer Container with Background and Rounded Corners -->
-    <div class="bg-[#FFDDD2] rounded-[32px] p-t-2 m-12">
+{% block content %}
+{% load static %}
 
         <!-- Header -->
         <header>
@@ -62,9 +47,6 @@
                         <span>Love.</span>
                     </h1>
                     <div class="mt-6 px-16 text-right">
-                        <!-- <a href="{% url 'main:create_account' %}" class="inline-block bg-[#F2968F] text-white px-8 py-3 rounded-full hover:bg-red-400 transition">
-                            Get Started
-                        </a> -->
                         <a href="{% url 'main:create_account' %}">
                             <button class="group group-hover:before:duration-500 group-hover:after:duration-1000 after:duration-500  duration-500 before:duration-500 hover:duration-500 hover:after:-right-2 hover:before:top-8 hover:before:bg-yellow-500 hover:after:bg-green-500 hover:before:right-16 hover:after:scale-150 hover:after:blur-none hover:before:-bottom-8 hover:before:blur-none hover:bg-sky-500  origin-left hover:decoration-2 hover:font-bold relative bg-[#F2968F] h-16 w-56 text-left p-3 text-gray-50 text-base rounded-full  overflow-hidden  before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-[#FFDDD2] before:rounded-full before:blur-lg  after:absolute after:z-10 after:w-20 after:h-20 after:content['']  after:bg-red-400 after:right-8 after:top-3 after:rounded-full after:blur">
                                 Get Started
@@ -90,22 +72,22 @@
         <!-- Features Section -->
         <section class="py-12">
             <div class="container mx-auto px-6 flex justify-center">
-                <!-- Outer Container for Cards -->
+
                 <div class="cards-wrapper flex flex-col lg:flex-row items-center lg:space-x-[100px]">
                     
-                    <!-- Feature 1: Convenient Online Application -->
+
                     <div class="feature-box text-center bg-[#FFF1EE] shadow-md rounded-2xl p-8 w-[270px] h-[300px] flex flex-col items-center justify-center hover:shadow-lg transition-all">
                         <img src="{% static 'images/convenientapplicationpic.png' %}" alt="Online Application" class="w-20 mb-4">
                         <h3 class="text-lg font-semibold" style="color: #735858;"><b>CONVENIENT ONLINE APPLICATION</b></h3>
                     </div>
                     
-                    <!-- Feature 2: Search by Type, Age, Disposition, and More -->
+
                     <div class="feature-box text-center bg-[#FFF1EE] shadow-md rounded-2xl p-8 w-[270px] h-[300px] flex flex-col items-center justify-center hover:shadow-lg transition-all">
                         <img src="{% static 'images/searchbyagepic.png' %}" alt="Search Options" class="w-20 mb-4">
                         <h3 class="text-lg font-semibold" style="color: #735858;"><b>SEARCH BY TYPE, AGE, DISPOSITION, AND MORE!</b></h3>
                     </div>
                     
-                    <!-- Feature 3: Get Instant Notifications -->
+
                     <div class="feature-box text-center bg-[#FFF1EE] shadow-md rounded-2xl p-8 w-[270px] h-[300px] flex flex-col items-center justify-center hover:shadow-lg transition-all">
                         <img src="{% static 'images/getinstantnotifpics.png' %}" alt="Notifications" class="w-20 mb-4">
                         <h3 class="text-lg font-semibold" style="color: #735858;"><b>GET INSTANT NOTIFICATIONS</b></h3>
@@ -113,20 +95,4 @@
                 </div>
             </div>
         </section>
-
-        <!-- Footer -->
-        <footer class="bg-white py-8 rounded-[32px]">
-            <div class="container mx-auto text-center">
-                <p class="mb-4">info@paws4home.com</p>
-                <div class="social-icons flex justify-center space-x-4 mb-4">
-                    <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
-                    <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
-                    <a href="#"><img src="{% static 'images/githubpic.png' %}" alt="GitHub" class="w-6"></a>
-                </div>
-                <p><a href="#" class="hover:text-orange-500">Terms & Conditions</a> | <a href="#" class="hover:text-orange-500">Privacy Policy</a></p>
-            </div>
-        </footer>
-
-    </div>
-</body>
-</html>
+{% endblock %}
