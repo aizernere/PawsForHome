@@ -22,9 +22,9 @@
                         </p> {% endcomment %}
                             <span class="pet-type">{{ h.request_pet.type }}</span> <br>
                             {% if h.status == 2 %}
-                                <span class="pet-type">Accepted</span>
+                                <p class="pet-status-accept">Accepted</p>
                             {% elif h.status == 3 %}
-                                <span class="pet-type">Rejected</span>
+                                <p class="pet-status-reject">Rejected</p>
                             {% endif %}
                     </div>
                 </div>  

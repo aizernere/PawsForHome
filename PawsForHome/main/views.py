@@ -174,7 +174,9 @@ def profile(request):
 
     return render(request, 'navbar/profile.html', {
         'curr_fn':user_profile.first_name,
-        'form': form
+        'curr_ln':user_profile.last_name,
+        'form': form,
+        'type': user_profile.account_type
     })
 
 def home(request):

@@ -7,25 +7,29 @@
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="icon" type="image/x-icon" href="{% static "images/paws4homelogo.png" %}">
     
-    <div class="bg">
+    <form action="" method="post">
+        <div class="bg">
         {% comment %} left side, basic information sa user {% endcomment %}
-        <div class="info">
-            <center>
-                <div>
-                    <img src="{% static "images/shelterlogo.png" %}" alt="test">
-                    <h2>{{ curr_fn }}</h2>
-                </div>
-            </center>
-        </div>
-        <div class="vertical-line"></div>
-        {% comment %} pwede maka edit ang user sa info here {% endcomment %}
-        <div class="edit">
-            <h2>Personal Information</h2>
-        
-            <form action="" method="post">
+            <div class="info">
+                <center>
+                    <div class="profile-container">
+                        <img src="{% static "images/shelterlogo.png" %}" alt="test" id="profile-pic">
+                        <label for="update-image" class="edit-button">Change Photo</label>
+                        <input type="file" accept="image/jpeg, image/png, image/jpg" name="update-image" id="update-image" hidden>
+                    </div>
+                    <h1>{{ curr_fn }} {{ curr_ln }}</h1>
+                    <h4>{{ type }}</h4>
+                </center>
+            </div>
+
+            <div class="vertical-line"></div>
+            {% comment %} pwede maka edit ang user sa info here {% endcomment %}
+            <div class="edit">
+                <h2>Personal Information</h2>
+                
                 {% csrf_token %}
                 {{form.non_field_errors }}
-
+                
                 <div class="row">
                     <div>
                         <label for="first_name" class="lbl">First Name</label>
@@ -49,7 +53,7 @@
                         <center>
                             {{form.birthdate}}
                         </center>
-
+                        
                     </div>
                     <div>
                         <label for="phone_number" class="lbl">Phone Number</label>
@@ -66,8 +70,6 @@
                         <center>
                             {{form.address}}
                         </center>
-                        
-
                     </div>
                 </div>
                 <div class="row">
@@ -88,7 +90,8 @@
                 </div>
                 <br>
                 <button type="submit" class="update-btn">Update</button>
-            </form>
+            </div>
         </div>
-    </div>
-{% endblock contents %}
+    </form>
+    <script src={% static "js/change-picture.js" %}></script>
+    {% endblock contents %}

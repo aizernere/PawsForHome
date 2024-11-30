@@ -1,4 +1,4 @@
-.bg {
+form .bg {
     background-color: #FFF1EE;
     margin: 10px 25px 0;
     border-radius: 10px;
@@ -12,23 +12,79 @@
     /* border: 1px solid black; */
 }
 
-.bg .vertical-line{
+form .bg .vertical-line{
     width: 0;
     min-height: 7vh;
     border: 1px solid #694E4E;
 }
 
-.bg .info{
+form .bg .info{
     width: 30%;
     font-weight: bold;
     padding: 10px;
+    /* border: 1px solid black; */
 }
 
-.info h2{
+form .info .profile-container {
+    position: relative;
+    display: inline-block;
+    margin-top: 30px;
+    /* border: 1px solid black; */
+}
+
+form .info #profile-pic {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* border: 1px solid black; */
+}
+
+form .info .edit-button {
+    position: absolute;
+    bottom: 10px;
+    left: -10px;
+    background-color: white;
+    /* color: white; */
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+form .info #update-image {
+    margin-top: 10px;
+    font-size: 14px;
+    border: none;
+    color: #555;
+    text-align: center;
+}
+
+form .info h1,
+form .info h4{
     margin: 0;
+    /* font-size: large; */
+}
+form .info h1{
+    font-weight: bold;    
+    font-size: x-large;
+    font-size: 1.5rem;
+    color: #333;
+    /* border: 1px solid black; */
 }
 
-.bg .edit{
+form .info h4{
+    font-weight: lighter;
+    color: #777;
+    /* border: 1px solid black; */
+}
+
+form .bg .edit{
     padding: 25px 75px;
     width: 80%;
 }
@@ -39,13 +95,13 @@
     font-weight: 900;
 }
 
-.edit form{
+.edit {
     padding: 0 30px;
     font-family: 'Poppins';
     /* border: 1px solid black; */
 }
 
-.edit form .row{
+.edit .row{
     display: flex;
     flex-direction: row;
     /* border: 1px solid black; */
@@ -57,11 +113,11 @@
     /* border: 1px solid blue; */
 }
 
-.edit form .row:nth-of-type(3) div {
+.edit .row:nth-of-type(3) div {
     width: 100%;
 }
 
-.edit form .row:nth-of-type(3) div .input-field{
+.edit .row:nth-of-type(3) div .input-field{
     width: 98%;
 }
 
@@ -79,7 +135,7 @@
     font-family: 'Poppins';
 }
 
-.edit form button{
+.edit button{
     background-color: #F2968F;
     border-radius: 100px;
     color: white;
