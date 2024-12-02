@@ -88,7 +88,7 @@
             <img src="{{ pet.image.url }}"  alt="{{ pet.name }}" class="h-24 w-24 rounded-full object-cover">
             <div>
                 <h2 class="text-3xl font-semibold">Adopt {{ pet.name }}</h2>
-                <p class="text-lg text-gray-500">{{ pet.breed }}</p>
+                <p class="text-lg text-gray-500">{{ pet.type }} {%if pet.breed != null%} ({{pet.breed}}){%endif%}</p>
             </div>
         </div>
 

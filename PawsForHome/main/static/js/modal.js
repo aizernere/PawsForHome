@@ -1,4 +1,4 @@
-function showPetModal(id, name, created, ageyears, agemonths, type, fee, description, imageUrl, isLiked=null, isRequested=null) {
+function showPetModal(id, name, created, ageyears, agemonths, type, fee, description, imageUrl, isRequested=null) {
     document.getElementById('modalPetId').value = id;  
     document.getElementById('modalPetName').innerText = name;
     document.getElementById('modalPetCreated').innerText = "Uploaded on: " + created;
@@ -9,31 +9,84 @@ function showPetModal(id, name, created, ageyears, agemonths, type, fee, descrip
     document.getElementById('modalPetDescription').innerText = description;
     document.getElementById('modalPetImage').src = imageUrl;
 
-    // Set favorite icon based on whether it's liked
-    // const favoriteIcon = isLiked ? '{% static "images/liked.png" %}' : '{% static "images/unliked.png" %}';
-    if (isLiked !== null){
-        const favoriteIcon = isLiked ? '/static/images/liked.png' : '/static/images/unliked.png';
-        document.getElementById('modalFavoriteIcon').src = favoriteIcon;
-    }
-    if (isRequested !== null){
+    const favoriteIcon = document.getElementById('modalFavoriteIcon');
+
+    if (isRequested !== null) {
         const btn = document.getElementById('modalApplyButton');
-        if (isRequested) btn.classList.add('hidden'); 
+        if (isRequested) btn.classList.add('hidden');
         else btn.classList.remove('hidden');
     }
+
+    // Get the favorite status from the browse section
+    const petCard = document.querySelector(`[data-pet-id="${id}"]`);
+    const browseFavoriteIcon = petCard.querySelector('.favorite-icon');
+    const isLiked = browseFavoriteIcon.dataset.favorited === 'true';
+
+    // Update the modal's favorite icon state
+    favoriteIcon.src = isLiked ? '/static/images/liked.png' : '/static/images/unliked.png';
+    favoriteIcon.dataset.favorited = isLiked ? 'true' : 'false';
+
+    // Remove any existing click listeners to avoid duplicate handlers
+    favoriteIcon.replaceWith(favoriteIcon.cloneNode(true));
+    const newFavoriteIcon = document.getElementById('modalFavoriteIcon');
+    newFavoriteIcon.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent the modal's close action
+        toggleFavorite(event, id, newFavoriteIcon); // Pass the event explicitly to the function
+    });
 
     document.getElementById('petModal').classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
 }
 
-function toggleFavorite() {
-    const petId = document.getElementById('modalPetId').value;  
-    const currentIcon = document.getElementById('modalFavoriteIcon').src.includes('liked.png') 
-        ? '{% static "images/unliked.png" %}' 
-        : '{% static "images/liked.png" %}';
+function toggleFavorite(event, petId, favoriteIcon) {
+    event.stopPropagation(); // Prevent the parent div's onclick from triggering
 
-    document.getElementById('modalFavoriteIcon').src = currentIcon;
-    // Optionally make an AJAX call or redirect to toggle the favorite status
-    window.location.href = `/pets/toggle_favorite/${petId}/`;
+    var favoriteIcon = event.target;
+
+    // If the image is wrapped in an <a> tag, get the <img> inside
+    if (favoriteIcon.tagName !== 'IMG') {
+        favoriteIcon = favoriteIcon.querySelector('img');
+    }
+
+    var isFavorited = favoriteIcon.dataset.favorited === 'true';
+
+    var newStatus = isFavorited ? 'unlike' : 'like';
+
+    // Get CSRF token from the meta tag
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch(`/pets/toggle_favorite/${petId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: newStatus, pet_id: petId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'liked') {
+            favoriteIcon.src = '/static/images/liked.png';
+            favoriteIcon.dataset.favorited = 'true';
+            updateBrowseFavoriteIcon(petId, true);
+        } else {
+            favoriteIcon.src = '/static/images/unliked.png';
+            favoriteIcon.dataset.favorited = 'false';
+            updateBrowseFavoriteIcon(petId, false);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+
+}
+
+function updateBrowseFavoriteIcon(petId, isFavorited) {
+    const petCard = document.querySelector(`[data-pet-id="${petId}"]`);
+    if (petCard) {
+        const favoriteIcon = petCard.querySelector('.toggle-favorite img'); 
+        if (favoriteIcon) {
+            favoriteIcon.src = isFavorited ? '/static/images/liked.png' : '/static/images/unliked.png';
+        }
+    }
 }
 
 

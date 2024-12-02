@@ -7,7 +7,7 @@
     {% if request_pets %}
         {% for rp in request_pets %}
     
-        <div class="pet" onclick="showPetModal('{{ rp.id }}', '{{ rp.name }}', '{{ rp.created_at }}','{{ rp.age_years }}', '{{ rp.age_months }}','{{ rp.type }}', '{{ rp.adoption_fee }}','{{ rp.description }}', '{{ rp.image.url }}',  {% if rp.id in favorite_pet_ids %} true {% else %} false {% endif %})">
+        <div class="pet" data-pet-id="{{ rp.id }}"  onclick="showPetModal('{{ rp.id }}', '{{ rp.name }}', '{{ rp.created_at }}','{{ rp.age_years }}', '{{ rp.age_months }}','{{ rp.type }}', '{{ rp.adoption_fee }}','{{ rp.description }}', '{{ rp.image.url }}')">
             <img src="{{ rp.image.url }}" alt="{{ rp.name }}" class="pet-image">
             <div class="pet-info">
                 <h3 class="pet-name">{{ rp.name }}</h3>
@@ -22,15 +22,16 @@
             </div>
 
                 <!-- Favorite Button Overlay -->
-            <a href="{% url 'pets:toggle_favorite' rp.id %}" 
-                class="absolute top-2 right-2 z-10" 
-                onclick="event.stopPropagation();">
-                {% if rp.id in favorite_pet_ids %}
-                    <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10">
-                {% else %}
-                    <img src="{% static 'images/unliked.png' %}" alt="Not Liked" class="w-10 h-10">
-                {% endif %}
-            </a>
+                <a href="javascript:void(0);" 
+                class="absolute top-2 right-2 z-10 toggle-favorite" 
+                data-pet-id="{{ rp.id }}" 
+                onclick="toggleFavorite(event, {{ rp.id }})">
+                    {% if rp.id in favorite_pet_ids %}
+                        <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10 favorite-icon" data-favorited="true">
+                    {% else %}
+                        <img src="{% static 'images/unliked.png' %}" alt="Not Liked" class="w-10 h-10 favorite-icon" data-favorited="false">
+                    {% endif %}
+                </a>
         </div> 
         
         {% endfor %}

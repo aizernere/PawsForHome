@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Pet, AdoptionRequest, Favorite
 from .forms import PetForm
@@ -145,9 +146,19 @@ def reject_adoption_request(request, request_id):
 @login_required
 def toggle_favorite(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
-    favorite, created = Favorite.objects.get_or_create(user=request.user, pet=pet)
-    if not created:
+    
+    # Get or create the favorite record
+    favorite = Favorite.objects.filter(user=request.user, pet=pet).first()
+
+    if favorite:
+        # If the pet is already a favorite, remove it
         favorite.delete()
-    # return redirect('pets:list_pet')
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+        status = 'unliked'
+    else:
+        # If the pet is not a favorite, add it
+        Favorite.objects.create(user=request.user, pet=pet)
+        status = 'liked'
+
+    # Return a JSON response with the updated status
+    return JsonResponse({'status': status})
     
