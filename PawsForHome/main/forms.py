@@ -144,17 +144,38 @@ class AdoptionForm(forms.ModelForm):
             'other_housing_description', 'other_general_info',
         ]
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'input-field', 'placeholder': 'First Name'}),
-            'last_name': forms.TextInput(attrs={'class': 'input-field', 'placeholder': 'Last Name'}),
-            'email': forms.EmailInput(attrs={'class': 'input-field', 'placeholder': 'Email'}),
-            'phone_number': forms.TextInput(attrs={'class': 'input-field', 'placeholder': 'Phone Number'}), 
-            'address': forms.Textarea(attrs={'class': 'input-field', 'placeholder': 'Address'}),
-            'housing_type': forms.RadioSelect(),  
-            'household_description': forms.RadioSelect(),  
-            'general_info': forms.RadioSelect(), 
-            'other_housing_description': forms.Textarea(attrs={'class': 'input-field', 'placeholder': 'If Other, describe here', 'rows': 3}),
-            'other_general_info': forms.Textarea(attrs={'class': 'input-field', 'placeholder': 'If Other, describe here', 'rows': 3}),
+            'first_name': forms.TextInput(attrs={'class': 'input-field', 'readonly': 'readonly'}),
+            'last_name': forms.TextInput(attrs={'class': 'input-field', 'readonly': 'readonly'}),
+            'email': forms.EmailInput(attrs={'class': 'input-field', 'readonly': 'readonly'}),
+            'phone_number': forms.TextInput(attrs={'class': 'input-field', 'readonly': 'readonly'}),
+            'address': forms.Textarea(attrs={
+                'class': 'input-field', 
+                'readonly': 'readonly', 
+                'rows': 2,  # Reduced the size
+                'placeholder': 'Address'
+            }),
+            'housing_type': forms.RadioSelect(),
+            'household_description': forms.RadioSelect(),
+            'general_info': forms.RadioSelect(),
+            'other_housing_description': forms.Textarea(attrs={
+                'class': 'input-field',
+                'placeholder': 'If Other, describe here',
+                'rows': 3
+            }),
+            'other_general_info': forms.Textarea(attrs={
+                'class': 'input-field',
+                'placeholder': 'If Other, describe here',
+                'rows': 3
+            }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Additional readonly visual effect
+        read_only_fields = ['first_name', 'last_name', 'email', 'phone_number', 'address']
+        for field in read_only_fields:
+            self.fields[field].widget.attrs.update({'class': 'input-field bg-gray-100 cursor-not-allowed'})
+
 
 class ProfileEdit(forms.Form):
     first_name = forms.CharField(
