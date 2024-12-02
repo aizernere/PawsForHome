@@ -100,21 +100,39 @@
         <h3 class="text-2xl font-bold mb-6">Pet Listings:</h3>
         <div class="grid grid-cols-5 gap-6">
           {% for pet in pets %}
-          <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
-               onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}', '{{ pet.age_years }}', '{{ pet.age_months }}', '{{ pet.type }}', '{{ pet.description }}', '{{ pet.image.url }}')">
-            <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-48 object-cover">
-            <div class="p-4">
-              <h3 class="font-bold text-lg">{{ pet.name }}</h3>
-              <p class="text-gray-500">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
+     data-pet-id="{{ pet.id }}" 
+     onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}', '{{ pet.age_years }}', '{{ pet.age_months }}', '{{ pet.type }}', '{{ pet.description }}', '{{ pet.image.url }}')">
+    <!-- Pet Image -->
+    <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-48 object-cover">
+    
+    <!-- Card Content -->
+    <div class="px-4 pt-3 pb-8">
+        <!-- Pet Name and Age -->
+        <div class="flex justify-between items-center">
+            <h3 class="font-bold text-[16px] text-black">{{ pet.name }}</h3>
+            <p class="text-gray-500 text-[12px]">
                 {% if pet.age_years > 0 %}
-                    {{ pet.age_years }} years{% if pet.age_months > 0 %} and {{ pet.age_months }} months{% endif %} old
+                    {% if pet.age_years > 1 %}
+                    {{ pet.age_years }} years
+                    {% else %}
+                    {{ pet.age_years }} year
+                    {% endif %}
                 {% else %}
-                    {{ pet.age_months }} months old
+                    {% if pet.age_months > 1 %}
+                    {{ pet.age_months }} months
+                    {% else %}
+                    {{ pet.age_months }} month
+                    {% endif %}
                 {% endif %}
-              </p>
-              <span class="text-gray-500">{{ pet.type }}</span>
-            </div>
-          </div>
+            </p>
+        </div>
+        <!-- Pet Type -->
+        <span class="text-gray-500 text-[12px] block mt-0">{{ pet.type }}</span>
+    </div>
+</div>
+
+
           {% empty %}
           <p class="text-gray-500">You have no pets listed for adoption.</p>
           {% endfor %}
