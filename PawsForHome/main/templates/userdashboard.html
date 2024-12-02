@@ -160,14 +160,24 @@
                                         <div class="pet">
                                             <img src="{{ op.image.url }}" alt="{{ op.name }}" class="pet-image">
                                             <div class="pet-info">
-                                                <h3 class="pet-name">{{ op.name }}</h3>
-                                                <p class="pet-age">
-                                                    {% if op.age_years > 0 %}
-                                                        {{ op.age_years }} years{% if op.age_months > 0 %} and {{ op.age_months }} months{% endif %} old
-                                                    {% else %}
-                                                        {{ op.age_months }} months old
-                                                    {% endif %}
-                                                </p>
+                                                <div class="name-age">
+                                                    <h3 class="pet-name">{{ op.name }}</h3>
+                                                    <p class="pet-age">
+                                                        {% if op.age_years > 0 %}
+                                                            {% if op.age_years > 1 %}
+                                                            {{ op.age_years }} years
+                                                            {% else %}
+                                                            {{ op.age_years }} year
+                                                            {% endif %}
+                                                        {% else %}
+                                                            {% if op.age_months > 1 %}
+                                                            {{ op.age_months }} months
+                                                            {% else %}
+                                                            {{ op.age_months }} month
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
                                                 <span class="pet-type">{{ op.type }}</span>
                                             </div>
                                         </div> 

@@ -77,13 +77,14 @@
 
     </nav>
 </header>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <div class="bg">
         {% comment %} left side, basic information sa user {% endcomment %}
             <div class="info">
                 <center>
                     <div class="profile-container">
-                        <img src="{% static "images/shelterlogo.png" %}" alt="test" id="profile-pic">
+                        {% comment %} <img src="{% static "images/shelterlogo.png" %}" alt="test" id="profile-pic"> {% endcomment %}
+                        <img src="{{ form.image.url }}" alt="Profile Picture" id="profile-pic">
                         <label for="update-image" class="edit-button">Change Photo</label>
                         <input type="file" accept="image/jpeg, image/png, image/jpg" name="update-image" id="update-image" hidden>
                     </div>
@@ -102,14 +103,24 @@
                 
                 <div class="row">
                     <div>
-                        <label for="first_name" class="lbl">First Name</label>
+                        <label for="first_name" class="lbl">
+                            First Name
+                            {% if form.first_name.errors %}
+                                <i class="error"> *{{ form.first_name.errors|join:", " }} </i>
+                            {% endif %}
+                        </label>
                         <br>
                         <center>
                             {{form.first_name}}
                         </center>
                     </div>
                     <div>
-                        <label for="last_name" class="lbl">Last Name</label>
+                        <label for="last_name" class="lbl">
+                            Last Name
+                            {% if form.last_name.errors %}
+                                <i class="error"> *{{ form.last_name.errors|join:", " }} </i>
+                            {% endif %}
+                        </label>
                         <br>
                         <center>
                             {{form.last_name}}
@@ -126,7 +137,12 @@
                         
                     </div>
                     <div>
-                        <label for="phone_number" class="lbl">Phone Number</label>
+                        <label for="phone_number" class="lbl">
+                            Phone Number
+                            {% if form.phone_number.errors %}
+                                <i class="error"> *{{ form.phone_number.errors|join:", " }} </i>
+                            {% endif %}
+                        </label>
                         <br>
                         <center>
                             {{form.phone_number}}
