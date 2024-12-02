@@ -99,8 +99,8 @@ html, body{
 }
 
 .pet{
-    width: 225px;
-    /* min-height: 50px;   */
+    width: 180px;
+    /* height: 12rem;   */
     height: fit-content; 
     overflow: hidden;
     border-radius: 8px;
@@ -122,20 +122,30 @@ html, body{
 }
 
 .pet .pet-info{
-    padding: 16px;
+    /* padding: 16px; */
+    padding: 0.75rem 1rem 2rem;
 }
 
 .pet-info .pet-name{
     font-weight: bold; 
-    font-size: 1.125rem;
+    /* font-size: 1.125rem; */
+    font-size: 16px;
+    color: black;
     margin: 0;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
 }
 
-.pet-info .pet-age,
+.pet-info .name-age{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pet-info .name-age .pet-age,
 .pet-info .pet-type{
     color: #6B7280;
-    font-size: 0.875rem;
+    /* font-size: 0.875rem; */
+    font-size: 12px;
     margin: 0;
 }
 

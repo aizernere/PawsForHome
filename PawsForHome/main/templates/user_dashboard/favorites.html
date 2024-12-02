@@ -9,15 +9,23 @@
         <div class="pet" data-pet-id="{{ fp.id }}" onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}', {% if fp.id in pet_requested %} true {% else %} false {% endif %})">
             <img src="{{ fp.image.url }}" alt="{{ fp.name }}" class="pet-image">
             <div class="pet-info">
-                <h3 class="pet-name">{{ fp.name }}</h3>
-                <p class="pet-age">
-                    {% if fp.age_years > 0 %}
-                    {{ fp.age_years }} years{% if fp.age_months > 0 %} and {{ fp.age_months }} months{% endif %} old
-                    {% else %}
-                            {{ fp.age_months }} months old
+                <div class="name-age">
+                    <h3 class="pet-name">{{ fp.name }}</h3>
+                    <p class="pet-age">
+                        {% if fp.age_years > 0 %}
+                            {% if fp.age_years > 1 %}
+                            {{ fp.age_years }} years
+                            {% else %}
+                            {{ fp.age_years }} year
+                            {% endif %}
+                        {% else %}
+                            {% if fp.age_months > 1 %}
+                            {{ fp.age_months }} months
+                            {% else %}
+                            {{ fp.age_months }} month
+                            {% endif %}
                         {% endif %}
                     </p>
-                    <span class="pet-type">{{ fp.type }}</span>
                 </div>
                 
                 <!-- Favorite Button Overlay -->

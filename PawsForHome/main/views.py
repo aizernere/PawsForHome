@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import AdoptionForm
 from pets.models import Pet, AdoptionRequest, Favorite
 
+import re
+
 # Create your views here.
 
 def landing_page(request):
@@ -144,24 +146,87 @@ def notifications(request):
 @login_required
 def profile(request):
     user_profile = request.user
+    pattern = r"^[A-Za-z\s\-']+$"
 
     if request.method == 'POST':
         form = ProfileEdit(request.POST)
+
         if form.is_valid():
-            user_profile.first_name = form.cleaned_data['first_name']
-            user_profile.last_name = form.cleaned_data['last_name']
-            user_profile.birth_date = form.cleaned_data['birthdate']
-            user_profile.phone_number = form.cleaned_data['phone_number']
-            user_profile.address = form.cleaned_data['address']
-            user_profile.email = form.cleaned_data['email']
+            new_firstname = form.cleaned_data['first_name']
+            new_lastname = form.cleaned_data['last_name']
+            new_birthdate = form.cleaned_data['birthdate']
+            new_phone_num = form.cleaned_data['phone_number']
+            new_address = form.cleaned_data['address']
+            new_email = form.cleaned_data['email']
             new_password = form.cleaned_data.get('password')
+            new_profile_pic = form.cleaned_data.get('update-image')
             
-            if new_password:
-                user_profile.set_password(new_password)
-            
-            user_profile.save()
-            login(request, user_profile)
-            return redirect('main:profile')
+            if new_phone_num and new_firstname and new_lastname and new_birthdate and new_email:
+                phone_len = len(str(new_phone_num))
+                if phone_len != 11:
+                    form.add_error('phone_number', "Phone number must be exactly 11 digits.")
+                    # messages.warning(request, 'Input 11 digit number')
+                #     # return redirect('main:profile')
+                # else:
+                #     user_profile.phone_number = new_phone_num
+                # elif not new_firstname.replace(" ", "").isalpha():
+                #     messages.warning(request, 'First name should only contain letters.')
+                # elif not new_lastname.replace(" ", "").isalpha():
+                #     messages.warning(request, 'Last name should only contain letters.')
+                # elif not re.match(pattern, new_firstname):
+                #     messages.warning(request, 'First name should only contain letters.')
+                #     return redirect('main:profile')
+                # elif not re.match(pattern, new_lastname):
+                #     messages.warning(request, 'Last name should only contain letters.')
+                #     return redirect('main:profile')
+                
+                if not re.match(pattern, new_firstname):
+                    form.add_error('first_name', 'First name should only contain letters.')
+                    # messages.warning(request, 'First name should only contain letters.')
+                    # return redirect('main:profile')
+                else:
+                    user_profile.first_name = new_firstname
+
+                if not re.match(pattern, new_lastname):
+                    form.add_error('last_name', 'Last name should only contain letters.')
+                    # messages.warning(request, 'Last name should only contain letters.')
+                    # return redirect('main:profile')
+                else:
+                    user_profile.last_name = new_lastname
+                
+                if form.errors:
+                    return render(request, 'navbar/profile.html', {
+                        'curr_fn':user_profile.first_name,
+                        'curr_ln':user_profile.last_name,
+                        'form': form,
+                        'type': user_profile.account_type
+                    })
+
+                # if phone_len != 11 or not re.match(pattern, new_firstname) or not re.match(pattern, new_lastname):
+                #     # messages.warning(request, 'Invalid input')
+                #     return redirect('main:profile')
+                
+                if new_password:
+                    user_profile.set_password(new_password)
+                # if user_profile.first_name != new_firstname:
+                #     user_profile.first_name = new_firstname
+                # if user_profile.last_name != new_lastname:
+                #     user_profile.last_name = new_lastname
+                if user_profile.birth_date != new_birthdate:
+                    user_profile.birth_date = new_birthdate
+                # if user_profile.phone_number != new_phone_num:
+                #     user_profile.phone_number = new_phone_num
+                if user_profile.address != new_address:
+                    user_profile.address = new_address
+                if user_profile.email != new_email:
+                    user_profile.email = new_email
+                # if user_profile.image != new_profile_pic:
+                user_profile.image = new_profile_pic
+                
+
+                user_profile.save()
+                login(request, user_profile)
+                return redirect('main:profile')
     else:
         form = ProfileEdit(initial={
             'first_name': user_profile.first_name,
@@ -178,6 +243,7 @@ def profile(request):
         'form': form,
         'type': user_profile.account_type
     })
+
 
 def home(request):
     return render(request, 'home.html', {})
