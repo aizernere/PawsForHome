@@ -14,6 +14,7 @@ def add_pet(request):
         if form.is_valid():
             pet = form.save(commit=False) 
             pet.owner = request.user
+            pet.location = request.user.address
             pet.save() 
             return redirect('main:pet_listings')
     else:

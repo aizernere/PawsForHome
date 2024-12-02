@@ -10,17 +10,55 @@ class Pet(models.Model):
         (1, 'Available'),
         (2, 'Adopted'),
     ]
+    
+    TYPE_CHOICES = [
+    ('Dog', 'Dog'),
+    ('Cat', 'Cat'),
+    ('Bird', 'Bird'),
+    ('Fish', 'Fish'),
+    ('Rabbit', 'Rabbit'),
+    ('Hamster', 'Hamster'),
+    ('Guinea Pig', 'Guinea Pig'),
+    ('Frog', 'Frog'),
+    ('Ferret', 'Ferret'),
+    ('Chinchilla', 'Chinchilla'),
+    ('Hedgehog', 'Hedgehog'),
+    ('Mouse', 'Mouse'),
+    ('Rat', 'Rat'),
+    ('Turtle', 'Turtle'),
+    ('Snake', 'Snake'),
+    ('Lizard', 'Lizard'),
+    ('Parrot', 'Parrot'),
+    ('Canary', 'Canary'),
+    ('Budgerigar', 'Budgerigar'),
+    ('Cockatoo', 'Cockatoo'),
+    ('Macaw', 'Macaw'),
+    ('Lovebird', 'Lovebird'),
+    ('Quail', 'Quail'),
+    ('Duck', 'Duck'),
+    ('Chicken', 'Chicken'),
+    ('Goat', 'Goat'),
+    ('Pig', 'Pig'),
+    ('Spider', 'Spider'),
+    ('Tarantula', 'Tarantula'),
+    ('Other', 'Other'),
+    ]
+
 
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='pets/', default='pets/default_pet.jpg')
     type = models.CharField(max_length=100)
+    type = models.CharField(choices=TYPE_CHOICES, max_length=20, default='other')
     age_years = models.IntegerField(default=0)
     age_months = models.IntegerField(default=0)
     description = models.TextField()
-    adoption_fee = models.DecimalField(max_digits=10, decimal_places=2)
+    location = models.CharField(max_length=300, blank=True, null=True)
+    breed = models.CharField(max_length=50, blank=True, null=True)
+    adoption_fee = models.IntegerField(default=0)
     status = models.IntegerField(choices=STATUS_CHOICES, default=1) 
     created_at = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

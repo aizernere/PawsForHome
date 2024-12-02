@@ -1,126 +1,179 @@
 
-{% extends "index.html" %}
+{% extends "base.html" %}
 
+{% block title %}Your Pet Listings{% endblock %}
 
-{% block contents %}
-
-<script src="https://cdn.tailwindcss.com"></script>
+{% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
-<body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
+<header>
+    <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
+        <div class="flex items-center">
+            <a href="{% url 'main:home' %}">
+                <img src="{% static 'images/paws4homelogo.png' %}" alt="logo">
+            </a>
+        </div>
+        
+        <div class="flex items-center space-x-6">
+            {% if request.user.account_type == 'user' %}
+                
+                <a href="{% url 'pets:list_pet' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                  Browse
+                  <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+                <a href="{% url 'main:user_dashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                    Dashboard
+                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            {% else %}
+            <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Dashboard</span>
+            {% endif %}
+            <a href="{% url 'main:notifications' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Notifications
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'main:conversations_list' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Messages
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'main:profile' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Profile
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+        </div>
+            
+            <div class="flex items-center space-x-4">
+                {% if request.user.is_authenticated %}
+                <div class="group flex items-center space-x-2">
+                    <!-- Welcome message -->
+                    <div class="opacity-100 transition-opacity duration-500 ease-in-out group-hover:opacity-0 ">
+                        Welcome, 
+                    </div> 
+                    <div class="transition-font duration-500 ease-in-out group-hover:font-bold space-x-2">
+                    {{ request.user.email }}!
+                    </div>
+                    <!-- Logout button -->
+                    <a href="{% url 'main:logout_account' %}">
+                        <button class="BtnLogout">
+                            <div class="sign">
+                                <svg viewBox="0 0 512 512">
+                                    <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                                </svg>
+                            </div>
+                            <div class="text">Logout</div>
+                        </button>
+                    </a>
+                </div>
+                {% else %}
+                    <div class="nav-items">Welcome, Guest!</div>
+                    <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
+                        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up
+                    </a>
+                {% endif %}
+
+            </div>
+
+    </nav>
+</header>
 
   <div class="flex flex-grow">
     
-    <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col fixed h-screen">
-      <div class="flex items-center justify-center">
-        <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
-      </div>
-      <h1 class="text-2xl font-bold text-center mt-4">{{request.user.first_name}}</h1>
-
-      <!-- Sidebar Navigation -->
-      <nav class="mt-10">
-        <ul class="space-y-4">
-          <li><a href="{% url 'main:shelterdashboard' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Overview</a></li>
-          <li><span class="block text-lg text-black font-bold">Pet Listings</span></li>
-          <li><a href="{% url 'main:pending_requests' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pending Requests</a></li>
-          <li><a href="" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pets Adopted</a></li>
-        </ul>
-      </nav>
-    </aside>
+    
 
     <!-- Main Content -->
     <!-- <main class="flex-grow bg-white ml-72 p-10 rounded-tl-3xl shadow-lg max-w-5xl mx-auto"> -->
-      <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
-        <section class="bg-[#FFDDD2] p-12 rounded-lg shadow-md mb-12 border-2 border-gray-300 max-w-3xl mx-auto">
-            <div class="border-b border-gray-300 pb-4 mb-6">
-                <h3 class="text-3xl font-bold text-gray-700">Pet Resume:</h3>
-            </div>
-            
-            <form method="POST" enctype="multipart/form-data" class="space-y-6">
-                {% csrf_token %}
-                
-                <!-- Pet Name -->
-                <div class="flex justify-between items-center">
-                    <label class="block text-gray-700 font-semibold text-lg">Name:</label>
-                    <div class="w-2/3">
-                        {{ form.name }}
-                    </div>
-                </div>
-
-                <div class="flex justify-between items-center">
-                  <label class="block text-gray-700 font-semibold text-lg">Age:</label>
-                  <div class="w-2/3 flex space-x-4">
+      <main class="flex-grow p-10 rounded-tl-3xl shadow-lg mx-auto">
+        <section class="bg-gradient-to-br from-[#FFDDD2] to-[#FFEFE9] p-10 rounded-xl shadow-lg mb-12 border border-gray-200 max-w-3xl mx-auto">
+          <div class="border-b border-gray-300 pb-6 mb-8 text-center">
+              <h3 class="text-4xl font-extrabold text-gray-800">Pet Resume</h3>
+              <p class="text-gray-600 text-lg mt-2">Fill in the details below to showcase your pet!</p>
+          </div>
+      
+          <form method="POST" enctype="multipart/form-data" class="space-y-8">
+              {% csrf_token %}
+      
+              <!-- Pet Image -->
+              <div>
+                  <label for="id_image" class="block text-lg font-semibold text-gray-700 mb-2">Upload Image:</label>
+                  <input type="file" name="image" id="id_image" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
+              </div>
+      
+              <!-- Pet Name -->
+              <div>
+                  <label for="id_name" class="block text-lg font-semibold text-gray-700 mb-2">Name:</label>
+                  <input type="text" name="name" id="id_name" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
+              </div>
+      
+              <!-- Pet Age -->
+              <div>
+                  <label class="block text-lg font-semibold text-gray-700 mb-2">Age:</label>
+                  <div class="flex space-x-6">
                       <div class="flex-1">
-                          <label class="block text-sm text-gray-600 mb-1">Years</label>
-                          {{ form.age_years }}
+                          <label for="id_age_years" class="block text-sm text-gray-600 mb-1">Years</label>
+                          <input type="number" name="age_years" id="id_age_years" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
                       </div>
                       <div class="flex-1">
-                          <label class="block text-sm text-gray-600 mb-1">Months</label>
-                          {{ form.age_months }}
+                          <label for="id_age_months" class="block text-sm text-gray-600 mb-1">Months</label>
+                          <input type="number" name="age_months" id="id_age_months" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
                       </div>
                   </div>
               </div>
+      
+              <!-- Pet Type -->
+              <div>
+                  <label class="block text-lg font-semibold text-gray-700 mb-2">Type:</label>
+                  <ul class="grid w-full gap-6 grid-cols-4">
+                    {% for value, label in form.type.field.choices %}
+                    <li>
+                        <input type="radio" 
+                               id="pet-type-{{ value }}" 
+                               name="{{ form.type.name }}" 
+                               value="{{ value }}" 
+                               class="hidden peer" 
+                               {% if form.type.value == value %}checked{% endif %} 
+                               required />
+                        <label for="pet-type-{{ value }}" 
+                               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer hover:text-gray-600 hover:bg-gray-100 peer-checked:bg-green-600 :border-green-600 peer-checked:text-white">
+                            <div class="block">
+                                <div class="w-full text-lg font-semibold">{{ label }}</div>
+                            </div>
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+              </div>
 
-                <div class="flex justify-between items-center">
-                    <label class="block text-gray-700 font-semibold text-lg">Type:</label>
-                    <div class="w-2/3">
-                        {{ form.type }}
-                    </div>
-                </div>
-                
-                
-                
-                <!-- Pet Adoption Fee -->
-                <div class="flex justify-between items-center">
-                    <label class="block text-gray-700 font-semibold text-lg">Adoption Fee:</label>
-                    <div class="w-2/3">
-                        {{ form.adoption_fee }}
-                    </div>
-                </div>
-        
-                <!-- Pet Description -->
-                <div class="flex justify-between items-center">
-                    <label class="block text-gray-700 font-semibold text-lg">Description:</label>
-                    <div class="w-2/3">
-                        {{ form.description }}
-                    </div>
-                </div>
-        
-                <!-- Pet Image -->
-                <div class="flex justify-between items-center">
-                    <label class="block text-gray-700 font-semibold text-lg">Upload Image:</label>
-                    <div class="w-2/3">
-                        {{ form.image }}
-                    </div>
-                </div>
-                
-                <!-- Submit Button -->
-                <div class="flex justify-end mt-8">
-                    <button type="submit" class="bg-gray-700 text-white px-6 py-2 rounded-full shadow-md hover:bg-gray-800 focus:outline-none">
-                        Submit Pet Resume
-                    </button>
-                </div>
-            </form>
-        </section>
+              <!-- Pet Breed -->
+              <div>
+                <label for="id_breed" class="block text-lg font-semibold text-gray-700 mb-2">Breed (Optional):</label>
+                <input type="text" name="breed" id="id_breed" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
+              </div>
+      
+              <!-- Pet Adoption Fee -->
+              <div>
+                  <label for="id_adoption_fee" class="block text-lg font-semibold text-gray-700 mb-2">Adoption Fee:</label>
+                  <input type="number" name="adoption_fee" id="id_adoption_fee" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
+              </div>
+      
+              <!-- Pet Description -->
+              <div>
+                  <label for="id_description" class="block text-lg font-semibold text-gray-700 mb-2">Description:</label>
+                  <textarea name="description" id="id_description" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none"></textarea>
+              </div>
+      
+              <!-- Submit Button -->
+              <div class="text-center mt-8">
+                  <button type="submit" class="bg-pink-500 text-white text-lg font-semibold px-8 py-3 rounded-full shadow-md hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 transition duration-300">
+                      Submit Pet Resume
+                  </button>
+              </div>
+          </form>
+      </section>
+      
         
         
         
     </main>
   </div>
-
-  <!-- Footer -->
-  <footer class="bg-white w-full py-6 pl-64">
-    <div class="max-w-6xl mx-auto flex justify-between px-4">
-      <p class="text-gray-600">Help | Terms & Conditions | Privacy Policy</p>
-      <div class="flex space-x-4">
-        <p class="text-gray-600">info@pawsathome.com</p>
-        <div class="space-x-2">
-          <a href="#" class="text-gray-600">Facebook</a>
-          <a href="#" class="text-gray-600">Instagram</a>
-          <a href="#" class="text-gray-600">Twitter</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-</body>
-{% endblock contents %}
+{% endblock %}
