@@ -347,29 +347,31 @@ def login_account(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
+            
+            # Authenticate the user
             user = authenticate(request, email=email, password=password)
-            # if Account.objects.filter(email=email).exists():
-            #     login_account = Account.objects.get(email=email)
-            #     if login_account.check_password(password):  
-            #         login(request, login_account)  
-            #         return redirect('main:home')  
-            #     else:
-            #         error_message = "Invalid password."
-            # else:
-            #     error_message = "Account with this email does not exist."
+            
             if user:
-                first_login = user.last_login is None
+                first_login = user.last_login is None 
                 login(request, user)
+                
                 if first_login:
+                    messages.success(request, "Welcome! Please complete your profile information.")
                     return redirect('main:profile_filling')
-                else:
-                    return redirect('main:home')
-        error_message = "Invalid email or password."
-        return render(request, 'login_signup/login.html', {'form': form, 'error_message': error_message})
-
-    else:  
-        form = Login_Account()
+                
+                messages.success(request, f"Welcome back, {user.first_name}!")
+                return redirect('main:home')
+            else:
+                messages.error(request, "Invalid email or password. Please try again.")
+        else:
+            messages.error(request, "Please correct the errors below.")
+        
+       
         return render(request, 'login_signup/login.html', {'form': form})
+
+    
+    form = Login_Account()
+    return render(request, 'login_signup/login.html', {'form': form})
     
 def logout_account(request):
     logout(request)

@@ -31,6 +31,7 @@
           <form method="post">
               {% csrf_token %}
               {{form.non_field_errors}}
+              
               <div class="label-input">
                   <label for="email" class="lbl">Email Address</label>
                   <br>
@@ -54,8 +55,21 @@
               </center>
           </form>
           <p class="text-center text-gray-600 text-sm mt-6">Don't have an account? <a href="{% url 'main:create_account' %}" class="text-[#FF7578] font-bold">Signup</a></p>
+          <!-- Display error messages -->
+          {% if messages %}
+          <center>
+            <div>
+              {% for message in messages %}
+                  <p class="text-red-600 text-sm">{{ message }}</p>
+              {% endfor %}
+          </div>
+      {% endif %}
+          </center>
+          
         </div>
+        
       </div>
+      
       <div class="right-side">
         {% comment %} Bold, 75, Open Sans {% endcomment %}
         {% comment %} first two lines, font color #FF7578 {% endcomment %}
