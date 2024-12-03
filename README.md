@@ -1,6 +1,6 @@
 # 🐾 Paws For Home  
 ### *(Pet Adoption System)*  
-🌟 Description
+## 🌟 **Description**
 Paws For Home is an innovative pet adoption platform that connects animal shelters and potential adopters in a seamless and user-friendly environment. Users can choose to create an Adopter Account or a Shelter Account.
 
 For Shelters: Shelters can list pets available for adoption, providing detailed profiles with essential information such as pet type, breed,and  age. Shelters can also manage adoption applications, review requests, and decide whether to accept or decline an adopter’s application based on their criteria.
