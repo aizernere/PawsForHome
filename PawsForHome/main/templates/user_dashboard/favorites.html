@@ -6,7 +6,8 @@
 <div class="content">
     {% if fav_pets %}
         {% for fp in fav_pets %}
-        <div class="pet" data-pet-id="{{ fp.id }}" onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}', {% if fp.id in pet_requested %} true {% else %} false {% endif %})">
+
+        <div class="pet" data-pet-id="{{ fp.id }}"  onclick="showPetModal('{{ fp.id }}', '{{ fp.name }}', '{{ fp.created_at }}','{{ fp.age_years }}', '{{ fp.age_months }}','{{ fp.type }}', '{{ fp.adoption_fee }}','{{ fp.description }}', '{{ fp.image.url }}')">
             <img src="{{ fp.image.url }}" alt="{{ fp.name }}" class="pet-image">
             <div class="pet-info">
                 <div class="name-age">
@@ -27,13 +28,15 @@
                         {% endif %}
                     </p>
                 </div>
-                
+                <span class="pet-type">{{ fp.type }}</span>
+            </div>
+
                 <!-- Favorite Button Overlay -->
-            <a href="javascript:void(0);" 
+                <a href="javascript:void(0);" 
                 class="absolute top-2 right-2 z-10 toggle-favorite" 
                 data-pet-id="{{ fp.id }}" 
                 onclick="toggleFavorite(event, {{ fp.id }})">
-                    <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10 favorite-icon" data-favorited="true">
+                <img src="{% static 'images/liked.png' %}" alt="Liked" class="w-10 h-10 favorite-icon" data-favorited="true">
                 </a>
         </div>  
         {% endfor %}
@@ -42,7 +45,7 @@
     {% endif %}
 </div>
 
-<!-- Modal -->
+{% comment %} <!-- Modal -->
 <div id="petModal" class="fixed -inset-2 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
     <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-3xl w-full relative">
 
@@ -73,7 +76,7 @@
             <button id="modalApplyButton" class="absolute bottom-6 right-6 bg-[#F2968F] text-white px-6 py-2 rounded-full" onclick="redirectToAdoptionForm()">Apply to Adopt</button>
         </div>
     </div>
-</div>
+</div> {% endcomment %}
 
-<script src={% static 'js/modal.js' %} ></script>
+{% comment %} <script src={% static 'js/modal.js' %} ></script> {% endcomment %}
 {% endblock u_dash_content %}

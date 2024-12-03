@@ -19,6 +19,7 @@ body{
 .left-side{
     padding: 50px 50px 50px 100px;
     width: 45vw;
+    /* border: 1px solid black; */
 }
 
 .logo {
@@ -40,6 +41,11 @@ body{
 
 .bold-texts #color-brown{
     color: #3E2828;
+}
+
+.bold-texts img{
+    margin: auto;
+    width: 400px;
 }
 
 .right-side{

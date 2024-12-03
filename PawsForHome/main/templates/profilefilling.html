@@ -1,82 +1,113 @@
 <head>
     {% load static %}
+    <title>{% block title %}Profile Filling{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/paws4homelogo.png' %}">
     <link rel="stylesheet" href="{% static 'css/profile-filling.css' %}">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <script src="{% static 'js/loader.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
 </head>
-<body>
-    <div class="container">
-        {% comment %} profile fillling form {% endcomment %}
-        <div class="left">
-            <div class = "inner-container">
-                <center>
-                    <img src="{% static 'images/PawImageForSignUp.png' %}" alt="Custom Paw"> 
-                    <h2>Profile Filling</h2>
-                </center>
-                <form method="post" action="">
-                    {% csrf_token %}
-                    {{ form.non_field_errors }}
-                    
-                    <div class="label-input">
-                        <label for="first_name" class="lbl">First Name</label>
-                        <br>
-                        <center>
-                            {{ form.first_name }}
-                        </center>
-                    </div>
-                    <div class="label-input">
-                        <label for="last_name" class="lbl">Last Name</label>
-                        <br>
-                        <center>
-                            {{ form.last_name }}
-                        </center>
-                    </div>
-                    <div class="label-input">
-                        <label for="birthdate" class="lbl">Birthdate</label>
-                        <br>
-                        <center>
-                            {{ form.birthdate }}
-                        </center>
-                    </div>
-                    <div class="label-input">
-                        <label for="phone_number" class="lbl">Phone Number</label>
-                        <br>
-                        <center>
-                            {{ form.phone_number }}
-                        </center>
-                    </div>
+<body style="font-family: 'Lexend', sans-serif;" class="text-[#714949]">
+    <div id="content" style="display: none;" class="bg-[#FFDDD2] rounded-[32px] p-t-2 m-12">
+    
+        <div class="container">
+            {% comment %} profile fillling form {% endcomment %}
+            <div class="left">
+                <div class = "inner-container">
+                    <center>
+                        <img src="{% static 'images/PawImageForSignUp.png' %}" alt="Custom Paw"> 
+                        <h2>Profile Filling</h2>
+                    </center>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        
+                        <div class="label-input">
+                            <label for="first_name" class="lbl">First Name</label>
+                            <br>
+                            <center>
+                                {{ form.first_name }}
+                            </center>
+                        </div>
+                        <div class="label-input">
+                            <label for="last_name" class="lbl">Last Name</label>
+                            <br>
+                            <center>
+                                {{ form.last_name }}
+                            </center>
+                        </div>
+                        <div class="label-input">
+                            <label for="birthdate" class="lbl">Birthdate</label>
+                            <br>
+                            <center>
+                                {{ form.birthdate }}
+                            </center>
+                        </div>
+                        <div class="label-input">
+                            <label for="phone_number" class="lbl">Phone Number</label>
+                            <br>
+                            <center>
+                                {{ form.phone_number }}
+                            </center>
+                        </div>
 
-                    <div class="label-input">
-                        <label for="address" class="lbl">Address</label>
-                        <br>
-                        <center>
-                            {{ form.address }}
-                        </center>
-                    </div>
+                        <div class="label-input">
+                            <label for="address" class="lbl">Address</label>
+                            <br>
+                            <center>
+                                {{ form.address }}
+                            </center>
+                        </div>
+                        
+                        {% if messages %}
+                            <br>
+                            {% for m in messages %}
                     
-                    {% if messages %}
+                                {{m}}
+                    
+                            {% endfor %}
+                        {% endif %}
                         <br>
-                        {% for m in messages %}
+                        <br>
+                        <div class="btns">
+                            <button type="submit" class="done-btn">Done</button>
+                            <a class="skip-btn" href="{% url "main:profile" %}">Skip for now</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% comment %} eme eme lang {% endcomment %}
+            <div class="right">
                 
-                            {{m}}
+                    <img src="{% static "images/profile-filling.png" %}" alt="Dog Lover">
                 
-                        {% endfor %}
-                    {% endif %}
-                    <br>
-                    <br>
-                    <div class="btns">
-                        <button type="submit" class="done-btn">Done</button>
-                        <a class="skip-btn" href="{% url "main:profile" %}">Skip for now</a>
-                    </div>
-                </form>
             </div>
         </div>
-        {% comment %} eme eme lang {% endcomment %}
-        <div class="right">
-            
-                <img src="{% static "images/profile-filling.png" %}" alt="">
-            
-        </div>
     </div>
-   
+    <div id="page-loader" class="loader-container active">
+        <div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+          <div class="wheel"></div>
+          <div class="hamster">
+            <div class="hamster__body">
+              <div class="hamster__head">
+                <div class="hamster__ear"></div>
+                <div class="hamster__eye"></div>
+                <div class="hamster__nose"></div>
+              </div>
+              <div class="hamster__limb hamster__limb--fr"></div>
+              <div class="hamster__limb hamster__limb--fl"></div>
+              <div class="hamster__limb hamster__limb--br"></div>
+              <div class="hamster__limb hamster__limb--bl"></div>
+              <div class="hamster__tail"></div>
+            </div>
+          </div>
+          <div class="spoke"></div>
+        </div>
+      </div>
 </body>

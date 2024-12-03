@@ -2,14 +2,15 @@
     {% load static %}
     <title>{% block title %}Sign-Up{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/paws4homelogo.png' %}">
     <link rel="stylesheet" href="{% static 'css/sign-up.css' %}">
     <!-- <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
-  <script src="{% static 'js/loader.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <script src="{% static 'js/loader.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
     
 </head>
 <body style="font-family: 'Lexend', sans-serif;" class="text-[#714949]">
@@ -31,6 +32,7 @@
                 {% comment %} font color #3E2828 {% endcomment %}
                 Paw Friend!
             </span>
+            <img src="{% static "images/for-signup.png" %}" alt="Sign-Up">
             {% comment %} insert image here {% endcomment %}
         </p>    
     </div>
