@@ -45,7 +45,7 @@
     {% endif %}
 </div>
 
-<!-- Modal -->
+{% comment %} <!-- Modal -->
 <div id="petModal" class="fixed -inset-2 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
     <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-3xl w-full relative">
 
@@ -76,7 +76,7 @@
             <button id="modalApplyButton" class="absolute bottom-6 right-6 bg-[#F2968F] text-white px-6 py-2 rounded-full" onclick="redirectToAdoptionForm()">Apply to Adopt</button>
         </div>
     </div>
-</div>
+</div> {% endcomment %}
 
-<script src={% static 'js/modal.js' %} ></script>
+{% comment %} <script src={% static 'js/modal.js' %} ></script> {% endcomment %}
 {% endblock u_dash_content %}
