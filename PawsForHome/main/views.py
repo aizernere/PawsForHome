@@ -31,12 +31,15 @@ def ud_requests(request):
     # print(request_pets)
     curr_fn = request.user.first_name
 
+    curr_account = request.user
+
     favorite_pet_ids = Favorite.objects.filter(user=request.user).values_list('pet_id', flat=True)
 
     return render(request, 'user_dashboard/requests.html', {
         'request_pets':request_pets, 
         'curr_fn':curr_fn,
-        'favorite_pet_ids':favorite_pet_ids
+        'favorite_pet_ids':favorite_pet_ids,
+        'curr': curr_account
         })
 
 def ud_favorites(request):
@@ -44,15 +47,18 @@ def ud_favorites(request):
     user_favorites = Favorite.objects.filter(user_id = request.user.id).values_list('pet_id', flat=True)
     fav_pets = Pet.objects.filter(id__in=user_favorites)
 
+    curr_account = request.user
     pet_requested = AdoptionRequest.objects.filter(account_id = request.user.id).values_list('pet_id', flat=True)
     return render(request, 'user_dashboard/favorites.html', {
         'curr_fn': curr_fn, 
         'fav_pets':fav_pets,
-        'pet_requested':pet_requested
+        'pet_requested':pet_requested,
+        'curr': curr_account
         })
 
 def ud_adoptionhistory(request):
     curr_fn = request.user.first_name
+    curr_account = request.user
 
     # user_requests = AdoptionRequest.objects.filter(account_id = request.user.id)
     user_requests = AdoptionRequest.objects.filter(
@@ -89,7 +95,8 @@ def ud_adoptionhistory(request):
     ]
     return render(request, 'user_dashboard/adoption_history.html', {
         'curr_fn':curr_fn,
-        'pets_with_status':pets_with_status
+        'pets_with_status':pets_with_status,
+        'curr': curr_account,
         # 'user_requests':user_requests,
         # 'request_pets':request_pets,
         # 'status_map':status_map
@@ -105,6 +112,7 @@ def shelterdashboard(request):
 @login_required
 def user_dashboard(request):
     curr_fn = request.user.first_name
+    curr_account = request.user
 
     user_requests = AdoptionRequest.objects.filter(account_id = request.user.id)
     
@@ -120,11 +128,13 @@ def user_dashboard(request):
     fave_count = Favorite.objects.filter(user_id = request.user.id).count()
 
     return render(request, 'userdashboard.html', {
+        # 'curr_fn':curr_fn,
         'curr_fn':curr_fn,
         'own_pet':own_pet,
         'own_pet_count':own_pet_count,
         'request_count':request_count,
-        'fave_count':fave_count
+        'fave_count':fave_count,
+        'curr': curr_account
         })
 @login_required
 @shelter_required
