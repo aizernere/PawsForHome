@@ -68,9 +68,9 @@
                 <!-- Pet Type -->
               <div>
                 <label class="block text-lg font-semibold text-gray-700 mb-2">Type:</label>
-                <ul class="grid w-full gap-6 grid-cols-2 sm:grid-cols-4">
+                <div class="flex flex-wrap gap-1">
                     {% for value, label in form.type.field.choices %}
-                    <li>
+                    <div class="flex items-center justify-start">
                         <input type="radio" 
                               id="pet-type-{{ value }}" 
                               name="{{ form.type.name }}" 
@@ -79,14 +79,14 @@
                               {% if form.type.value == value %}checked{% endif %} 
                               required />
                         <label for="pet-type-{{ value }}" 
-                              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer hover:text-gray-600 hover:bg-gray-100 peer-checked:bg-green-600 peer-checked:text-white">
+                        class="  inline-flex items-center justify-center px-2 text-gray-500 bg-white border-2 border-gray-300 rounded-full cursor-pointer hover:text-gray-600 hover:bg-gray-100 peer-checked:bg-[#F2968F] peer-checked:font-semibold peer-checked:text-white">
                             <div class="block">
                                 <div class="w-full text-lg font-semibold">{{ label }}</div>
                             </div>
                         </label>
-                    </li>
+                    </div>
                     {% endfor %}
-                </ul>
+                </div>
               </div>
 
                 <!-- Pet Breed -->

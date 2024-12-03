@@ -47,14 +47,13 @@ class Pet(models.Model):
 
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='pets/', default='pets/default_pet.jpg')
-    type = models.CharField(max_length=100)
     type = models.CharField(choices=TYPE_CHOICES, max_length=20, default='other')
     age_years = models.IntegerField(default=0)
     age_months = models.IntegerField(default=0)
-    description = models.TextField()
-    location = models.CharField(max_length=300, blank=True, null=True)
+    description = models.TextField(blank=True,null=True)
+    location = models.TextField(blank=True,null=True, default='N/A')
     breed = models.CharField(max_length=50, blank=True, null=True)
-    adoption_fee = models.IntegerField(default=0)
+    adoption_fee = models.IntegerField(default=0, blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=1) 
     created_at = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
@@ -132,12 +131,14 @@ class AdoptionRequest(models.Model):
         self.status = 3
         self.save()
         self.pet.save()
+        output = f"Your adoption request for {self.pet.name} has been rejected!"
         Message.objects.create(
             sender=self.pet.owner,  
             receiver=self.account, 
-            content=f"Your adoption request for {self.pet.name} has been rejected!",
+            content=output,
             timestamp=timezone.now()
         )
+        Notification.objects.create(account=self.account, notification=output)
 
 class Favorite(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

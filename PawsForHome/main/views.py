@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
-from .models import Account
+from .models import Account, Notification
 from .forms import Create_Account, Login_Account, Profile_Filling, ProfileEdit
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import AdoptionForm
 from pets.models import Pet, AdoptionRequest, Favorite
 from .decorators import adopter_required, shelter_required
+from pmessages.models import Message
+from django.utils import timezone
 import re
 
 # Create your views here.
@@ -147,7 +149,6 @@ def pet_listings(request):
     return render(request, 'shelterdashboard/pet_listings.html',{})
 
 @login_required
-@shelter_required
 def adoptform(request):
     return render(request, 'shelterdashboard/adoptform.html',{})
 # def pending_requests(request):
@@ -390,7 +391,17 @@ def adoption_request_view(request, pet_id):
             adoption_request.account = user_profile
             adoption_request.status = 1 
             adoption_request.save()
-            
+            input = f"Your adoption request for {pet.name} has been sent!"
+            output = f"You have a new adoption request for {pet.name}!"
+            messageinput = f"I have sent you an adoption request for {pet.name}. Please consider my request."
+            Notification.objects.create(account=user_profile, notification=input)
+            Notification.objects.create(account=pet.owner, notification=output)
+            Message.objects.create(
+                sender=user_profile,
+                receiver=pet.owner, 
+                content=messageinput,
+                timestamp=timezone.now()
+            )
             return redirect('pets:list_pet')
     else:
         form = AdoptionForm(initial={
@@ -436,12 +447,15 @@ def pending_requests(request):
 @shelter_required
 def adoption_request_detail(request, request_id):
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
-    next_request = AdoptionRequest.objects.filter(
+    shelter = request.user
+    pets = Pet.objects.filter(owner=shelter)
+    scanRequest = AdoptionRequest.objects.filter(pet__in=pets, status=1) 
+    next_request = scanRequest.filter(
         id__gt=adoption_request.id, 
         pet__owner=request.user
     ).order_by('id').first()
     
-    previous_request = AdoptionRequest.objects.filter(
+    previous_request = scanRequest.filter(
         id__lt=adoption_request.id, 
         pet__owner=request.user
     ).order_by('-id').first()

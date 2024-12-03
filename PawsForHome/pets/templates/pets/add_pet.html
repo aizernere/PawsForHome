@@ -25,7 +25,11 @@
                     <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
                 </a>
             {% else %}
-            <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Dashboard</span>
+            <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Add Pet</span>
+            <a href="{% url 'main:shelterdashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                Dashboard
+                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
             {% endif %}
             <a href="{% url 'main:notifications' %}" class="text-xl font-medium relative group hover:text-orange-500">
                 Notifications
@@ -91,49 +95,59 @@
           </div>
       
           <form method="POST" enctype="multipart/form-data" class="space-y-8">
-              {% csrf_token %}
-      
-              <!-- Pet Image -->
-              <div class="relative flex justify-center items-center">
+            {% csrf_token %}
+        
+            <!-- Pet Image -->
+            <div class="relative justify-center items-center">
                 <div class="relative flex justify-center items-center w-40 h-40 rounded-full bg-white border-2 border-gray-300 mx-auto">
                     <img id="image-preview" src="" alt="Image Preview" class="w-full h-full rounded-full object-cover hidden">
                     <input type="file" name="image" id="id_image" class="absolute top-0 left-0 w-full h-full opacity-0" onchange="previewImage(event)" style="pointer-events: none;">
                     <button type="button" class="absolute bottom-0 right-0 bg-blue-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-600 focus:ring-4 focus:ring-blue-300" onclick="document.getElementById('id_image').click()">
-                      Upload
+                        Upload
                     </button>
-                  </div>
+                    
+                </div>
+                {% if form.image.errors %}
+                    <p class=" text-red-600 text-sm mt-1">{{ form.image.errors|join:" " }}</p>
+                {% endif %}
             </div>
-
-            
-            
-      
-              <!-- Pet Name -->
-              <div>
-                  <label for="id_name" class="block text-lg font-semibold text-gray-700 mb-2">Name:</label>
-                  <input type="text" name="name" id="id_name" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
-              </div>
-      
-              <!-- Pet Age -->
-              <div>
-                  <label class="block text-lg font-semibold text-gray-700 mb-2">Age:</label>
-                  <div class="flex space-x-6">
-                      <div class="flex-1">
-                          <label for="id_age_years" class="block text-sm text-gray-600 mb-1">Years</label>
-                          <input type="number" name="age_years" id="id_age_years" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
-                      </div>
-                      <div class="flex-1">
-                          <label for="id_age_months" class="block text-sm text-gray-600 mb-1">Months</label>
-                          <input type="number" name="age_months" id="id_age_months" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
-                      </div>
-                  </div>
-              </div>
-      
-              <!-- Pet Type -->
-              <div>
-                  <label class="block text-lg font-semibold text-gray-700 mb-2">Type:</label>
-                  <ul class="grid w-full gap-6 grid-cols-2 sm:grid-cols-4">
+        
+            <!-- Pet Name -->
+            <div>
+                <label for="id_name" class="block text-lg font-semibold text-gray-700 mb-2">Name: (Required)</label>
+                <input type="text" name="name" id="id_name" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-300 focus:outline-none">
+                {% if form.name.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.name.errors|join:" " }}</p>
+                {% endif %}
+            </div>
+        
+            <!-- Pet Age -->
+            <div>
+                <label class="block text-lg font-semibold text-gray-700 mb-2">Age:</label>
+                <div class="flex space-x-6">
+                    <div class="flex-1">
+                        <label for="id_age_years" class="block text-sm text-gray-600 mb-1">Years</label>
+                        <input type="number" name="age_years" id="id_age_years" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-300 focus:outline-none">
+                        {% if form.age_years.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.age_years.errors|join:" " }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="flex-1">
+                        <label for="id_age_months" class="block text-sm text-gray-600 mb-1">Months</label>
+                        <input type="number" name="age_months" id="id_age_months" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-300 focus:outline-none">
+                        {% if form.age_months.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.age_months.errors|join:" " }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Pet Type -->
+            <div>
+                <label class="block text-lg font-semibold text-gray-700 mb-2">Type:</label>
+                <div class="flex flex-wrap gap-1">
                     {% for value, label in form.type.field.choices %}
-                    <li>
+                    <div class="flex items-center justify-start">
                         <input type="radio" 
                                id="pet-type-{{ value }}" 
                                name="{{ form.type.name }}" 
@@ -142,41 +156,47 @@
                                {% if form.type.value == value %}checked{% endif %} 
                                required />
                         <label for="pet-type-{{ value }}" 
-                               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer hover:text-gray-600 hover:bg-gray-100 peer-checked:bg-green-600 :border-green-600 peer-checked:text-white">
+                        class="  inline-flex items-center justify-center px-2 text-gray-500 bg-white border-2 border-gray-300 rounded-full cursor-pointer hover:text-gray-600 hover:bg-gray-100 peer-checked:bg-[#F2968F] peer-checked:font-semibold peer-checked:text-white">
                             <div class="block">
                                 <div class="w-full text-lg font-semibold">{{ label }}</div>
                             </div>
                         </label>
-                    </li>
+                    </div>
                     {% endfor %}
-                </ul>
-              </div>
+                </div>
+                {% if form.type.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.type.errors|join:" " }}</p>
+                {% endif %}
+            </div>
 
-              <!-- Pet Breed -->
               <div>
                 <label for="id_breed" class="block text-lg font-semibold text-gray-700 mb-2">Breed (Optional):</label>
-                <input type="text" name="breed" id="id_breed" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
+                <input type="text" name="breed" id="id_breed" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-300 focus:outline-none">
               </div>
       
-              <!-- Pet Adoption Fee -->
               <div>
-                  <label for="id_adoption_fee" class="block text-lg font-semibold text-gray-700 mb-2">Adoption Fee:</label>
-                  <input type="number" name="adoption_fee" id="id_adoption_fee" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none">
+                  <label for="id_adoption_fee" class="block text-lg font-semibold text-gray-700 mb-2">Adoption Fee: (Leave blank or 0 for free)</label>
+                  <input type="number" name="adoption_fee" id="id_adoption_fee" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-300 focus:outline-none">
+                  {% if form.type.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.adoption_fee.errors|join:" " }}</p>
+                    {% endif %}
               </div>
       
               <!-- Pet Description -->
               <div>
-                  <label for="id_description" class="block text-lg font-semibold text-gray-700 mb-2">Description:</label>
+                  <label for="id_description" class="block text-lg font-semibold text-gray-700 mb-2">Description: (Optional but suggested)</label>
                   <textarea name="description" id="id_description" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-300 focus:outline-none"></textarea>
               </div>
       
-              <!-- Submit Button -->
-              <div class="text-center mt-8">
-                  <button type="submit" class="bg-pink-500 text-white text-lg font-semibold px-8 py-3 rounded-full shadow-md hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 transition duration-300">
-                      Submit Pet Resume
-                  </button>
-              </div>
-          </form>
+              {% if form.non_field_errors %}
+                <p class="text-red-600 text-sm mt-4">{{ form.non_field_errors|join:" " }}</p>
+            {% endif %}
+            <div class="text-center mt-8">
+            <button type="submit" class="bg-[#F2968F] text-white text-lg font-semibold px-8 py-3 rounded-full shadow-md hover:bg-red-400 focus:ring-4 focus:ring-red-300 transition duration-300">
+                Submit Pet Resume
+            </button>
+            </div>
+</form>
       </section>
       
         

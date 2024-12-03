@@ -290,15 +290,11 @@
             filterForm.classList.add('translate-x-0');
             filterOverlay.classList.remove('hidden');
             filterOverlay.classList.add('block');
-            filterButton.classList.remove('bg-[#F2968F]');
-            filterButton.classList.add('bg-red-400');
         } else {
             filterForm.classList.add('translate-x-full');
             filterForm.classList.remove('translate-x-0');
             filterOverlay.classList.add('hidden');
             filterOverlay.classList.remove('block');
-            filterButton.classList.remove('bg-red-400');
-            filterButton.classList.add('bg-[#F2968F]');
         }
         
     });
@@ -308,8 +304,6 @@
         filterForm.classList.remove('translate-x-0');
         filterOverlay.classList.add('hidden');
         filterOverlay.classList.remove('block');
-        filterButton.classList.remove('bg-red-400');
-        filterButton.classList.add('bg-[#F2968F]');
     });
 </script>
 {% endblock %}

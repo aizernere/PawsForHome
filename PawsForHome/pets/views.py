@@ -77,7 +77,7 @@ def list_pet(request):
     # Get IDs of pets for which the current user has pending adoption requests
     pending_requests_pet_ids = AdoptionRequest.objects.filter(account=request.user, status=1).values_list('pet_id', flat=True)
 
-    selected_pet_types = request.GET.getlist('pet_type')  # Use getlist to get multiple values
+    selected_pet_types = request.GET.getlist('pet_type')  
     age_years_min = request.GET.get('age_years_min', 0) 
     age_years_max = request.GET.get('age_years_max', 100)
     location = request.GET.get('location','')
@@ -85,17 +85,15 @@ def list_pet(request):
     # exlude pets that are pending for adoption
     pets_list = Pet.objects.filter(status=1).exclude(id__in=pending_requests_pet_ids)
 
-    # Filter by pet types if provided
     if selected_pet_types:
         pets_list = pets_list.filter(type__in=selected_pet_types)
 
-    # Filter by age if provided
     if age_years_min and age_years_max:
         pets_list = pets_list.filter(age_years__gte=age_years_min, age_years__lte=age_years_max)
 
-    # Filter by location if provided
     if location:
         pets_list = pets_list.filter(location__icontains=location)  
+
     # Pagination setup
     paginator = Paginator(pets_list, 10)
     page_number = request.GET.get('page')
@@ -104,8 +102,6 @@ def list_pet(request):
     favorite_pet_ids = Favorite.objects.filter(user=request.user).values_list('pet_id', flat=True)
 
     pet_type_choices = Pet.TYPE_CHOICES
-
-    # Return rendered page with pets, favorite pet IDs, and pet type filter information
     return render(request, 'pets/list_pet.html', {
         'pets': pets,
         'favorite_pet_ids': favorite_pet_ids,
