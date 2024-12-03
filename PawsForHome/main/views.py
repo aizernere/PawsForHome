@@ -424,4 +424,17 @@ def pending_requests(request):
 @shelter_required
 def adoption_request_detail(request, request_id):
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
-    return render(request, 'shelterdashboard/adoptform.html', {'adoption_request': adoption_request, 'request': request})
+    next_request = AdoptionRequest.objects.filter(
+        id__gt=adoption_request.id, 
+        pet__owner=request.user
+    ).order_by('id').first()
+    
+    previous_request = AdoptionRequest.objects.filter(
+        id__lt=adoption_request.id, 
+        pet__owner=request.user
+    ).order_by('-id').first()
+    return render(request, 'shelterdashboard/adoptform.html', {
+        'adoption_request': adoption_request,
+        'next_request': next_request,
+        'previous_request': previous_request,
+    })
