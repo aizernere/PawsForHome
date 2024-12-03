@@ -51,38 +51,34 @@
 </div>
 {% comment %} </div> {% endcomment %}
 
-{% comment %} <!-- Modal -->
-<div id="petModal" class="fixed -inset-2 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
-    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-3xl w-full relative">
-
-        <button class="absolute top-4 left-4" onclick="closePetModal()">
-            <img src="{% static 'images/backArrow.png' %}" alt="Close" class="w-7 h-7">
-        </button>
-        <div class="flex flex-col md:flex-row">
-            <!-- Image occupying half of the modal with rounded corners and fixed size -->
-            <img id="modalPetImage" class="w-[300px] h-[400px] object-cover rounded-3xl mb-4 md:mb-0 md:mr-6" alt="Pet Image">
-            <div class="flex-grow">
-                <h3 id="modalPetName" class="pt-8 font-bold text-2xl mb-2"></h3>
-                <p id="modalPetCreated" class="text-gray-500 text-sm mb-2"></p>
-                <div class="flex space-x-2 mb-1">
-                    <p id="modalPetAgeYears" class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm"></p>
-                    <p id="modalPetAgeMonths" class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm"></p>
-                    <p id="modalPetType" class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"></p>
-                    <p id="modalPetFee" class="bg-[#FF395D] text-white px-3 py-1 rounded-full text-sm"></p>
+   <!-- Modal -->
+   <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center pt-[20vh] hidden z-50 overflow-y-auto">
+    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-2xl w-full h-[400px] relative overflow-y-auto">
+            <button class="absolute top-4 left-4" onclick="closePetModal()">
+                <img src="{% static 'images/backArrow.png' %}" alt="Close" class="w-7 h-7">
+            </button>
+            <div class="flex flex-col md:flex-row">
+                <!-- Image occupying half of the modal with rounded corners and fixed size -->
+                <img id="modalPetImage" class="w-[300px] h-[400px] object-cover rounded-3xl mb-4 md:mb-0 md:mr-6" alt="Pet Image">
+                <div class="flex-grow">
+                    <h3 id="modalPetName" class="pt-8 font-bold text-2xl mb-2"></h3>
+                    <p id="modalPetCreated" class="text-gray-500 text-sm mb-2"></p>
+                    <div class="flex space-x-2 mb-1">
+                        <p id="modalPetAgeYears" class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                        <p id="modalPetAgeMonths" class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm"></p>
+                        <p id="modalPetType" class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                        <p id="modalPetFee" class="bg-[#FF395D] text-white px-3 py-1 rounded-full text-sm"></p>
+                    </div>
+                    <p id="modalPetDescription" class="text-gray-600 mt-2 mb-4"></p>
+                    <input type="hidden" id="modalPetId" value="">
+    
+                    <!-- Favorite Button in the Modal -->
+                    <button id="modalFavoriteButton" class="absolute top-4 right-4 z-10" onclick="toggleFavorite()">
+                        <img id="modalFavoriteIcon" src="{% static 'images/liked.png' %}" alt="Favorite" class="w-10 h-10">
+                    </button>
                 </div>
-                <p id="modalPetDescription" class="text-gray-600 mt-2 mb-4"></p>
-                <input type="hidden" id="modalPetId" value="">
-
-                <!-- Favorite Button in the Modal -->
-                <button id="modalFavoriteButton" class="absolute top-4 right-4 z-10" onclick="toggleFavorite()">
-                    <img id="modalFavoriteIcon" src="{% static 'images/liked.png' %}" alt="Favorite" class="w-10 h-10">
-                </button>
             </div>
-            <!-- Positioned "Apply to Adopt" button in the bottom right of the modal -->
-            {% comment %} <button class="absolute bottom-6 right-6 bg-[#F2968F] text-white px-6 py-2 rounded-full" onclick="redirectToAdoptionForm()">Apply to Adopt</button> {% endcomment %}
-        {% comment %} </div>
+        </div>
     </div>
-</div>
-
-<script src={% static 'js/modal.js' %} ></script> {% endcomment %}
+  <script src={% static 'js/modal.js' %} ></script>
 {% endblock u_dash_content %}

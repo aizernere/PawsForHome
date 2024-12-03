@@ -163,8 +163,8 @@
   </div>
 
   <!-- Modal -->
-  <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
-    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-2xl w-full relative">
+  <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50 overflow-y-auto">
+    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-2xl w-full h-[400px] relative overflow-y-auto">
       
       <!-- Back Button -->
       <button class="absolute top-4 left-4" onclick="closePetModal()">
@@ -187,7 +187,7 @@
       </div>
 
       <!-- Edit and Delete Buttons -->
-      <div class="flex justify-end space-x-4 mt-6 pb-6 pr-6">
+      <div class=" absolute bottom-6 right-6">
         <a href="#" id="editPetButton" class="bg-blue-500 text-white px-6 py-2 rounded-full">Edit</a>
         <a href="#" id="deletePetButton" class="bg-red-500 text-white px-6 py-2 rounded-full" 
    onclick="deletePet(event, this.getAttribute('data-url'))">Archive</a>
@@ -195,8 +195,8 @@
     </div>
   </div>
 
-  <div id="petRestoreModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
-    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-2xl w-full relative">
+  <div id="petRestoreModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50 overflow-y-auto">
+    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-2xl w-full h-[400px] relative overflow-y-auto">
         
         <!-- Back Button -->
         <button class="absolute top-4 left-4" onclick="closePetRestoreModal()">
@@ -219,7 +219,7 @@
         </div>
 
         <!-- Restore Button -->
-        <div class="flex justify-end space-x-4 mt-6 pb-6 pr-6">
+        <div class="absolute bottom-6 right-6">
           <a href="#" id="restorePetButton" class="bg-green-500 text-white px-6 py-2 rounded-full" 
           onclick="restorePet(event, this.getAttribute('data-url')) ">Restore</a>
         </div>
