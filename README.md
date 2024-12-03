@@ -16,14 +16,13 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 
 ---
 
-## 🛠️ **Technologies Used**  
-| **Language/Technology** | **Purpose**               |  
-|--------------------------|---------------------------|  
-| **HTML & CSS**           | Front-end structure and styling |  
-| **JavaScript**           | Front-end interactivity |  
-| **Python**               | Back-end functionality and logic |  
-| **Django**               | Web framework for the project |  
-| **SQLite**               | Database for data management |  
+### 🛠️ **Technologies Used**  
+* [![HTML][HTML.com]][HTML-url]
+* [![CSS][CSS.com]][CSS-url]
+* [![JavaScript][JavaScript.com]][JavaScript-url]
+* [![Python][Python.com]][Python-url]
+* [![Django][Django.com]][Django-url]
+* [![SQLite][SQLite.com]][SQLite-url]
 
 ---
 
