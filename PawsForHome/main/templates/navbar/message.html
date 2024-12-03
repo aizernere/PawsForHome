@@ -1,142 +1,205 @@
-{% extends "base.html" %}
-
-{% block title %}PawsForHome{% endblock %}
-
-{% block content %}
-{% load static %}
-<script>
-    // Scroll to the bottom of the message container when the page loads
-    document.addEventListener("DOMContentLoaded", function() {
-        const messageContainer = document.getElementById("messageContainer");
-        messageContainer.scrollTop = messageContainer.scrollHeight;
-    });
-</script>
-<header>
-    <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
-        <div class="flex items-center">
-            <a href="{% url 'main:home' %}">
-                <img src="{% static 'images/paws4homelogo.png' %}" alt="logo">
-            </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% if receiver %}{{ receiver.first_name }} - Messages{% else %}Messages{% endif %}{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% load static %}
+  <link rel="icon" type="image/x-icon" href="{% static 'images/paws4homelogo.png' %}">
+  <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+  <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+  <script src="{% static 'js/loader.js' %}"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body style="font-family: 'Lexend', sans-serif;" class="text-[#714949] overflow-y-auto">
+  
+  <!-- Page Loader -->
+  <div id="page-loader" class="loader-container active">
+    <div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+      <div class="wheel"></div>
+      <div class="hamster">
+        <div class="hamster__body">
+          <div class="hamster__head">
+            <div class="hamster__ear"></div>
+            <div class="hamster__eye"></div>
+            <div class="hamster__nose"></div>
+          </div>
+          <div class="hamster__limb hamster__limb--fr"></div>
+          <div class="hamster__limb hamster__limb--fl"></div>
+          <div class="hamster__limb hamster__limb--br"></div>
+          <div class="hamster__limb hamster__limb--bl"></div>
+          <div class="hamster__tail"></div>
         </div>
-        
-        <div class="flex items-center space-x-6">
-            {% if request.user.account_type == 'user' %}
-                
-                <a href="{% url 'pets:list_pet' %}" class="text-xl font-medium relative group hover:text-orange-500">
-                    Browse
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="{% url 'main:user_dashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
-                    Dashboard
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            {% else %}
-                <a href="{% url 'main:shelterdashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
-                    Dashboard
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            {% endif %}
-            <a href="{% url 'main:notifications' %}" class="text-xl font-medium relative group hover:text-orange-500">
-                Notifications
-                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Messages</span>
-            
-            <a href="{% url 'main:profile' %}" class="text-xl font-medium relative group hover:text-orange-500">
-                Profile
-                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-        </div>
-            
-            <div class="flex items-center space-x-4">
-                {% if request.user.is_authenticated %}
-                <div class="group flex items-center space-x-2">
-                    <!-- Welcome message -->
-                    <div class="opacity-100 transition-opacity duration-500 ease-in-out group-hover:opacity-0 ">
-                        Welcome, 
-                    </div> 
-                    <div class="transition-font duration-500 ease-in-out group-hover:font-bold space-x-2">
-                    {{ request.user.email }}!
-                    </div>
-                    <!-- Logout button -->
-                    <a href="{% url 'main:logout_account' %}">
-                        <button class="BtnLogout">
-                            <div class="sign">
-                                <svg viewBox="0 0 512 512">
-                                    <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
-                                </svg>
-                            </div>
-                            <div class="text">Logout</div>
-                        </button>
+      </div>
+      <div class="spoke"></div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div id="content" style="display: none;" class="bg-[#FFDDD2] rounded-[32px] p-t-2 m-12">
+
+        <header>
+            <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
+                <div class="flex items-center">
+                    <a href="{% url 'main:home' %}">
+                        <img src="{% static 'images/paws4homelogo.png' %}" alt="logo">
                     </a>
                 </div>
-                {% else %}
-                    <div class="nav-items">Welcome, Guest!</div>
-                    <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
+                
+                <div class="flex items-center space-x-6">
+                    {% if request.user.account_type == 'user' %}
+                        
+                        <a href="{% url 'pets:list_pet' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                            Browse
+                            <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="{% url 'main:user_dashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                            Dashboard
+                            <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'pets:add_pet' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                            Add Pet
+                            <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="{% url 'main:shelterdashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                            Dashboard
+                            <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    {% endif %}
+                    <a href="{% url 'main:notifications' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                        Notifications
                         <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
                     </a>
-                    <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up
+                    <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Messages</span>
+                    
+                    <a href="{% url 'main:profile' %}" class="text-xl font-medium relative group hover:text-orange-500">
+                        Profile
+                        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
                     </a>
-                {% endif %}
+                </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        {% if request.user.is_authenticated %}
+                        <div class="group flex items-center space-x-2">
+                            <!-- Welcome message -->
+                            <div class="opacity-100 transition-opacity duration-500 ease-in-out group-hover:opacity-0 ">
+                                Welcome, 
+                            </div> 
+                            <div class="transition-font duration-500 ease-in-out group-hover:font-bold space-x-2">
+                            {{ request.user.email }}!
+                            </div>
+                            <!-- Logout button -->
+                            <a href="{% url 'main:logout_account' %}">
+                                <button class="BtnLogout">
+                                    <div class="sign">
+                                        <svg viewBox="0 0 512 512">
+                                            <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="text">Logout</div>
+                                </button>
+                            </a>
+                        </div>
+                        {% else %}
+                            <div class="nav-items">Welcome, Guest!</div>
+                            <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
+                                <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                            </a>
+                            <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up
+                            </a>
+                        {% endif %}
 
-            </div>
+                    </div>
 
-            
+                    
 
-    </nav>
-</header>
-<div class="flex h-[calc(100vh-20vh)] overflow-hidden m-4">
-    <!-- Conversations List -->
-    <div class="md:w-1/3 w-full p-4 overflow-y-auto h-full">
-        <h2 class="text-lg font-bold mb-4">Conversations</h2>
-        <ul class="space-y-2">
-            {% for partner in conversation_partners %}
-            <li onclick="window.location.href='{% url 'view_conversation' partner.id %}'" class="cursor-pointer bg-[#F2968F] p-4 rounded-full shadow-md flex items-center">
-                <h3 class="text-md text-white font-semibold">{{ partner.first_name }} {{ partner.last_name }}</h3>
-            </li>
-            {% empty %}
-            <li class="text-center text-gray-500">No conversations found.</li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <!-- Messages Section -->
-    <div class="md:w-2/3 w-full flex flex-col h-full rounded-lg overflow-hidden">
-        {% if receiver %}
-        <header class="bg-[#F2968F] text-white p-4 rounded-t-lg">
-            <h2 class="text-lg font-semibold">{{ receiver.first_name }} {{ receiver.last_name }}</h2>
+            </nav>
         </header>
-        
-        <!-- Message List -->
-        <div id="messageContainer" class="flex-grow p-4 space-y-4 overflow-y-auto bg-gray-100">
-            {% for message in messages %}
-                {% if message.sender == request.user %}
-                    <div class="flex justify-end">
-                        <small class="text-gray-500 ml-2">{{ message.timestamp|date:"M d, Y H:i" }}</small>
-                        <div class="bg-gray-300 p-2 rounded-lg text-black max-w-xs">{{ message.content }}</div>
-                    </div>
-                {% else %}
-                    <div class="flex">
-                        <div class="bg-[#F2968F] p-2 rounded-lg text-white max-w-xs">{{ message.content }}</div>
-                        <small class="text-gray-500 ml-2">{{ message.timestamp|date:"M d, Y H:i" }}</small>
-                    </div>
-                {% endif %}
-            {% endfor %}
+    <div class="flex h-[75vh] overflow-hidden m-4">
+        <!-- Conversations List -->
+        <div class="md:w-1/3 w-full p-4 overflow-y-auto h-full">
+            <h2 class="text-lg font-bold mb-4">Conversations</h2>
+            <ul class="space-y-2">
+                {% for partner in conversation_partners %}
+                <li onclick="window.location.href='{% url 'view_conversation' partner.id %}'" class="cursor-pointer bg-[#F2968F] p-4 rounded-full shadow-md flex items-center">
+                    <h3 class="text-md text-white font-semibold">{{ partner.first_name }} {{ partner.last_name }}</h3>
+                </li>
+                {% empty %}
+                <li class="text-center text-gray-500">No conversations found.</li>
+                {% endfor %}
+            </ul>
         </div>
 
-        <!-- Message Input -->
-        <form method="POST" class="bg-white p-4 border-t border-gray-200 flex items-center space-x-2 rounded-b-lg">
-            {% csrf_token %}
-            <input type="text" name="content" placeholder="Type message..." required class="flex-grow p-2 border rounded-full border-gray-300 focus:outline-none">
-            <button type="submit" class="bg-[#F2968F] hover:bg-red-400 text-white font-semibold px-4 rounded-full">Send</button>
-        </form>
-        {% else %}
-        <p class="text-center text-gray-500 p-4 rounded-lg">Select a conversation to start chatting.</p>
-        {% endif %}
-    </div>
+        <!-- Messages Section -->
+        <div class="md:w-2/3 w-full flex flex-col h-full rounded-lg overflow-hidden ">
+            {% if receiver %}
+            <header class="bg-[#F2968F] text-white p-4 rounded-t-lg">
+                <h2 class="text-lg font-semibold">{{ receiver.first_name }} {{ receiver.last_name }}</h2>
+            </header>
+            
+            <!-- Message List -->
+            <div id="messageContainer" class="flex-grow p-4  space-y-4 overflow-y-auto bg-gray-100">
+                {% for message in messages %}
+                    {% if message.sender == request.user %}
+                        <div class="flex justify-end">
+                            <small class="text-gray-500 ml-2">{{ message.timestamp|date:"M d, Y H:i" }}</small>
+                            <div class="bg-gray-300 p-2 rounded-lg text-black max-w-xs">{{ message.content }}</div>
+                        </div>
+                    {% else %}
+                        <div class="flex">
+                            <div class="bg-[#F2968F] p-2 rounded-lg text-white max-w-xs">{{ message.content }}</div>
+                            <small class="text-gray-500 ml-2">{{ message.timestamp|date:"M d, Y H:i" }}</small>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
 
+            <!-- Message Input -->
+            <form method="POST" class="bg-white p-4 border-t border-gray-200 flex items-center space-x-2 rounded-b-lg">
+                {% csrf_token %}
+                <input type="text" name="content" placeholder="Type message..." required class="flex-grow p-2 border rounded-full border-gray-300 focus:outline-none">
+                <button type="submit" class="bg-[#F2968F] hover:bg-red-400 text-white font-semibold px-4 rounded-full">Send</button>
+            </form>
+            {% else %}
+            <p class="text-center text-gray-500 p-4 rounded-lg">Select a conversation to start chatting.</p>
+            {% endif %}
+        </div>
+
+    </div>
+    <footer class="bg-[#FFF1EE] py-8 rounded-[32px]">
+        <div class="container mx-auto text-center">
+            <p class="mb-4">info@paws4home.com</p>
+            <div class="social-icons flex justify-center space-x-4 mb-4">
+                <a href="#"><img src="{% static 'images/facebookpic.png' %}" alt="Facebook" class="w-6"></a>
+                <a href="#"><img src="{% static 'images/instagrampic.png' %}" alt="Instagram" class="w-6"></a>
+                <a href="#"><img src="{% static 'images/githubpic.png' %}" alt="GitHub" class="w-6"></a>
+            </div>
+            <p><a href="#" class="hover:text-orange-500">Terms & Conditions</a> | <a href="#" class="hover:text-orange-500">Privacy Policy</a></p>
+        </div>
+      </footer>
 </div>
 
+</body>
+<script>
+    function scrollToLatestMessage() {
+    const messageContainer = document.getElementById('messageContainer');
+    setTimeout(() => {
+        if (messageContainer) {
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+            console.log('Scrolled to latest message');
+        }
+    }, 1000);
+        
+    }
 
+    document.addEventListener('DOMContentLoaded', scrollToLatestMessage);
+</script>
+</html> 
 
-{% endblock %}

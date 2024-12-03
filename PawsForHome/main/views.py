@@ -16,11 +16,11 @@ import re
 # Create your views here.
 
 def error404(request):
-    return render(request, 'error404.html', {})
+    return render(request, '404.html', {})
 
 def landing_page(request):
     if request.user.is_authenticated:
-        return index(request)
+        return home(request)
     return render(request, 'landing_page.html', {})
 def index(request):
     return render(request, 'index.html', {})
@@ -474,29 +474,38 @@ def adoption_request_view(request, pet_id):
 @login_required
 @shelter_required
 def pending_requests(request):
-    if not request.user.is_authenticated:
-        return render(request, 'error404.html', {})
 
     shelter = request.user
-    pets = Pet.objects.filter(owner=shelter)
-    adoption_requests = AdoptionRequest.objects.filter(pet__in=pets, status=1)  
+    all_pets = Pet.objects.filter(owner=shelter)
+    shelter_pets = all_pets.filter(status=1)
+
+    selected_pet_id = request.GET.get('pet_id')
+    if selected_pet_id:
+        selected_pet = shelter_pets.filter(id=selected_pet_id).first()  # Ensure the pet belongs to the shelter
+        adoption_requests = AdoptionRequest.objects.filter(
+            pet=selected_pet, status=1
+        ).order_by('id') if selected_pet else []
+    else:
+        adoption_requests = AdoptionRequest.objects.filter(
+            pet__in=shelter_pets, status=1
+        ).order_by('id')
 
     context = {
+        'shelter_pets': shelter_pets,
         'adoption_requests': adoption_requests,
-        'pets': pets,
+        'selected_pet_id': selected_pet_id
     }
     return render(request, 'shelterdashboard/pending_requests.html', context)
 
 
 @login_required
 @shelter_required
-def adoption_request_detail(request, request_id):
-    if not request.user.is_authenticated:
-        return render(request, 'error404.html', {})
+def adoption_request_detail_all(request, request_id):
 
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
     shelter = request.user
     pets = Pet.objects.filter(owner=shelter)
+
     scanRequest = AdoptionRequest.objects.filter(pet__in=pets, status=1) 
     next_request = scanRequest.filter(
         id__gt=adoption_request.id, 
@@ -507,8 +516,36 @@ def adoption_request_detail(request, request_id):
         id__lt=adoption_request.id, 
         pet__owner=request.user
     ).order_by('-id').first()
+    
+    return render(request, 'shelterdashboard/adoptform_all.html', {
+        'adoption_request': adoption_request,
+        'next_request': next_request,
+        'previous_request': previous_request,
+    })
+
+@login_required
+@shelter_required
+def adoption_request_detail(request, request_id):
+    adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
+    shelter = request.user
+    pets = Pet.objects.filter(owner=shelter)
+
+    pet_id = request.GET.get('pet_id')
+    if pet_id:
+        selected_pet = pets.filter(id=pet_id).first()  # Ensure the pet belongs to the shelter
+        if not selected_pet:
+            return HttpResponseForbidden("You are not authorized to view this pet's requests.")
+    else:
+        selected_pet = adoption_request.pet  # Default to the pet in the current request
+
+    scanRequest = AdoptionRequest.objects.filter(pet=selected_pet, status=1)
+
+    next_request = scanRequest.filter(id__gt=adoption_request.id).order_by('id').first()
+    previous_request = scanRequest.filter(id__lt=adoption_request.id).order_by('-id').first()
+
     return render(request, 'shelterdashboard/adoptform.html', {
         'adoption_request': adoption_request,
         'next_request': next_request,
         'previous_request': previous_request,
+        'selected_pet': selected_pet,  # Pass the selected pet for additional context if needed
     })

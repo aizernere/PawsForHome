@@ -106,7 +106,18 @@
         <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
       <h3 class="text-3xl font-bold mb-8">Pending Adoption Requests</h3>
 
-
+      <form method="GET" class="mb-6">
+        <label for="petFilter" class="block text-gray-700 font-bold mb-2">Filter by Pet:</label>
+        <select id="petFilter" name="pet_id" class="p-2 border rounded-lg w-full">
+            <option value="">Show All</option>
+            {% for pet in shelter_pets %}
+                <option value="{{ pet.id }}" {% if pet.id|stringformat:"s" == selected_pet_id %}selected{% endif %}>
+                    {{ pet.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="mt-2 bg-[#F2968F] hover:bg-red-400 text-white px-4 py-2 rounded-lg">Filter</button>
+    </form>
     
       <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden p-4">
         <ul class="space-y-2">
@@ -133,8 +144,15 @@
 
 
 <script>
+    
   function redirectToAdoptionForm(petId) {
-      window.location.href = `/adoptionrequest/${petId}`;
+    const petFilterValue = document.getElementById("petFilter").value;
+    if (petFilterValue){
+        window.location.href = `/adoptionrequest/${petId}/`;
+    }else{
+        window.location.href = `/adoptionrequest/all/${petId}/`;
+    }
+    
   }
 </script>
 {% endblock %}

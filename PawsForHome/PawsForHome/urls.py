@@ -15,9 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +32,9 @@ urlpatterns = [
     path('pmessages/', include('pmessages.urls')),
 ]
 
+handler404 = 'PawsForHome.urls.custom_404_view'
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    

@@ -117,14 +117,17 @@ class AdoptionRequest(models.Model):
         self.pet.status = 2 
         self.save()
         self.pet.save()
-        output = f"Your adoption request for {self.pet.name} has been accepted!"
+        output = f"Your adoption request for {self.pet.name} has been accepted! Please contact {self.pet.owner.first_name} to arrange the adoption."
+        input = f"You have accepted the adoption request for {self.pet.name}! Please contact {self.account.first_name} to arrange the adoption."
+        messageoutput = f"Your adoption request for {self.pet.name} has been accepted! Please contact me to arrange the adoption."
         Message.objects.create(
             sender=self.pet.owner,
             receiver=self.account, 
-            content=output,
+            content=messageoutput,
             timestamp=timezone.now()
         )
         Notification.objects.create(account=self.account, notification=output)
+        Notification.objects.create(account=self.pet.owner, notification=input)
     
 
     def reject(self):
@@ -132,6 +135,7 @@ class AdoptionRequest(models.Model):
         self.save()
         self.pet.save()
         output = f"Your adoption request for {self.pet.name} has been rejected!"
+        input = f"You have rejected the adoption request by {self.account.first_name} for {self.pet.name}."
         Message.objects.create(
             sender=self.pet.owner,  
             receiver=self.account, 
@@ -139,6 +143,7 @@ class AdoptionRequest(models.Model):
             timestamp=timezone.now()
         )
         Notification.objects.create(account=self.account, notification=output)
+        Notification.objects.create(account=self.pet.owner, notification=input)
 
 class Favorite(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

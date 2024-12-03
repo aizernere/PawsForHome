@@ -105,7 +105,7 @@
     <!-- Previous and Next Buttons -->
     <div class="flex items-center space-x-4">
         {% if previous_request %}
-            <a href="{% url 'main:adoption_request_detail' previous_request.id %}" 
+            <a href="{% url 'main:adoption_request_detail_all' previous_request.id %}" 
                class="inline-block px-6 py-3 bg-gray-200 text-gray-800 font-semibold text-lg rounded-full shadow-md 
                       hover:bg-orange-500 hover:text-white transition duration-300">
                 &larr; Previous
@@ -113,7 +113,7 @@
         {% endif %}
         
         {% if next_request %}
-            <a href="{% url 'main:adoption_request_detail' next_request.id %}" 
+            <a href="{% url 'main:adoption_request_detail_all' next_request.id %}" 
                class="inline-block px-6 py-3 bg-gray-200 text-gray-800 font-semibold text-lg rounded-full shadow-md 
                       hover:bg-orange-500 hover:text-white transition duration-300">
                 Next &rarr;
