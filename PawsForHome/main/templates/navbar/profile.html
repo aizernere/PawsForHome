@@ -84,7 +84,12 @@
                 <center>
                     <div class="profile-container">
                         {% comment %} <img src="{% static "images/shelterlogo.png" %}" alt="test" id="profile-pic"> {% endcomment %}
-                        <img src="{{ form.image.url }}" alt="Profile Picture" id="profile-pic">
+                        {% comment %} <img src="{{ user.image_url if user.image_url else static('main/shelterlogo.png') }}" alt="Profile Picture" id="profile-pic"> {% endcomment %}
+                        {% if user.image_url %}
+                            <img src="{{ user.image_url }}" alt="Profile Picture" id="profile-pic">
+                        {% else %}
+                            <img src="{{ MEDIA_URL }}/media/main/shelterlogo.png" alt="Profile Picture" id="profile-pic">
+                        {% endif %}
                         <label for="update-image" class="edit-button">Change Photo</label>
                         <input type="file" accept="image/jpeg, image/png, image/jpg" name="update-image" id="update-image" hidden>
                     </div>

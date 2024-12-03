@@ -7,7 +7,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import AdoptionForm
 from pets.models import Pet, AdoptionRequest, Favorite
-
+from .decorators import adopter_required, shelter_required
 import re
 
 # Create your views here.
@@ -97,6 +97,8 @@ def ud_adoptionhistory(request):
     
 # def adoptionform(request):
 #     return render(request, 'adoptionform.html', {})
+@login_required
+@shelter_required
 def shelterdashboard(request):
     return render(request, 'shelterdashboard.html', {})
 
@@ -124,11 +126,18 @@ def user_dashboard(request):
         'request_count':request_count,
         'fave_count':fave_count
         })
-
+@login_required
+@shelter_required
 def petsadopted(request):
     return render(request, 'shelterdashboard/petsadopted.html',{})
+
+@login_required
+@shelter_required
 def pet_listings(request):
     return render(request, 'shelterdashboard/pet_listings.html',{})
+
+@login_required
+@shelter_required
 def adoptform(request):
     return render(request, 'shelterdashboard/adoptform.html',{})
 # def pending_requests(request):
@@ -149,7 +158,7 @@ def profile(request):
     pattern = r"^[A-Za-z\s\-']+$"
 
     if request.method == 'POST':
-        form = ProfileEdit(request.POST)
+        form = ProfileEdit(request.POST, request.FILES)
 
         if form.is_valid():
             new_firstname = form.cleaned_data['first_name']
@@ -159,7 +168,7 @@ def profile(request):
             new_address = form.cleaned_data['address']
             new_email = form.cleaned_data['email']
             new_password = form.cleaned_data.get('password')
-            new_profile_pic = form.cleaned_data.get('update-image')
+            new_profile_pic = request.FILES.get('update-image')
             
             if new_phone_num and new_firstname and new_lastname and new_birthdate and new_email:
                 phone_len = len(str(new_phone_num))
@@ -194,13 +203,14 @@ def profile(request):
                 else:
                     user_profile.last_name = new_lastname
                 
-                if form.errors:
-                    return render(request, 'navbar/profile.html', {
-                        'curr_fn':user_profile.first_name,
-                        'curr_ln':user_profile.last_name,
-                        'form': form,
-                        'type': user_profile.account_type
-                    })
+                # if form.errors:
+                #     return render(request, 'navbar/profile.html', {
+                #         'curr_fn':user_profile.first_name,
+                #         'curr_ln':user_profile.last_name,
+                #         'form': form,
+                #         'user': user_profile,
+                #         'type': user_profile.account_type
+                #     })
 
                 # if phone_len != 11 or not re.match(pattern, new_firstname) or not re.match(pattern, new_lastname):
                 #     # messages.warning(request, 'Invalid input')
@@ -217,10 +227,11 @@ def profile(request):
                 # if user_profile.phone_number != new_phone_num:
                 #     user_profile.phone_number = new_phone_num
                 if user_profile.address != new_address:
-                    user_profile.address = new_address
+                    user_profile.address = new_address  
                 if user_profile.email != new_email:
                     user_profile.email = new_email
                 # if user_profile.image != new_profile_pic:
+                # user_profile.image = new_profile_pic
                 user_profile.image = new_profile_pic
                 
 
@@ -241,6 +252,7 @@ def profile(request):
         'curr_fn':user_profile.first_name,
         'curr_ln':user_profile.last_name,
         'form': form,
+        'user': user_profile,
         'type': user_profile.account_type
     })
 
@@ -395,6 +407,7 @@ def adoption_request_view(request, pet_id):
 #     }
 #     return render(request, 'shelterdashboard/pending_requests.html', context)
 @login_required
+@shelter_required
 def pending_requests(request):
     shelter = request.user
     pets = Pet.objects.filter(owner=shelter)
@@ -408,6 +421,7 @@ def pending_requests(request):
 
 
 @login_required
+@shelter_required
 def adoption_request_detail(request, request_id):
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
     return render(request, 'shelterdashboard/adoptform.html', {'adoption_request': adoption_request, 'request': request})

@@ -25,23 +25,40 @@ def add_pet(request):
 @login_required
 def delete_pet(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
+
     if pet.owner != request.user:
         messages.error(request, "You do not have permission to delete this pet.")
         return redirect('main:shelterdashboard')
-    
+
     if request.method == "POST":
         with transaction.atomic():
-            # Delete related adoption requests and favorites
-            AdoptionRequest.objects.filter(pet=pet).delete()
-            Favorite.objects.filter(pet=pet).delete()
+            # Mark related adoption requests as canceled or handled
+            AdoptionRequest.objects.filter(pet=pet).update(status=3)  # Mark as rejected
+            Favorite.objects.filter(pet=pet).delete()  # Remove favorites
             
-            # Delete the pet
-            pet.delete()
-        
-        messages.success(request, "Pet and all related data deleted successfully.")
+            # Mark the pet as deleted
+            pet.is_deleted = True
+            pet.save()
+
+        messages.success(request, f"{pet.name} has been marked as deleted.")
         return redirect('main:shelterdashboard')
-    
+
     return render(request, 'pets/confirm_delete.html', {'pet': pet})
+
+@login_required
+def restore_pet(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id, is_deleted=True)
+
+    if request.method == "POST":
+        # Mark the pet as not deleted
+        pet.is_deleted = False
+        pet.save()
+        messages.success(request, f"{pet.name} has been restored successfully.")
+        return redirect('main:shelterdashboard')
+
+    return render(request, 'pets/confirm_restore.html', {'pet': pet})
+
+
 
 @login_required
 def edit_pet(request, pet_id):
@@ -110,8 +127,13 @@ def list_pet(request):
 
 @login_required
 def my_pets(request):
-    pets = Pet.objects.filter(owner=request.user) 
-    return render(request, 'shelterdashboard/pet_listings.html', {'pets': pets})
+    pets = Pet.objects.filter(owner=request.user,is_deleted=False) 
+    deleted_pets = Pet.objects.filter(owner=request.user,is_deleted=True)
+    context = {
+        'pets': pets,
+        'deleted_pets': deleted_pets,
+    }
+    return render(request, 'shelterdashboard/pet_listings.html', context)
 
 @login_required
 def petsadopted(request):
@@ -120,7 +142,7 @@ def petsadopted(request):
 
 @login_required
 def dashpets(request):
-    pets = Pet.objects.filter(owner=request.user, status=1) 
+    pets = Pet.objects.filter(owner=request.user, status=1,is_deleted=False) 
     pet_count = pets.count()
     #to do pending request
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets,status = 1)

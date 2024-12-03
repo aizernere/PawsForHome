@@ -50,6 +50,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
         return check_password(raw_password, self.password)
     def __str__(self):
         return self.email 
+    @property
+    def image_url(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
     
 class Notification(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="notifications")
