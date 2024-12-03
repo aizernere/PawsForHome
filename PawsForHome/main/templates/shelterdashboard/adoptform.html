@@ -83,14 +83,38 @@
 
 <!-- Main adoption request resume -->
 <main class="flex-grow flex items-center justify-center mb-12">
+    
     <section class="w-full max-w-4xl bg-white p-12 rounded-xl shadow-lg">
-        <div class="flex items-center space-x-6 mb-8">
-            <img src="{{ adoption_request.pet.image.url }}" alt="{{ adoption_request.pet.name }}" class="h-24 w-24 rounded-full object-cover">
-            <div>
-                <h2 class="text-3xl font-semibold">Adopt {{ adoption_request.pet.name }}</h2>
-                <p class="text-lg text-gray-500">{{ adoption_request.pet.breed }}</p>
-            </div>
+        
+        <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center space-x-6">
+        <img src="{{ adoption_request.pet.image.url }}" alt="{{ adoption_request.pet.name }}" class="h-24 w-24 rounded-full object-cover">
+        <div>
+            <h2 class="text-3xl font-semibold">Adopt {{ adoption_request.pet.name }}</h2>
+            <p class="text-lg text-gray-500">{{ adoption_request.pet.breed }}</p>
         </div>
+    </div>
+
+    <!-- Previous and Next Buttons -->
+    <div class="flex items-center space-x-4">
+        {% if previous_request %}
+            <a href="{% url 'main:adoption_request_detail' previous_request.id %}" 
+               class="inline-block px-6 py-3 bg-gray-200 text-gray-800 font-semibold text-lg rounded-full shadow-md 
+                      hover:bg-orange-500 hover:text-white transition duration-300">
+                &larr; Previous
+            </a>
+        {% endif %}
+        
+        {% if next_request %}
+            <a href="{% url 'main:adoption_request_detail' next_request.id %}" 
+               class="inline-block px-6 py-3 bg-gray-200 text-gray-800 font-semibold text-lg rounded-full shadow-md 
+                      hover:bg-orange-500 hover:text-white transition duration-300">
+                Next &rarr;
+            </a>
+        {% endif %}
+    </div>
+</div>
+
 
         <h3 class="text-3xl font-bold mb-6">Contact Information</h3>
         <div class="space-y-4">
