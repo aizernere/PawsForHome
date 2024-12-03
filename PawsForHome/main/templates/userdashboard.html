@@ -91,7 +91,8 @@
             {% comment %} ang silbeg profile nimo {% endcomment %}
             <center>
                 <div>
-                    <img src="{% static 'images/shelterlogo.png' %}" alt="test">
+                    {% comment %} <img src="{% static 'images/shelterlogo.png' %}" alt="test"> {% endcomment %}
+                    <img src=" {{ curr.image.url }} " alt="test">
                     <h2>{{ curr_fn }}</h2>
                 </div>
             </center>
