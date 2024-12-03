@@ -203,14 +203,14 @@ def profile(request):
                 else:
                     user_profile.last_name = new_lastname
                 
-                # if form.errors:
-                #     return render(request, 'navbar/profile.html', {
-                #         'curr_fn':user_profile.first_name,
-                #         'curr_ln':user_profile.last_name,
-                #         'form': form,
-                #         'user': user_profile,
-                #         'type': user_profile.account_type
-                #     })
+                if form.errors:
+                    return render(request, 'navbar/profile.html', {
+                        'curr_fn':user_profile.first_name,
+                        'curr_ln':user_profile.last_name,
+                        'form': form,
+                        'user': user_profile,
+                        'type': user_profile.account_type
+                    })
 
                 # if phone_len != 11 or not re.match(pattern, new_firstname) or not re.match(pattern, new_lastname):
                 #     # messages.warning(request, 'Invalid input')
