@@ -16,7 +16,7 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 
 ---
 
-### 🛠️ **Technologies Used**  
+## 🛠️ **Technologies Used**  
 * [![HTML][HTML.com]][HTML-url]
 * [![CSS][CSS.com]][CSS-url]
 * [![JavaScript][JavaScript.com]][JavaScript-url]
