@@ -27,7 +27,6 @@ def delete_pet(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
 
     if pet.owner != request.user:
-        messages.error(request, "You do not have permission to delete this pet.")
         return redirect('main:shelterdashboard')
 
     if request.method == "POST":
@@ -40,7 +39,6 @@ def delete_pet(request, pet_id):
             pet.is_deleted = True
             pet.save()
 
-        messages.success(request, f"{pet.name} has been marked as deleted.")
         return redirect('main:shelterdashboard')
 
     return render(request, 'pets/confirm_delete.html', {'pet': pet})
@@ -53,7 +51,6 @@ def restore_pet(request, pet_id):
         # Mark the pet as not deleted
         pet.is_deleted = False
         pet.save()
-        messages.success(request, f"{pet.name} has been restored successfully.")
         return redirect('main:shelterdashboard')
 
     return render(request, 'pets/confirm_restore.html', {'pet': pet})
