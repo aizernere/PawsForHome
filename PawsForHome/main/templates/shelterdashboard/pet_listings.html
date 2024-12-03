@@ -226,6 +226,32 @@
     </div>
 </div>
 
+<!-- Archive Confirmation Modal -->
+<div id="archiveModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+    <h2 class="text-xl font-bold text-gray-800 text-center mb-4">
+      Are you sure you want to archive 
+      <span id="modalPetName" class="text-red-600"></span>?
+    </h2>
+    <p class="text-gray-600 text-center mb-6">
+      Archiving this pet will move it to the archived section and make it unavailable for adoption listings.
+    </p>
+
+    <!-- Buttons -->
+    <div class="flex justify-center space-x-4">
+      <form id="archiveForm" method="POST" action="">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white px-6 py-2 rounded-full shadow hover:bg-red-600">
+          Yes, Archive
+        </button>
+      </form>
+      <button onclick="closeArchiveModal()" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-full shadow hover:bg-gray-400">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
  
   <script>
     function showPetModal(id, name, created, ageYears, ageMonths, type, description, imageUrl) {
@@ -278,6 +304,20 @@ function showPetRestoreModal(id, name, created, ageYears, ageMonths, type, descr
     window.location.href = url; 
   }
 }
+// Show Archive Modal
+function showArchiveModal(petId, petName, archiveUrl) {
+  document.getElementById('modalPetName').textContent = petName;
+  document.getElementById('archiveForm').action = archiveUrl;
+  document.getElementById('archiveModal').classList.remove('hidden');
+  document.body.classList.add('overflow-hidden');
+}
+
+// Close Archive Modal
+function closeArchiveModal() {
+  document.getElementById('archiveModal').classList.add('hidden');
+  document.body.classList.remove('overflow-hidden');
+}
+
 
   </script>
 
