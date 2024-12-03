@@ -7,7 +7,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import AdoptionForm
 from pets.models import Pet, AdoptionRequest, Favorite
-
+from .decorators import adopter_required, shelter_required
 import re
 
 # Create your views here.
@@ -97,6 +97,8 @@ def ud_adoptionhistory(request):
     
 # def adoptionform(request):
 #     return render(request, 'adoptionform.html', {})
+@login_required
+@shelter_required
 def shelterdashboard(request):
     return render(request, 'shelterdashboard.html', {})
 
@@ -124,11 +126,18 @@ def user_dashboard(request):
         'request_count':request_count,
         'fave_count':fave_count
         })
-
+@login_required
+@shelter_required
 def petsadopted(request):
     return render(request, 'shelterdashboard/petsadopted.html',{})
+
+@login_required
+@shelter_required
 def pet_listings(request):
     return render(request, 'shelterdashboard/pet_listings.html',{})
+
+@login_required
+@shelter_required
 def adoptform(request):
     return render(request, 'shelterdashboard/adoptform.html',{})
 # def pending_requests(request):
@@ -395,6 +404,7 @@ def adoption_request_view(request, pet_id):
 #     }
 #     return render(request, 'shelterdashboard/pending_requests.html', context)
 @login_required
+@shelter_required
 def pending_requests(request):
     shelter = request.user
     pets = Pet.objects.filter(owner=shelter)
@@ -408,6 +418,7 @@ def pending_requests(request):
 
 
 @login_required
+@shelter_required
 def adoption_request_detail(request, request_id):
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
     return render(request, 'shelterdashboard/adoptform.html', {'adoption_request': adoption_request, 'request': request})

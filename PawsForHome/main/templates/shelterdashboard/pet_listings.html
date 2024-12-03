@@ -141,8 +141,25 @@
             <span class="text-gray-500">Add Pet</span>
           </a>
         </div>
+         <!-- <--pets deleted section-->
+    <h3 class="text-2xl font-bold mb-6">Deleted Pets:</h3>
+    <div class="grid grid-cols-5 gap-6">
+      {% for pet in deleted_pets %}
+      <div class="bg-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
+           onclick="showPetRestoreModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}', '{{ pet.age_years }}', '{{ pet.age_months }}', '{{ pet.type }}', '{{ pet.description }}', '{{ pet.image.url }}', '{{ pet.restore_url }}')">
+          <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-48 object-cover opacity-50">
+          <div class="px-4 pt-3 pb-8">
+              <h3 class="font-bold text-[16px] text-gray-500">{{ pet.name }}</h3>
+              <p class="text-gray-400 text-[12px]">Deleted</p>
+          </div>
+      </div>
+      {% empty %}
+      <p class="text-gray-500">No pets have been deleted.</p>
+      {% endfor %}
+  </div>
       </section>
     </main>
+   
   </div>
 
   <!-- Modal -->
@@ -178,6 +195,38 @@
     </div>
   </div>
 
+  <div id="petRestoreModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center hidden z-50">
+    <div class="bg-white pr-8 rounded-3xl shadow-lg max-w-2xl w-full relative">
+        
+        <!-- Back Button -->
+        <button class="absolute top-4 left-4" onclick="closePetRestoreModal()">
+            <img src="{% static 'images/backArrow.png' %}" alt="Back" class="w-7 h-7">
+        </button>
+
+        <div class="flex flex-col md:flex-row">
+            <!-- Pet Image -->
+            <img id="modalRestorePetImage" class="w-[300px] h-[400px] object-cover rounded-3xl mb-4 md:mb-0 md:mr-6" alt="Pet Image">
+            <div class="flex-grow">
+                <h3 id="modalRestorePetName" class="pt-8 font-bold text-2xl mb-2"></h3>
+                <p id="modalRestorePetCreated" class="text-gray-500 text-sm mb-2"></p>
+                <div class="flex space-x-2 mb-1">
+                    <p id="modalRestorePetAgeYears" class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                    <p id="modalRestorePetAgeMonths" class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm"></p>
+                    <p id="modalRestorePetType" class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"></p>
+                </div>
+                <p id="modalRestorePetDescription" class="text-gray-600 mt-2 mb-4"></p>
+            </div>
+        </div>
+
+        <!-- Restore Button -->
+        <div class="flex justify-end space-x-4 mt-6 pb-6 pr-6">
+          <a href="#" id="restorePetButton" class="bg-green-500 text-white px-6 py-2 rounded-full" 
+          onclick="restorePet(event, this.getAttribute('data-url')) ">Restore</a>
+        </div>
+    </div>
+</div>
+
+ 
   <script>
     function showPetModal(id, name, created, ageYears, ageMonths, type, description, imageUrl) {
     document.getElementById('modalPetName').innerText = name;
@@ -192,6 +241,31 @@
     document.getElementById('petModal').classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
 }
+
+function showPetRestoreModal(id, name, created, ageYears, ageMonths, type, description, imageUrl, restoreUrl) {
+        document.getElementById('modalRestorePetName').innerText = name;
+        document.getElementById('modalRestorePetCreated').innerText = "Uploaded on: " + created;
+        document.getElementById('modalRestorePetAgeYears').innerText = ageYears + " years";
+        document.getElementById('modalRestorePetAgeMonths').innerText = ageMonths + " months";
+        document.getElementById('modalRestorePetType').innerText = type;
+        document.getElementById('modalRestorePetDescription').innerText = description;
+        document.getElementById('modalRestorePetImage').src = imageUrl;
+        document.getElementById('restorePetButton').setAttribute('data-url', `/restore_pet/${id}/`); 
+        document.getElementById('petRestoreModal').classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function restorePet() {
+        var restoreUrl = document.getElementById('restorePetButton').getAttribute('data-url');
+        if (confirm("Are you sure you want to restore this pet?")) {
+            window.location.href = restoreUrl; 
+        }
+    }
+
+    function closePetRestoreModal() {
+        document.getElementById('petRestoreModal').classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }
 
 
     function closePetModal() {
