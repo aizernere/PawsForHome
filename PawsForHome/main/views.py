@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
@@ -28,6 +29,8 @@ def features(request):
 def contactus(request):
     return render(request, 'contactus.html', {})
 
+@login_required
+@adopter_required
 def ud_requests(request):
     if not request.user.is_authenticated:
         return render(request, 'error404.html', {})
@@ -50,6 +53,8 @@ def ud_requests(request):
         'curr': curr_account
         })
 
+@login_required
+@adopter_required
 def ud_favorites(request):
     if not request.user.is_authenticated:
         return render(request, 'error404.html', {})
@@ -67,6 +72,8 @@ def ud_favorites(request):
         'curr': curr_account
         })
 
+@login_required
+@adopter_required
 def ud_adoptionhistory(request):
     if not request.user.is_authenticated:
         return render(request, 'error404.html', {})
@@ -119,11 +126,18 @@ def ud_adoptionhistory(request):
 # def adoptionform(request):
 #     return render(request, 'adoptionform.html', {})
 @login_required
-@shelter_required
 def shelterdashboard(request):
+    print(request.user.first_name)  #
+    # print(f"User's account type: {request.user.account_type}") 
+    
+    # if request.user.account_type != 'shelter':
+    #     print("Access denied")  
+    #     return HttpResponseForbidden("You are not authorized.")
+    
     return render(request, 'shelterdashboard.html', {})
 
 @login_required
+@adopter_required
 def user_dashboard(request):
     if not request.user.is_authenticated:
         return render(request, 'error404.html', {})
@@ -153,19 +167,18 @@ def user_dashboard(request):
         'fave_count':fave_count,
         'curr': curr_account
         })
-@login_required
-@shelter_required
-def petsadopted(request):
-    return render(request, 'shelterdashboard/petsadopted.html',{})
 
-@login_required
-@shelter_required
-def pet_listings(request):
-    return render(request, 'shelterdashboard/pet_listings.html',{})
+# @login_required
+# def petsadopted(request):
+#     return render(request, 'shelterdashboard/petsadopted.html',{})
 
-@login_required
-def adoptform(request):
-    return render(request, 'shelterdashboard/adoptform.html',{})
+# @login_required
+# def pet_listings(request):
+#     return render(request, 'shelterdashboard/pet_listings.html',{})
+
+# @login_required
+# def adoptform(request):
+#     return render(request, 'shelterdashboard/adoptform.html',{})
 # def pending_requests(request):
 #     return render(request, 'shelterdashboard/pending_requests.html',{})
 # def notifications(request):
@@ -288,7 +301,7 @@ def profile(request):
         'type': user_profile.account_type
     })
 
-
+@login_required
 def home(request):
     return render(request, 'home.html', {})
 
@@ -397,12 +410,14 @@ def login_account(request):
     
     form = Login_Account()
     return render(request, 'login_signup/login.html', {'form': form})
-    
+
+@login_required
 def logout_account(request):
     logout(request)
     return redirect('main:landing_page')
 
 @login_required
+@adopter_required
 def adoption_request_view(request, pet_id):
     if not request.user.is_authenticated:
         return render(request, 'error404.html', {})

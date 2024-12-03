@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Pet, AdoptionRequest, Favorite
 from .forms import PetForm
@@ -7,8 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.contrib import messages
 from django.db import transaction
+from main.decorators import adopter_required, shelter_required
 
-@login_required 
+@login_required
+@shelter_required
 def add_pet(request):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
@@ -23,6 +25,7 @@ def add_pet(request):
     return render(request, 'pets/add_pet.html', {'form': form})
 
 @login_required
+@shelter_required
 def delete_pet(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
 
@@ -44,6 +47,7 @@ def delete_pet(request, pet_id):
     return render(request, 'pets/confirm_delete.html', {'pet': pet})
 
 @login_required
+@shelter_required
 def restore_pet(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id, is_deleted=True)
 
@@ -58,6 +62,7 @@ def restore_pet(request, pet_id):
 
 
 @login_required
+@shelter_required
 def edit_pet(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
 
@@ -73,6 +78,7 @@ def edit_pet(request, pet_id):
 
 
 @login_required
+@adopter_required
 def list_pet(request):
     # Get IDs of pets for which the current user has pending adoption requests
     pending_requests_pet_ids = AdoptionRequest.objects.filter(account=request.user, status=1).values_list('pet_id', flat=True)
@@ -113,6 +119,7 @@ def list_pet(request):
     })
 
 @login_required
+@shelter_required
 def my_pets(request):
     pets = Pet.objects.filter(owner=request.user,is_deleted=False) 
     deleted_pets = Pet.objects.filter(owner=request.user,is_deleted=True)
@@ -123,12 +130,15 @@ def my_pets(request):
     return render(request, 'shelterdashboard/pet_listings.html', context)
 
 @login_required
+@shelter_required
 def petsadopted(request):
     pets = Pet.objects.filter(owner=request.user, status=2) #dapat mu check sa adoption history since ang owner is ang new adopter
     return render(request, 'shelterdashboard/petsadopted.html', {'pets': pets})
 
 @login_required
+@shelter_required
 def dashpets(request):
+
     pets = Pet.objects.filter(owner=request.user, status=1,is_deleted=False) 
     pet_count = pets.count()
     #to do pending request
@@ -171,12 +181,14 @@ def dashpets(request):
 #     })
 
 @login_required
+@shelter_required
 def accept_adoption_request(request, request_id):
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
     adoption_request.accept()
     return redirect('main:shelterdashboard')
 
 @login_required
+@shelter_required
 def reject_adoption_request(request, request_id):
     # print("Reject button clicked for adoption request ID:", request_id)
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
