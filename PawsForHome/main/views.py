@@ -14,6 +14,9 @@ import re
 
 # Create your views here.
 
+def error404(request):
+    return render(request, 'error404.html', {})
+
 def landing_page(request):
     if request.user.is_authenticated:
         return index(request)
@@ -26,6 +29,9 @@ def contactus(request):
     return render(request, 'contactus.html', {})
 
 def ud_requests(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     user_request = AdoptionRequest.objects.filter(account_id=request.user.id)
     # print(user_request)
     pet_ids = user_request.filter(status=1).values_list('pet_id', flat=True)
@@ -45,6 +51,9 @@ def ud_requests(request):
         })
 
 def ud_favorites(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     curr_fn = request.user.first_name
     user_favorites = Favorite.objects.filter(user_id = request.user.id).values_list('pet_id', flat=True)
     fav_pets = Pet.objects.filter(id__in=user_favorites)
@@ -59,6 +68,9 @@ def ud_favorites(request):
         })
 
 def ud_adoptionhistory(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     curr_fn = request.user.first_name
     curr_account = request.user
 
@@ -113,6 +125,9 @@ def shelterdashboard(request):
 
 @login_required
 def user_dashboard(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     curr_fn = request.user.first_name
     curr_account = request.user
 
@@ -156,15 +171,21 @@ def adoptform(request):
 # def notifications(request):
 #     return render(request, 'navbar/notifications.html', {})
 
-@login_required
+@login_required(login_url='/login/')
 def notifications(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     notifications = request.user.notifications.all().order_by("-created_at")
     return render(request, "navbar/notifications.html", {"notifications": notifications})
 # def message(request):
 #     return render(request, 'navbar/message.html', {})
 
-@login_required
+@login_required(login_url='/login/')
 def profile(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     user_profile = request.user
     pattern = r"^[A-Za-z\s\-']+$"
 
@@ -273,6 +294,9 @@ def home(request):
 
 @login_required
 def profile_filling(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     
     curr_account = request.user
 
@@ -380,6 +404,9 @@ def logout_account(request):
 
 @login_required
 def adoption_request_view(request, pet_id):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     pet = get_object_or_404(Pet, id=pet_id)
     user_profile = request.user
 
@@ -432,6 +459,9 @@ def adoption_request_view(request, pet_id):
 @login_required
 @shelter_required
 def pending_requests(request):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     shelter = request.user
     pets = Pet.objects.filter(owner=shelter)
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets, status=1)  
@@ -446,6 +476,9 @@ def pending_requests(request):
 @login_required
 @shelter_required
 def adoption_request_detail(request, request_id):
+    if not request.user.is_authenticated:
+        return render(request, 'error404.html', {})
+
     adoption_request = get_object_or_404(AdoptionRequest, id=request_id)
     shelter = request.user
     pets = Pet.objects.filter(owner=shelter)

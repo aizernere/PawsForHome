@@ -32,4 +32,5 @@ urlpatterns = [
     path('requests/',views.ud_requests, name='ud_requests'),
     path('favorites/',views.ud_favorites, name='ud_favorites'),
     path('adoptionhistory/',views.ud_adoptionhistory, name='ud_adoptionhistory'),
+    path('error404/',views.error404, name='error404'),
 ]
