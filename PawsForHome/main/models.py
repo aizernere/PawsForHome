@@ -34,7 +34,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=100, unique=True)
     password = models.TextField()
     address = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='main/', default='profile/shelterlogo.png')
+    image = models.ImageField(upload_to='main/', default='main/shelterlogo.png')
 
     last_login = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
