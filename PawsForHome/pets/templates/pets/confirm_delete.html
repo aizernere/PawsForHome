@@ -34,7 +34,7 @@
         </div>
 
         <p class="text-lg text-gray-600 text-center mb-8">
-          Are you sure you want to mark <span class="font-bold text-[#3E2828]">{{ pet.name }}</span> as deleted? 
+          Are you sure you want to mark <span class="font-bold text-[#3E2828]">{{ pet.name }}</span> as Archived? 
         </p>
         
 
@@ -43,7 +43,7 @@
           <form method="POST" action="{% url 'main:delete_pet' pet.id %}">
             {% csrf_token %}
             <button type="submit" class="bg-[#FF7578] text-white px-8 py-2 rounded-full shadow-md hover:bg-[#F2968F] focus:outline-none">
-              Yes, Delete
+              Yes, Archive
             </button>
           </form>
           <a href="{% url 'main:pet_listings' %}" class="bg-gray-300 text-gray-700 px-8 py-2 rounded-full shadow-md hover:bg-gray-400 focus:outline-none">

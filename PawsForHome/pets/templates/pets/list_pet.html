@@ -77,64 +77,85 @@
     </nav>
 </header>
 
-<section class=" mt-8 place-items-center">
-    <h2 class="text-2xl font-bold mx-8 mb-6 flex items-center">
+<section class=" mt-8">
+    <h2 class="text-2xl font-bold px-[15vw] mb-6 flex justify-between">
         Browse
         <!-- Filter Button with Icon -->
-        <button id="filterButton" class="ml-4 p-2 rounded-full bg-gray-300 hover:bg-gray-400">
-            <img src="{% static 'images/filter-icon.png' %}" alt="Filter" class="w-6 h-6">
+        <button 
+            id="filterButton" 
+            class="ml-4 p-2 rounded-full hover:bg-blue-500 transition duration-300">
+            <img 
+                id="filterIcon" 
+                src="{% static 'images/selective.png' %}" 
+                alt="Filter" 
+                class="w-10 h-10">
         </button>
     </h2>
     
-    <!-- Pet Type Filter (Initially Hidden) -->
-    <form method="GET" id="filterForm" class="px-4 mb-12 hidden bg-[#212121]">
-        <label for="pet_type" class="text-gray-700">Filter by Type</label>
-        <ul class="grid gap-2 md:grid-cols-13 grid-cols-10">
-            {% for pet_type, pet_type_display in pet_type_choices %}
-            <li>
-                <input type="checkbox" name="pet_type" id="pet_type_{{ pet_type }}" value="{{ pet_type }}" class="hidden peer" {% if pet_type in selected_pet_types %}checked{% endif %}>
-                <label for="pet_type_{{ pet_type }}" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 rounded-full cursor-pointer peer-checked:border-violet-500 peer-checked:bg-violet-800 hover:text-gray-600 peer-checked:text-white">
-                    <div class="block">
-                        <div class="text-medium">{{ pet_type_display }}</div>
-                    </div>
-                </label>
-            </li>
-            {% endfor %}
-        </ul>
-    
-        <!-- Age Filter -->
-        <div class="mt-4">
-            <label for="age_years" class="text-gray-700">Filter by Age (Years)</label>
-            <input type="number" name="age_years" id="age_years" class="w-full p-2 mt-2 border rounded-md" value="{{ age_years }}">
-        </div>
-        <div class="mt-4">
-            <label for="age_months" class="text-gray-700">Filter by Age (Months)</label>
-            <input type="number" name="age_months" id="age_months" class="w-full p-2 mt-2 border rounded-md" value="{{ age_months }}">
-        </div>
-    
-        <!-- Location Filter -->
-        <div class="mt-4">
-            <label for="location" class="text-gray-700">Filter by Location</label>
-            <input type="text" name="location" id="location" class="w-full p-2 mt-2 border rounded-md" value="{{ location }}">
-        </div>
-    
-        <button type="submit" class="bg-blue-500 text-white p-2 rounded-md mt-6">Filter</button>
-    </form>
-    
-    <!-- JavaScript to Toggle Filter Form Visibility -->
-    <script>
-        // Get the button and the filter form elements
-        const filterButton = document.getElementById('filterButton');
-        const filterForm = document.getElementById('filterForm');
-    
-        // Add an event listener to toggle the filter form visibility
-        filterButton.addEventListener('click', function() {
-            // Optionally, also toggle the 'hidden' class for accessibility
-            filterForm.classList.toggle('hidden');
-        });
-    </script>
+    <!-- Pet Type Filter -->
+            <form 
+            method="GET" 
+            id="filterForm" 
+            class="w-full max-h-0 overflow-hidden bg-[#212121] transition-[max-height] duration-1000 ease-in-out px-[10vw]">
+            <div class="mt-4 px-4">
+            <label for="pet_type" class="text-white block">Filter by Type</label>
+                <ul class="grid gap-2 sm:grid-cols-10 grid-cols-4">
+                    {% for pet_type, pet_type_display in pet_type_choices %}
+                    <li>
+                        <input type="checkbox" name="pet_type" id="pet_type_{{ pet_type }}" value="{{ pet_type }}" class="hidden peer" {% if pet_type in selected_pet_types %}checked{% endif %}>
+                        <label for="pet_type_{{ pet_type }}" class="overflow-hidden inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 rounded-full cursor-pointer peer-checked:border-violet-500 peer-checked:bg-violet-800 hover:text-gray-600 peer-checked:text-white">
+                            <div class="block ">
+                                <div class="text-medium">{{ pet_type_display }}</div>
+                            </div>
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- Age Filter -->
+            <div class="mt-4 px-4">
+                <label for="age_years" class="text-white">Filter by Age (Years)</label>
+                <input type="number" name="age_years" id="age_years" class="w-full p-2 mt-2 border rounded-md" value="{{ age_years }}">
+            </div>
+            <div class="mt-4 px-4">
+                <label for="age_months" class="text-white">Filter by Age (Months)</label>
+                <input type="number" name="age_months" id="age_months" class="w-full p-2 mt-2 border rounded-md" value="{{ age_months }}">
+            </div>
 
-    <div class="place-items-center">
+            <!-- Location Filter -->
+            <div class="mt-4 px-4">
+                <label for="location" class="text-white">Filter by Location</label>
+                <input type="text" name="location" id="location" class="w-full p-2 mt-2 border rounded-md" value="{{ location }}">
+            </div>
+
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded-md my-6 ml-4 ">Filter</button>
+        </form>
+
+        <!-- Toggle Script -->
+        <script>
+            const filterButton = document.getElementById('filterButton');
+            const filterForm = document.getElementById('filterForm');
+
+            filterButton.addEventListener('click', function () {
+                if (filterForm.classList.contains('max-h-0')) {
+                    filterForm.classList.remove('max-h-0');
+                    filterForm.classList.add('max-h-[1000px]');
+                } else {
+                    filterForm.classList.add('max-h-0');
+                    filterForm.classList.remove('max-h-[1000px]');
+                }
+                if (filterIcon.src.includes('selective.png')) {
+                    filterIcon.src = "{% static 'images/selective_active.png' %}";
+                } else {
+                    filterIcon.src = "{% static 'images/selective.png' %}";
+                }
+            });
+
+            
+        </script>
+
+
+    <div class="place-items-center py-6">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-[65vw] gap-6">
             {% for pet in pets %}
             <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
