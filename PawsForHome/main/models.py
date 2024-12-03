@@ -34,7 +34,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=100, unique=True)
     password = models.TextField()
     address = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='main/', default='profile/shelterlogo.png')
+    image = models.ImageField(upload_to='main/', default='main/shelterlogo.png')
 
     last_login = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -50,6 +50,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
         return check_password(raw_password, self.password)
     def __str__(self):
         return self.email 
+    @property
+    def image_url(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
     
 class Notification(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="notifications")
