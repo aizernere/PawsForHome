@@ -25,7 +25,7 @@
                   content.classList.add("fade-in");
                 }, 50);
                  
-            }, 1000); 
+            }, 500); 
         }
     });
 

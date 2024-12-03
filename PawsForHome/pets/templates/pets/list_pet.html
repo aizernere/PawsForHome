@@ -4,6 +4,8 @@
 
 {% block content %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/slider.css' %}">
+
 <header>
     <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
         <div class="flex items-center">
@@ -77,88 +79,98 @@
     </nav>
 </header>
 
+
+
 <section class=" mt-8">
-    <h2 class="text-2xl font-bold px-[15vw] mb-6 flex justify-between">
-        Browse
-        <!-- Filter Button with Icon -->
-        <button 
-            id="filterButton" 
-            class="ml-4 p-2 rounded-full hover:bg-blue-500 transition duration-300">
-            <img 
-                id="filterIcon" 
-                src="{% static 'images/selective.png' %}" 
-                alt="Filter" 
-                class="w-10 h-10">
+    <div class="px-[15vw] mb-6 flex justify-between items-center">
+        <h2 class="text-2xl font-bold">Browse</h2>
+        <button id="filterButton" class="flex items-center rounded-full hover:bg-red-400 transition duration-300 px-4 py-2">
+            <span class="text-medium font-medium text-[#714949]">Filter</span>
+            <img id="filterIcon" src="{% static 'images/selective.png' %}" alt="Filter" class="w-10 h-10 mr-2">
         </button>
-    </h2>
+    </div>
     
-    <!-- Pet Type Filter -->
-            <form 
+
+    <div id="filterOverlay" 
+    class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-700 ease-in-out z-40">
+    </div>
+
+<!-- Filter Form -->
+        <form 
             method="GET" 
             id="filterForm" 
-            class="w-full max-h-0 overflow-hidden bg-[#212121] transition-[max-height] duration-1000 ease-in-out px-[10vw]">
-            <div class="mt-4 px-4">
-            <label for="pet_type" class="text-white block">Filter by Type</label>
-                <ul class="grid gap-2 sm:grid-cols-10 grid-cols-4">
+            class="fixed top-0 right-[-50px] h-full w-[500px] bg-[#FFF1EE] transform translate-x-full transition-transform duration-700 ease-in-out overflow-y-auto z-50 shadow-lg px-6 py-4 hidden">
+            <div class="mt-4">
+                <label for="pet_type" class="text-black text-lg font-semibold mb-4">Filter by Type</label>
+                <div class="flex flex-wrap gap-1">
                     {% for pet_type, pet_type_display in pet_type_choices %}
-                    <li>
+                    <div class="flex items-center justify-start">
                         <input type="checkbox" name="pet_type" id="pet_type_{{ pet_type }}" value="{{ pet_type }}" class="hidden peer" {% if pet_type in selected_pet_types %}checked{% endif %}>
-                        <label for="pet_type_{{ pet_type }}" class="overflow-hidden inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 rounded-full cursor-pointer peer-checked:border-violet-500 peer-checked:bg-violet-800 hover:text-gray-600 peer-checked:text-white">
-                            <div class="block ">
+                        <label for="pet_type_{{ pet_type }}" class="  inline-flex items-center justify-center px-2 text-gray-500 bg-white border-2 border-gray-300 rounded-full cursor-pointer peer-checked:bg-[#F2968F] peer-checked:font-semibold hover:text-gray-600 peer-checked:text-white">
+                            <div class="block">
                                 <div class="text-medium">{{ pet_type_display }}</div>
                             </div>
                         </label>
-                    </li>
+                    </div>
                     {% endfor %}
-                </ul>
-            </div>
-            <!-- Age Filter -->
-            <div class="mt-4 px-4">
-                <label for="age_years" class="text-white">Filter by Age (Years)</label>
-                <input type="number" name="age_years" id="age_years" class="w-full p-2 mt-2 border rounded-md" value="{{ age_years }}">
-            </div>
-            <div class="mt-4 px-4">
-                <label for="age_months" class="text-white">Filter by Age (Months)</label>
-                <input type="number" name="age_months" id="age_months" class="w-full p-2 mt-2 border rounded-md" value="{{ age_months }}">
+                </div>
             </div>
 
-            <!-- Location Filter -->
-            <div class="mt-4 px-4">
-                <label for="location" class="text-white">Filter by Location</label>
-                <input type="text" name="location" id="location" class="w-full p-2 mt-2 border rounded-md" value="{{ location }}">
+            <div class="mt-10">
+                <label for="age_years" class="text-black text-lg font-semibold">Filter by Age (Years)</label>
+                <div class="flex items-center justify-between space-x-2 mt-2">
+                    <span
+                        id="range1"
+                        class="flex-1 border border-gray-300 rounded px-2 py-1 text-center bg-white focus:outline-none focus:ring-2 focus:ring-[#F2968F]"
+                        contenteditable="true">
+                        {{ age_years_min|default:0 }}
+                    </span>
+                    <span>&dash;</span>
+                    <span
+                        id="range2"
+                        class="flex-1 border border-gray-300 rounded px-2 py-1 text-center bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        contenteditable="true">
+                        {{ age_years_max|default:100 }}
+                    </span>
+                </div>
+                <div class="flex items-center justify-between space-x-2 mt-2">
+                    <div id="error-message-one" class="text-red-500 text-sm mt-1 hidden">Please input value</div>
+                    <div id="error-message-two" class="text-red-500 text-sm mt-1 hidden">Please input value</div>
+                </div>
+                <div class="containerSlider mt-2">
+                    <div class="slider-track"></div>
+                    <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value="{{ age_years_min|default:0 }}" 
+                        id="slider-1" 
+                        name="age_years_min" 
+                        oninput="slideOne()">
+                    <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value="{{ age_years_max|default:100 }}" 
+                        id="slider-2" 
+                        name="age_years_max" 
+                        oninput="slideTwo()">
+                </div>
             </div>
 
-            <button type="submit" class="bg-blue-500 text-white p-2 rounded-md my-6 ml-4 ">Filter</button>
+            <div class="mt-8">
+                <label for="location" class="text-black text-lg font-semibold mb-4">Filter by Location</label>
+                <input type="text" name="location" id="location" class="w-full p-2 border rounded-md text-gray-900" placeholder="Enter location" value="{{ location|default:'' }}">
+            </div>
+            <button type="submit" class="bg-[#F2968F] text-white p-2 rounded-md my-6 w-full">Filter</button>
         </form>
 
-        <!-- Toggle Script -->
-        <script>
-            const filterButton = document.getElementById('filterButton');
-            const filterForm = document.getElementById('filterForm');
-
-            filterButton.addEventListener('click', function () {
-                if (filterForm.classList.contains('max-h-0')) {
-                    filterForm.classList.remove('max-h-0');
-                    filterForm.classList.add('max-h-[1000px]');
-                } else {
-                    filterForm.classList.add('max-h-0');
-                    filterForm.classList.remove('max-h-[1000px]');
-                }
-                if (filterIcon.src.includes('selective.png')) {
-                    filterIcon.src = "{% static 'images/selective_active.png' %}";
-                } else {
-                    filterIcon.src = "{% static 'images/selective.png' %}";
-                }
-            });
-
-            
-        </script>
 
 
-    <div class="place-items-center py-6">
+    <div class="place-items-center pt-6 pb-4">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-[65vw] gap-6">
             {% for pet in pets %}
-            <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
+            <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative hover:scale-107 hover:z-40 duration-300" 
                 data-pet-id="{{ pet.id }}" 
                 onclick="showPetModal('{{ pet.id }}', '{{ pet.name }}', '{{ pet.created_at }}', '{{ pet.age_years }}', '{{ pet.age_months }}', '{{ pet.type }}', '{{ pet.adoption_fee }}', '{{ pet.description }}', '{{ pet.image.url }}')">
 
@@ -185,7 +197,6 @@
                     <span class="text-gray-500 text-[12px] block mt-0">{{ pet.type }}</span>
                 </div>
 
-                <!-- Favorite icon for toggling -->
                 <a href="javascript:void(0);" 
                 class="absolute top-2 right-2 z-10 toggle-favorite" 
                 data-pet-id="{{ pet.id }}" 
@@ -198,13 +209,13 @@
                 </a>
             </div>
             {% empty %}
-            <p>No pets available.</p>
+            <div class="h-[40vh]"><p >No pets available.</p></div>
             {% endfor %}
         </div>
     </div>
 
     <!-- Pagination -->
-    <div class="flex justify-center mt-20">
+    <div class="flex justify-center my-5">
         <div class="inline-flex items-center space-x-1">
             {% if pets.has_previous %}
                 <a href="?page={{ pets.previous_page_number }}" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-full">Previous</a>
@@ -261,5 +272,45 @@
     
 </section>
 
-<script src={% static 'js/modal.js' %} ></script>
+<script src="{% static 'js/modal.js' %}" ></script>
+<script src="{% static 'js/slider.js' %}"></script>
+<script>
+    const filterButton = document.getElementById('filterButton');
+    const filterForm = document.getElementById('filterForm');
+    const filterOverlay = document.getElementById('filterOverlay');
+
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+        filterForm.classList.remove("hidden");
+        }, 1000);
+});
+
+    filterButton.addEventListener('click', function () {
+        if (filterForm.classList.contains('translate-x-full')) {
+            filterForm.classList.remove('translate-x-full');
+            filterForm.classList.add('translate-x-0');
+            filterOverlay.classList.remove('hidden');
+            filterOverlay.classList.add('block');
+            filterButton.classList.remove('bg-[#F2968F]');
+            filterButton.classList.add('bg-red-400');
+        } else {
+            filterForm.classList.add('translate-x-full');
+            filterForm.classList.remove('translate-x-0');
+            filterOverlay.classList.add('hidden');
+            filterOverlay.classList.remove('block');
+            filterButton.classList.remove('bg-red-400');
+            filterButton.classList.add('bg-[#F2968F]');
+        }
+        
+    });
+
+    filterOverlay.addEventListener('click', function () {
+        filterForm.classList.add('translate-x-full');
+        filterForm.classList.remove('translate-x-0');
+        filterOverlay.classList.add('hidden');
+        filterOverlay.classList.remove('block');
+        filterButton.classList.remove('bg-red-400');
+        filterButton.classList.add('bg-[#F2968F]');
+    });
+</script>
 {% endblock %}

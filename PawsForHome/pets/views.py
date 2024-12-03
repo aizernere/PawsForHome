@@ -80,13 +80,12 @@ def list_pet(request):
     # Get IDs of pets for which the current user has pending adoption requests
     pending_requests_pet_ids = AdoptionRequest.objects.filter(account=request.user, status=1).values_list('pet_id', flat=True)
 
-    # Retrieve the list of selected pet types, age, and location from the GET request
     selected_pet_types = request.GET.getlist('pet_type')  # Use getlist to get multiple values
-    age_years = request.GET.get('age_years')
-    age_months = request.GET.get('age_months')
-    location = request.GET.get('location')
+    age_years_min = request.GET.get('age_years_min', 0) 
+    age_years_max = request.GET.get('age_years_max', 100)
+    location = request.GET.get('location','')
 
-    # Start the queryset with the basic filter (status and excluding pets with pending adoption requests)
+    # exlude pets that are pending for adoption
     pets_list = Pet.objects.filter(status=1).exclude(id__in=pending_requests_pet_ids)
 
     # Filter by pet types if provided
@@ -94,24 +93,19 @@ def list_pet(request):
         pets_list = pets_list.filter(type__in=selected_pet_types)
 
     # Filter by age if provided
-    if age_years:
-        pets_list = pets_list.filter(age_years__gte=age_years)  # Filter pets older than the specified years
-    if age_months:
-        pets_list = pets_list.filter(age_months__gte=age_months)  # Filter pets older than the specified months
+    if age_years_min and age_years_max:
+        pets_list = pets_list.filter(age_years__gte=age_years_min, age_years__lte=age_years_max)
 
     # Filter by location if provided
     if location:
-        pets_list = pets_list.filter(location__icontains=location)  # Perform case-insensitive search
-
+        pets_list = pets_list.filter(location__icontains=location)  
     # Pagination setup
     paginator = Paginator(pets_list, 10)
     page_number = request.GET.get('page')
     pets = paginator.get_page(page_number)
 
-    # Get favorite pet IDs for the current user
     favorite_pet_ids = Favorite.objects.filter(user=request.user).values_list('pet_id', flat=True)
 
-    # Pet type choices to pass to the template
     pet_type_choices = Pet.TYPE_CHOICES
 
     # Return rendered page with pets, favorite pet IDs, and pet type filter information
@@ -120,8 +114,8 @@ def list_pet(request):
         'favorite_pet_ids': favorite_pet_ids,
         'selected_pet_types': selected_pet_types,
         'pet_type_choices': pet_type_choices,
-        'age_years': age_years,
-        'age_months': age_months,
+        'age_years_min': age_years_min,
+        'age_years_max': age_years_max,
         'location': location,
     })
 
