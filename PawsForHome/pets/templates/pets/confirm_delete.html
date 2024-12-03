@@ -1,59 +1,120 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
-{% block contents %}
-<script src="https://cdn.tailwindcss.com"></script>
+{% block title %}Shelter Overview{% endblock %}
+
+{% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+<script src="https://cdn.tailwindcss.com"></script>
+<header>
+  <nav class="flex items-center justify-between p-4 max-w-7xl mx-auto">
+    <div class="flex items-center">
+      <a href="{% url 'main:home' %}">
+        <img src="{% static 'images/paws4homelogo.png' %}" alt="logo">
+      </a>
+    </div>
 
-<body class="bg-[#FFDDD2] font-sans min-h-screen flex flex-col">
-  <div class="flex flex-grow">
-    <!-- Sidebar -->
-    <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col fixed h-screen">
-      <div class="flex items-center justify-center">
-        <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
-      </div>
-      <h1 class="text-2xl font-bold text-center mt-4">{{ request.user.first_name }}</h1>
+    <div class="flex items-center space-x-6">
+      {% if request.user.account_type == 'user' %}
+        <a href="{% url 'pets:list_pet' %}" class="text-xl font-medium relative group hover:text-orange-500">
+          Browse
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        <a href="{% url 'main:user_dashboard' %}" class="text-xl font-medium relative group hover:text-orange-500">
+          Dashboard
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+        </a>
+      {% else %}
+        <span class="text-xl text-orange-500 font-semibold underline underline-offset-4">Dashboard</span>
+      {% endif %}
+      <a href="{% url 'main:notifications' %}" class="text-xl font-medium relative group hover:text-orange-500">
+        Notifications
+        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+      <a href="{% url 'main:conversations_list' %}" class="text-xl font-medium relative group hover:text-orange-500">
+        Messages
+        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+      <a href="{% url 'main:profile' %}" class="text-xl font-medium relative group hover:text-orange-500">
+        Profile
+        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </div>
 
-      <!-- Sidebar Navigation -->
-      <nav class="mt-10">
-        <ul class="space-y-4">
-          <li><a href="{% url 'main:shelterdashboard' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Overview</a></li>
-          <li><span class="block text-lg text-black font-bold">Pet Listings</span></li>
-          <li><a href="{% url 'main:pending_requests' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pending Requests</a></li>
-          <li><a href="#" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pets Adopted</a></li>
-        </ul>
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
-      <section class="bg-[#FFDDD2] p-12 rounded-lg shadow-md mb-12 border-2 border-gray-300 max-w-3xl mx-auto">
-        <div class="flex items-center space-x-6 mb-6">
-          <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-24 h-24 rounded-full object-cover">
-          <h2 class="text-3xl font-bold text-gray-700">{{ pet.name }}</h2>
-        </div>
-
-        <p class="text-lg text-gray-600 text-center mb-8">
-          Are you sure you want to mark <span class="font-bold text-[#3E2828]">{{ pet.name }}</span> as Archived? 
-        </p>
-        
-
-        <!-- Confirmation Buttons -->
-        <div class="flex justify-center space-x-6">
-          <form method="POST" action="{% url 'main:delete_pet' pet.id %}">
-            {% csrf_token %}
-            <button type="submit" class="bg-[#FF7578] text-white px-8 py-2 rounded-full shadow-md hover:bg-[#F2968F] focus:outline-none">
-              Yes, Archive
+    <div class="flex items-center space-x-4">
+      {% if request.user.is_authenticated %}
+        <div class="group flex items-center space-x-2">
+          <div class="opacity-100 transition-opacity duration-500 ease-in-out group-hover:opacity-0">
+            Welcome,
+          </div>
+          <div class="transition-font duration-500 ease-in-out group-hover:font-bold space-x-2">
+            {{ request.user.email }}!
+          </div>
+          <a href="{% url 'main:logout_account' %}">
+            <button class="BtnLogout">
+              <div class="sign">
+                <svg viewBox="0 0 512 512">
+                  <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                </svg>
+              </div>
+              <div class="text">Logout</div>
             </button>
-          </form>
-          <a href="{% url 'main:pet_listings' %}" class="bg-gray-300 text-gray-700 px-8 py-2 rounded-full shadow-md hover:bg-gray-400 focus:outline-none">
-            Cancel
           </a>
         </div>
-      </section>
-    </main>
-  </div>
+      {% else %}
+        <div class="nav-items">Welcome, Guest!</div>
+        <a href="{% url 'main:login_account' %}" class="text-xl text-[#714949] relative group hover:text-orange-500 font-semibold">Login
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        <a href="{% url 'main:create_account' %}" class="text-xl bg-[#F2968F] text-white px-4 py-2 rounded-full duration-500 hover:bg-red-400">Sign Up</a>
+      {% endif %}
+    </div>
+  </nav>
+</header>
 
-  
-</body>
-{% endblock contents %}
+<div class="flex flex-grow">
+  <!-- Sidebar -->
+  <aside class="bg-[#FFDDD2] w-64 py-8 px-4 flex flex-col">
+    <div class="flex items-center justify-center">
+      <img src="{% static 'images/shelterlogo.png' %}" alt="Shelter Logo" class="h-20">
+    </div>
+    <h1 class="text-2xl font-bold text-center mt-4">{{ request.user.first_name }}</h1>
+
+    <nav class="mt-10">
+      <ul class="space-y-4">
+        <li><span class="block text-lg text-black font-bold">Overview</span></li>
+        <li><a href="{% url 'main:pet_listings' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pet Listings</a></li>
+        <li><a href="{% url 'main:pending_requests' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pending Requests</a></li>
+        <li><a href="{% url 'main:petsadopted' %}" class="block text-lg text-gray-600 hover:text-[#F2968F] font-bold">Pets Adopted</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-grow bg-white ml-64 p-10 rounded-tl-3xl shadow-lg max-w-[90%] xl:max-w-[85%] mx-auto">
+    <!-- Main Content Block -->
+    <section class="bg-[#FFDDD2] p-12 rounded-lg shadow-md mb-12 border-2 border-gray-300 max-w-3xl mx-auto">
+      <div class="flex items-center space-x-6 mb-6">
+        <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-24 h-24 rounded-full object-cover">
+        <h2 class="text-3xl font-bold text-gray-700">{{ pet.name }}</h2>
+      </div>
+
+      <p class="text-lg text-gray-600 text-center mb-8">
+        Are you sure you want to mark <span class="font-bold text-[#3E2828]">{{ pet.name }}</span> as Archived?
+      </p>
+
+      <!-- Confirmation Buttons -->
+      <div class="flex justify-center space-x-6">
+        <form method="POST" action="{% url 'main:delete_pet' pet.id %}">
+          {% csrf_token %}
+          <button type="submit" class="bg-[#FF7578] text-white px-8 py-2 rounded-full shadow-md hover:bg-[#F2968F] focus:outline-none">
+            Yes, Archive
+          </button>
+        </form>
+        <a href="{% url 'main:pet_listings' %}" class="bg-gray-300 text-gray-700 px-8 py-2 rounded-full shadow-md hover:bg-gray-400 focus:outline-none">
+          Cancel
+        </a>
+      </div>
+    </section>
+  </main>
+</div>
+{% endblock %}
