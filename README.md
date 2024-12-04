@@ -91,8 +91,9 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 
 8. Test it out!
    ```bash  
-   on your browser go to 
+   on your browser go to 127.0.0.1:8000
 
+<b>Tell us about your thought on improving this project!</b>
 <!-- MARKDOWN LINKS -->
 [HTML.com]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
 [HTML-url]: https://developer.mozilla.org/en-US/docs/Web/HTML
