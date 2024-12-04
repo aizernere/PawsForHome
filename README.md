@@ -93,6 +93,14 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
    ```bash  
    on your browser go to 127.0.0.1:8000
 
+## Usage
+
+To create your own admin, stop the server and do coommand: 
+   ```bash  
+   py manage.py createsuperuser
+
+And follow the instructions and start the server. Go to 127.0.0.1:8000/admin and login.
+
 ## Roadmap
 
 - [x] Add Readme
