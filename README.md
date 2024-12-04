@@ -44,7 +44,7 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 
 ## 📈 **Project Timelines**  
 
-[📅 View the Gantt Chart](https://docs.google.com/spreadsheets/d/1gRGmxFMl1pS2G51pPzbQqzxKOrvT18WvrklqljtGxWU/edit?gid=0#gid=0)  
+[📅 View the Gantt Chart](https://github.com/aizernere/PawsForHome/blob/main/Gantt%20Chart.xlsx)  
 
 ---
 
@@ -52,8 +52,8 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 
 | **Design Document** | **Link** |  
 |----------------------|----------|  
-| **Entity Relationship Diagram (ERD)** | [🔗 ERD Diagram](https://lucid.app/lucidchart/736a433f-c17e-409f-83d7-165e8045fda5/edit?invitationId=inv_52ab61ab-6170-4805-a233-11ad681b2b51&classId=96c2d93f-9bb7-4815-b5a1-208533d4ad6a&assignmentId=7214ddab-7a8f-4c7a-a029-1012bdff284e&submissionId=12e1ce8b-647c-80cf-b62e-8f7bfc8d263d&page=0_0#) |  
-| **UI/UX Design** | [🔗 Figma Design](https://www.figma.com/design/XPtqNEdlJjBEea2BvZkVqZ/Paws-For-Home-(UI%2FUX)?node-id=0-1&node-type=canvas&t=cbr21Q9VlTLRUmYJ-0) |  
+| **Entity Relationship Diagram (ERD)** | [🔗 ERD Diagram](https://github.com/aizernere/PawsForHome/blob/main/ERD%20for%20Paws%20for%20Home.png) |  
+| **UI/UX Design** | [🔗 UI/UX Design](https://github.com/aizernere/PawsForHome/tree/main/UI_UX) |  
 
 ---
 
@@ -71,7 +71,7 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
    ```bash  
    env\Scripts\Activate
 
-4. Install Django, pillow:
+4. Install Django and Pillow:
    ```bash  
    pip install django
    pip install pillow
@@ -82,7 +82,7 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 
 6. Apply database migrations:
    ```bash  
-   py manage.py make migrations
+   py manage.py makemigrations
    py manage.py migrate
 
 7. Run the server:
