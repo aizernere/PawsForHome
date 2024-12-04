@@ -95,9 +95,14 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 
 ## Usage
 
-To create your own admin, stop the server and do coommand: 
+
+1. To create your own admin: (Stop the server first!)
    ```bash  
    py manage.py createsuperuser
+
+2. Start server and access admin:
+    ```bash  
+   on your browser go to 127.0.0.1:8000/admin
 
 And follow the instructions and start the server. Go to 127.0.0.1:8000/admin and login.
 
