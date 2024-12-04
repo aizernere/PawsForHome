@@ -91,7 +91,7 @@ def list_pet(request):
     location = request.GET.get('location','')
 
     # exlude pets that are pending for adoption
-    pets_list = Pet.objects.filter(status=1).exclude(id__in=pending_requests_pet_ids)
+    pets_list = Pet.objects.filter(status=1, is_deleted=False).exclude(id__in=pending_requests_pet_ids)
 
     if selected_pet_types:
         pets_list = pets_list.filter(type__in=selected_pet_types)
