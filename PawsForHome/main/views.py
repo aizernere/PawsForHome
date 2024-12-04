@@ -397,7 +397,6 @@ def login_account(request):
                     messages.success(request, "Welcome! Please complete your profile information.")
                     return redirect('main:profile_filling')
                 
-                messages.success(request, f"Welcome back, {user.first_name}!")
                 return redirect('main:home')
             else:
                 messages.error(request, "Invalid email or password. Please try again.")

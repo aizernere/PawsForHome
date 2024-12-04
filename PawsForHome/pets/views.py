@@ -140,20 +140,20 @@ def petsadopted(request):
 @login_required
 @shelter_required
 def dashpets(request):
-
-    pets = Pet.objects.filter(owner=request.user, status=1,is_deleted=False) 
+ 
+    pets = Pet.objects.filter(owner=request.user, status=1,is_deleted=False).order_by('-created_at')[:4]
     pet_count = pets.count()
     #to do pending request
     adoption_requests = AdoptionRequest.objects.filter(pet__in=pets,status = 1)
     pending_count = adoption_requests.count()
-
+ 
     popular_pets = (
         pets.annotate(favorites_count=Count('favorite'))
         .filter(favorites_count__gt=0)
         .order_by('-favorites_count')
     )
-
-
+ 
+ 
     adopted_count = Pet.objects.filter(owner=request.user, status=2).count()
     return render(request, 'shelterdashboard.html', {
         'pets': pets,
