@@ -10,7 +10,7 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 ---
 
 ## 👥 **Collaborators**  
-- **Evangelista, Kaye Aizerner**  
+- **Evangelista, Kaye Aizerner**  - 
 - **Catubig, Niña Margarette B.**  
 - **Vasquez, Kyle T.**
 
@@ -92,6 +92,45 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 8. Test it out!
    ```bash  
    on your browser go to 127.0.0.1:8000
+
+## Usage
+
+
+1. To create your own admin: (Stop the server first!)
+   ```bash  
+   py manage.py createsuperuser
+
+2. Start server and access admin:
+    ```bash  
+   on your browser go to 127.0.0.1:8000/admin
+
+And follow the instructions and start the server. Go to 127.0.0.1:8000/admin and login.
+
+## Roadmap
+
+- [x] Add Readme
+- [x] Add Basic Functionalities(Add, Browse, Edit Pet)
+- [x] Add User Profiling
+- [x] Add Filtering
+- [ ] Add Dark Mode
+- [ ] Multi-language Support
+    - [ ] Chinese
+    - [ ] Spanish
+
+## 👥 **Resposibilites**  
+- **Evangelista, Kaye Aizerner**  - Browse Pet, View Pet, Favorites, Add Pet, Notifications, Messages, Shelter Pending Request and Request Filter, and Home Page
+- **Catubig, Niña Margarette B.**  - Sign up, Profile filling, Profile and Edit Profile, Userdashboard Functionalites (request, favorites, adoption history, and overview)
+- **Vasquez, Kyle T.** - Login, Shelter Dashboard Functionalities(Overview, Most Favorited Pet, Pet Listing and Edit, Adoption Form View and Pets Adopted), Landing Page
+
+## Acknowledgments
+
+Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+
+* [GitHub](https://github.com/)
+* [Flaticons Icons](https://www.flaticon.com/icons)
+* [Flaticons Stickers](https://www.flaticon.com/stickers)
+* [Google Fonts](https://fonts.google.com/)
+* [React Icons](https://react-icons.github.io/react-icons/search)
 
 <b>Tell us about your thought on improving this project!</b>
 <!-- MARKDOWN LINKS -->
