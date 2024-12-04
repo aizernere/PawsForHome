@@ -93,10 +93,31 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
    ```bash  
    on your browser go to 127.0.0.1:8000
 
+## Roadmap
+
+- [x] Add Readme
+- [x] Add Basic Functionalities(Add, Browse, Edit Pet)
+- [x] Add User Profiling
+- [x] Add Filtering
+- [ ] Add Dark Mode
+- [ ] Multi-language Support
+    - [ ] Chinese
+    - [ ] Spanish
+
 ## 👥 **Resposibilites**  
 - **Evangelista, Kaye Aizerner**  - Browse Pet, View Pet, Favorites, Add Pet, Notifications, Messages, Shelter Pending Request and Request Filter, and Home Page
 - **Catubig, Niña Margarette B.**  - Sign up, Profile filling, Profile and Edit Profile, Userdashboard Functionalites (request, favorites, adoption history, and overview)
 - **Vasquez, Kyle T.** - Login, Shelter Dashboard Functionalities(Overview, Most Favorited Pet, Pet Listing and Edit, Adoption Form View and Pets Adopted), Landing Page
+
+## Acknowledgments
+
+Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+
+* [GitHub](https://github.com/)
+* [Flaticons Icons](https://www.flaticon.com/icons)
+* [Flaticons Stickers](https://www.flaticon.com/stickers)
+* [Google Fonts](https://fonts.google.com/)
+* [React Icons](https://react-icons.github.io/react-icons/search)
 
 <b>Tell us about your thought on improving this project!</b>
 <!-- MARKDOWN LINKS -->
