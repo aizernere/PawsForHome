@@ -61,8 +61,37 @@ Paws For Home aims to facilitate a smooth adoption process, ensuring that both s
 
 1. Clone the repository:  
    ```bash  
-   git clone https://github.com/your-username/paws-for-home.git  
-   cd paws-for-home  
+   https://github.com/aizernere/PawsForHome.git
+
+2. Create a virtual environment:  
+   ```bash  
+   py -m venv env
+
+3. Activate the virtual environment: 
+   ```bash  
+   env\Scripts\Activate
+
+4. Install Django, pillow:
+   ```bash  
+   pip install django
+   pip install pillow
+
+5. Go to the project: 
+   ```bash  
+   cd PawsForHome
+
+6. Apply database migrations:
+   ```bash  
+   py manage.py make migrations
+   py manage.py migrate
+
+7. Run the server:
+   ```bash  
+   py manage.py runserver
+
+8. Test it out!
+   ```bash  
+   on your browser go to 
 
 <!-- MARKDOWN LINKS -->
 [HTML.com]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
