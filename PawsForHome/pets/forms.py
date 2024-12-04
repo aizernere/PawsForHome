@@ -42,6 +42,8 @@ class PetForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         image = self.files.get('image') 
-        if not image:
+        if not image and not self.instance.image:
             self.add_error('image', "A valid image must be uploaded.")
         return cleaned_data
+    
+    

@@ -71,6 +71,8 @@ def edit_pet(request, pet_id):
         if form.is_valid():
             form.save()
             return redirect('main:pet_listings')  # Redirect to the pet listings page
+        else:
+            print(form.errors)
     else:
         form = PetForm(instance=pet)
 
